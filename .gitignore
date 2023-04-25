@@ -305,7 +305,7 @@ scripts/patcher/*
 
 tools
 .dotnet
-!.idea/
+.idea/
 .idea/.idea.CAVerifierServer/.idea/contentModel.xml
 .idea/.idea.CAVerifierServer/.idea/encodings.xml
 .idea/.idea.CAVerifierServer/.idea/indexLayout.xml
