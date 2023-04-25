@@ -1,8 +1,7 @@
-using AElfIndexer.Orleans.TestBase;
 using Orleans.TestingHost;
 using Volo.Abp.Modularity;
 
-namespace CAVerifierServer.Orleans.TestBase;
+namespace CAVerifierServer;
 
 public class CAVerifierServerOrleansTestBase<TStartupModule>:CAVerifierServerTestBase<TStartupModule> 
     where TStartupModule : IAbpModule

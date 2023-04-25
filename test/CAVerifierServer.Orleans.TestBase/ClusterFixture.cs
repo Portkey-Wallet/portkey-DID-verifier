@@ -9,7 +9,7 @@ using Volo.Abp.DependencyInjection;
 using Volo.Abp.ObjectMapping;
 using Volo.Abp.Reflection;
 
-namespace AElfIndexer.Orleans.TestBase;
+namespace CAVerifierServer;
 
 public class ClusterFixture : IDisposable, ISingletonDependency
 {

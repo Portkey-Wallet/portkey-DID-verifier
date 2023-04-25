@@ -1,6 +1,6 @@
 using Xunit;
 
-namespace AElfIndexer.Orleans.TestBase;
+namespace CAVerifierServer;
 
 
 [CollectionDefinition(ClusterCollection.Name)]

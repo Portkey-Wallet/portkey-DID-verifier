@@ -1,4 +1,3 @@
-using AElfIndexer.Orleans.TestBase;
 using CAVerifierServer.Grains.Options;
 using Microsoft.Extensions.DependencyInjection;
 using Orleans;
@@ -10,7 +9,7 @@ using Volo.Abp.Caching;
 using Volo.Abp.Modularity;
 using Volo.Abp.ObjectMapping;
 
-namespace CAVerifierServer.Orleans.TestBase;
+namespace CAVerifierServer;
 
 [DependsOn(
     typeof(AbpAutofacModule),
