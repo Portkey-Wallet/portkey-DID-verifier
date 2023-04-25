@@ -4,7 +4,7 @@ set -x
 
 groupadd elastic
 useradd -g elastic elastic
-
+pgrep elasticsearch | xargs kill -9
 wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.15.1-linux-x86_64.tar.gz
 tar -zxf elasticsearch-7.15.1-linux-x86_64.tar.gz -C /opt
 
