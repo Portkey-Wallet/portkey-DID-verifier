@@ -16,22 +16,9 @@ public class CryptographyHelper
         var verifierSPublicKey =
             CryptoHelper.FromPrivateKey(ByteArrayHelper.HexStringToByteArray(privateKey)).PublicKey;
         var verifierAddress = Address.FromPublicKey(verifierSPublicKey);
-        var data = "";
-        if (operationType == "0" || string.IsNullOrWhiteSpace(operationType))
-        {
-            data = $"{guardianType},{guardianIdentifierHash},{DateTime.UtcNow},{verifierAddress.ToBase58()},{salt}";
-        }
-        else if (operationType is "8" or "9")
-        {
-            data =
-                $"{guardianType},{guardianIdentifierHash},{DateTime.UtcNow:yyyy/MM/dd HH:mm:ss.fff},{verifierAddress.ToBase58()},{salt},{operationType},{merklePath}";
-        }
-        else
-        {
-            data =
-                $"{guardianType},{guardianIdentifierHash},{DateTime.UtcNow:yyyy/MM/dd HH:mm:ss.fff},{verifierAddress.ToBase58()},{salt},{operationType}";
-        }
 
+        var data =
+            $"{guardianType},{guardianIdentifierHash},{DateTime.UtcNow:yyyy/MM/dd HH:mm:ss.fff},{verifierAddress.ToBase58()},{salt},{operationType}";
 
         var hashByteArray = HashHelper.ComputeFrom(data).ToByteArray();
         var signature =

@@ -44,7 +44,7 @@ public class CAVerifierServerApplicationModule : AbpModule
         Configure<MobileCountryRegularCategoryOptions>(configuration.GetSection("MobileCountryRegularCategory"));
         Configure<TwilioSmsMessageOptions>(configuration.GetSection("TwilioSmsMessage"));
         
-        context.Services.AddSingleton<IEmailSender, AwsEmailSender>();
+        context.Services.AddSingleton<IEmailSender, NullEmailSender>();
         context.Services.AddSingleton<ISMSServiceSender,AwsSmsMessageSender>();
         context.Services.AddSingleton<ISMSServiceSender, TelesignSmsMessageSender>();
         context.Services.AddSingleton<ISMSServiceSender, TwilioSmsMessageSender>();
