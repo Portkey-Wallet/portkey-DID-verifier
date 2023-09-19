@@ -32,7 +32,9 @@ public partial class VerifierCodeSenderTest : CAVerifierServerApplicationTestBas
         services.AddSingleton(GetMockEmailSender());
         services.AddSingleton(GetMockSmsSender());
         services.AddSingleton(GetMockSmsServiceSender());
-        services.AddSingleton(GetSmsServiceOptions());
+        services.AddSingleton(GetMockSmsServiceOptions());
+        services.AddSingleton(GetMockMobileCountryRegularCategoryOptions());
+        services.AddSingleton(GetMockSMSTemplateOptions());
     }
 
     [Fact]

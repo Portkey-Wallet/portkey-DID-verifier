@@ -252,7 +252,8 @@ public partial class AccountAppServiceTests : CAVerifierServerApplicationTestBas
             Code = Code,
             Salt = salt,
             GuardianIdentifierHash = hash,
-            GuardianIdentifier = DefaultEmailAddress
+            GuardianIdentifier = DefaultEmailAddress,
+            OperationType = "1"
         });
         dto.Success.ShouldBe(true);
     }
@@ -287,7 +288,8 @@ public partial class AccountAppServiceTests : CAVerifierServerApplicationTestBas
             IdentifierHash = HashHelper.ComputeFrom("salt" + HashHelper.ComputeFrom(DefaultEmailAddress).ToHex())
                 .ToHex(),
             AccessToken = DefaultToken,
-            Salt = "salt"
+            Salt = "salt",
+            OperationType = "1"
         };
         var response = await _accountAppService.VerifyGoogleTokenAsync(verifierRequest);
         response.Success.ShouldBe(true);
@@ -297,7 +299,8 @@ public partial class AccountAppServiceTests : CAVerifierServerApplicationTestBas
             IdentifierHash = HashHelper.ComputeFrom("salt" + HashHelper.ComputeFrom(DefaultEmailAddress).ToHex())
                 .ToHex(),
             AccessToken = "mockToken",
-            Salt = "salt"
+            Salt = "salt",
+            OperationType = "1"
         };
         var responseResult = await _accountAppService.VerifyGoogleTokenAsync(request);
         responseResult.Success.ShouldBe(false);
@@ -312,7 +315,8 @@ public partial class AccountAppServiceTests : CAVerifierServerApplicationTestBas
             IdentifierHash = HashHelper.ComputeFrom("salt" + HashHelper.ComputeFrom(DefaultEmailAddress).ToHex())
                 .ToHex(),
             AccessToken = DefaultToken,
-            Salt = "salt"
+            Salt = "salt",
+            OperationType = "1"
         };
         var response = await _accountAppService.VerifyAppleTokenAsync(request);
         response.Success.ShouldBe(true);
@@ -322,7 +326,8 @@ public partial class AccountAppServiceTests : CAVerifierServerApplicationTestBas
             IdentifierHash = HashHelper.ComputeFrom("salt" + HashHelper.ComputeFrom(DefaultEmailAddress).ToHex())
                 .ToHex(),
             AccessToken = "mockToken",
-            Salt = "salt"
+            Salt = "salt",
+            OperationType = "1"
         };
         var responseResult = await _accountAppService.VerifyAppleTokenAsync(input);
         responseResult.Success.ShouldBe(false);

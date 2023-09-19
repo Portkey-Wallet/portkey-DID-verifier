@@ -46,23 +46,77 @@ public partial class VerifierCodeSenderTest
         return mockSmsSender.Object;
     }
 
-    private IOptions<SmsServiceOptions> GetSmsServiceOptions()
+    private IOptionsSnapshot<SmsServiceOptions> GetMockSmsServiceOptions()
     {
+        var smsMockServiceOptions = new Mock<IOptionsSnapshot<SmsServiceOptions>>();
         var smsServiceDic = new Dictionary<string, SmsServiceOption>();
+        smsServiceDic.Add("AWS", new SmsServiceOption
+        {
+            SupportingCountriesRatio = new Dictionary<string, int>
+            {
+                { "CN", 4 }
+            }
+        });
+
+        smsServiceDic.Add("TeleSign", new SmsServiceOption
+        {
+            SupportingCountriesRatio = new Dictionary<string, int>
+            {
+                { "CN", 3 }
+            }
+        });
+        smsServiceDic.Add("Twilio", new SmsServiceOption
+        {
+            SupportingCountriesRatio = new Dictionary<string, int>
+            {
+                { "CN", 2 }
+            }
+        });
         smsServiceDic.Add("MockSmsServiceSender", new SmsServiceOption
         {
-            IsEnable = true,
-            Ratio = 1
+            SupportingCountriesRatio = new Dictionary<string, int>
+            {
+                { "CN", 1 }
+            },
         });
-        smsServiceDic.Add("MockSmsServiceSender2", new SmsServiceOption
-        {
-            IsEnable = true,
-            Ratio = 2
-        });
-        return new OptionsWrapper<SmsServiceOptions>(
+        smsMockServiceOptions.Setup(o => o.Value).Returns(
             new SmsServiceOptions
             {
                 SmsServiceInfos = smsServiceDic
             });
+        return smsMockServiceOptions.Object;
+    }
+
+    
+    private IOptionsSnapshot<MobileCountryRegularCategoryOptions> GetMockMobileCountryRegularCategoryOptions()
+    {
+        var mockMobileCountryRegularCategoryOptions = new Mock<IOptionsSnapshot<MobileCountryRegularCategoryOptions>>();
+        var list = new List<MobileInfo>
+        {
+            new MobileInfo
+            {
+                CountryCode = "+86",
+                Country = "CN",
+                MobileRegular = @"^(\\+?0?86\\-?)?1[3456789]\\d{9}$"
+            }
+        };
+        mockMobileCountryRegularCategoryOptions.Setup(o => o.Value).Returns(
+            new MobileCountryRegularCategoryOptions
+            {
+                MobileInfos = list
+            });
+        return mockMobileCountryRegularCategoryOptions.Object;
+    }
+    
+    private IOptionsSnapshot<SMSTemplateOptions> GetMockSMSTemplateOptions()
+    {
+        var mockTemplate = new Mock<IOptionsSnapshot<SMSTemplateOptions>>();
+        mockTemplate.Setup(o => o.Value).Returns(
+            new SMSTemplateOptions
+            {
+                Template =
+                    "[{0}] PORTKEY Verification Code: {1}. This verification code will expire in 10 minutes. If you did not request this message, please ignore it."
+            });
+        return mockTemplate.Object;
     }
 }

@@ -40,9 +40,14 @@ public class CAVerifierServerApplicationModule : AbpModule
         Configure<AwssmsMessageOptions>(configuration.GetSection("AWSSMSMessage"));
         Configure<SmsServiceOptions>(configuration.GetSection("SmsService"));
         Configure<TelesignSMSMessageOptions>(configuration.GetSection("TelesignSMSMessage"));
+        Configure<SMSTemplateOptions>(configuration.GetSection("SMSTemplate"));
+        Configure<MobileCountryRegularCategoryOptions>(configuration.GetSection("MobileCountryRegularCategory"));
+        Configure<TwilioSmsMessageOptions>(configuration.GetSection("TwilioSmsMessage"));
+        
         context.Services.AddSingleton<IEmailSender, AwsEmailSender>();
         context.Services.AddSingleton<ISMSServiceSender,AwsSmsMessageSender>();
         context.Services.AddSingleton<ISMSServiceSender, TelesignSmsMessageSender>();
+        context.Services.AddSingleton<ISMSServiceSender, TwilioSmsMessageSender>();
         context.Services.AddSingleton<IVerifyCodeSender, EmailVerifyCodeSender>();
         context.Services.AddSingleton<IVerifyCodeSender, PhoneVerifyCodeSender>();
         context.Services.AddHttpClient();

@@ -1,8 +1,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Net;
-using AElf;
 using CAVerifierServer.Account;
-using CAVerifierServer.Common;
+using CAVerifierServer.Grains.Common;
 using CAVerifierServer.Grains.Dto;
 using CAVerifierServer.Grains.Options;
 using CAVerifierServer.Grains.State;
@@ -70,9 +69,10 @@ public class ThirdPartyVerificationGrain : Grain<ThirdPartyVerificationState>, I
             tokenDto.GoogleUserExtraInfo.GuardianType = GuardianIdentifierType.Google.ToString();
             tokenDto.GoogleUserExtraInfo.AuthTime = DateTime.UtcNow;
 
-            var signatureOutput = CryptographyHelper.GenerateSignature(GuardianIdentifierType.Google,
+            var signatureOutput = CryptographyHelper.GenerateSignature(Convert.ToInt16(GuardianIdentifierType.Google),
                 grainDto.Salt,
-                grainDto.IdentifierHash, _verifierAccountOptions.PrivateKey);
+                grainDto.IdentifierHash, _verifierAccountOptions.PrivateKey, grainDto.OperationType,
+                grainDto.MerklePath);
 
             tokenDto.Signature = signatureOutput.Signature;
             tokenDto.VerificationDoc = signatureOutput.Data;
@@ -103,9 +103,9 @@ public class ThirdPartyVerificationGrain : Grain<ThirdPartyVerificationState>, I
             userInfo.AuthTime = DateTime.UtcNow;
 
             var signatureOutput =
-                CryptographyHelper.GenerateSignature(GuardianIdentifierType.Apple, grainDto.Salt,
+                CryptographyHelper.GenerateSignature(Convert.ToInt16(GuardianIdentifierType.Apple), grainDto.Salt,
                     grainDto.IdentifierHash,
-                    _verifierAccountOptions.PrivateKey);
+                    _verifierAccountOptions.PrivateKey, grainDto.OperationType, grainDto.MerklePath);
 
             return new GrainResultDto<VerifyAppleTokenGrainDto>
             {

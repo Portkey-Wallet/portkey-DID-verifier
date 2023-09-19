@@ -1,7 +1,4 @@
-using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using CAVerifierServer.Account;
-using CAVerifierServer.Common;
 using CAVerifierServer.Grains.Grain.ThirdPartyVerification;
 using Microsoft.Extensions.DependencyInjection;
 using NSubstitute;

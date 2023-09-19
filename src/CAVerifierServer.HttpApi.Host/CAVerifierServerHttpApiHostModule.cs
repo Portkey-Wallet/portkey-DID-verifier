@@ -32,6 +32,7 @@ using Volo.Abp.Caching.StackExchangeRedis;
 using Volo.Abp.DistributedLocking;
 using Volo.Abp.Localization;
 using Volo.Abp.Modularity;
+using Volo.Abp.OpenIddict.Tokens;
 using Volo.Abp.Swashbuckle;
 using Volo.Abp.Threading;
 using Volo.Abp.VirtualFileSystem;
@@ -68,7 +69,7 @@ public class CAVerifierServerHttpApiHostModule : AbpModule
         ConfigureSwaggerServices(context, configuration);
         ConfigureOrleans(context, configuration);
         Configure<RealIpOptions>(configuration.GetSection("RealIp"));
-
+        
         // Configure<AbpExceptionHandlingOptions>(options =>
         // {
         //    options.SendExceptionsDetailsToClients = true;
@@ -78,6 +79,8 @@ public class CAVerifierServerHttpApiHostModule : AbpModule
         {
             options.IsEnabled = false;//Disables the auditing system
         });
+        ConfigureTokenCleanupService();
+
     }
 
     private void ConfigureCache(IConfiguration configuration)
@@ -227,6 +230,7 @@ public class CAVerifierServerHttpApiHostModule : AbpModule
     public override void OnApplicationInitialization(ApplicationInitializationContext context)
     {
         var app = context.GetApplicationBuilder();
+        app.UseMiddleware<RealIpMiddleware>();
         var env = context.GetEnvironment();
 
         if (env.IsDevelopment())
@@ -306,5 +310,11 @@ public class CAVerifierServerHttpApiHostModule : AbpModule
                 .ConfigureLogging(builder => builder.AddProvider(o.GetService<ILoggerProvider>()))
                 .Build();
         });
+    }
+    
+    //Disable TokenCleanupService
+    private void ConfigureTokenCleanupService()
+    {
+        Configure<TokenCleanupOptions>(x => x.IsCleanupEnabled = false);
     }
 }

@@ -8,7 +8,6 @@ using CAVerifierServer.Options;
 using CAVerifierServer.VerifyCodeSender;
 using Microsoft.Extensions.Options;
 using Moq;
-using NSubstitute;
 using Volo.Abp.Emailing;
 using Volo.Abp.Sms;
 
@@ -46,8 +45,10 @@ public partial class SmsSenderTest
         var smsServiceDic = new Dictionary<string, SmsServiceOption>();
         smsServiceDic.Add("MockSmsServiceSender", new SmsServiceOption
         {
-            IsEnable = true,
-            Ratio = 1
+            SupportingCountriesRatio = new Dictionary<string, int>
+            {
+                { "CN", 1 }
+            },
         });
         return new OptionsWrapper<SmsServiceOptions>(
             new SmsServiceOptions
@@ -55,6 +56,19 @@ public partial class SmsSenderTest
                 SmsServiceInfos = smsServiceDic
             });
     }
+
+    private IOptionsSnapshot<SMSTemplateOptions> GetSmsTemplateOptions()
+    {
+        var mockOptionsSnapshot = new Mock<IOptionsSnapshot<SMSTemplateOptions>>();
+        mockOptionsSnapshot.Setup(o => o.Value).Returns(
+            new SMSTemplateOptions
+            {
+                Template =
+                    "[{0}] Portkey Code: {1}. Expires in 10 minutes. Please ignore this if you didn’t request a code.",
+            });
+        return mockOptionsSnapshot.Object;
+    }
+
 
     private IOptions<AwsEmailOptions> GetAwsEmailOptions()
     {
@@ -69,6 +83,23 @@ public partial class SmsSenderTest
                 Port = 8000,
                 SmtpUsername = "MockUsername",
                 SmtpPassword = "MockPassword"
+            });
+    }
+
+    private IOptions<TwilioSmsMessageOptions> GetMockTwilioOptions()
+    {
+        return new OptionsWrapper<TwilioSmsMessageOptions>(
+            new TwilioSmsMessageOptions
+            {
+                AuthToken = "MockAuthToken",
+                AccountSid = "MockAccountSid",
+                ServiceId = "MockServiceId",
+                TemplateId = "MockTemplateId",
+                DefaultTemplateId = "MockDefaultTemplateId",
+                Channel = "SMS",
+                Locale = "EN"
+                
+                
             });
     }
 }

@@ -1,19 +1,18 @@
 jobs:
   # All tasks on Linux
-  - job: build_all_linux
-    displayName: Build all tasks (Linux)
+  - job: build_all_darwin
+    displayName: Build all tasks (macOS)
     timeoutInMinutes: 120
     pool:
-      #vmImage: ubuntu-latest
-      name: Default
-      demands:
-      - Agent.OS -equals Linux # equals check for Agent.OS Linux
+      vmImage: macos-latest
+    variables:
+      CI_TEST: true
     steps:
       - task: UseDotNet@2
         displayName: 'Install .NET Core SDK'
         inputs:
           version: 7.0.x
-      - script: cd scripts && bash elasticsearch-linux.sh
+      - script: cd scripts && bash elasticsearch-macOS.sh
         displayName: 'Start an elasticsearch'
       - script: bash build.sh --target=Test-with-Codecov
         displayName: 'Build and Test'

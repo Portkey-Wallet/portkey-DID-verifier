@@ -113,7 +113,8 @@ public class GuardianIdentifierVerificationGrainTest : CAVerifierServerGrainTest
                 Code = result.Data.VerifierCode,
                 VerifierSessionId = verifierSessionId,
                 Salt = salt,
-                GuardianIdentifierHash = hash
+                GuardianIdentifierHash = hash,
+                OperationType = "1"
             });
         }
         catch (Exception e)

@@ -12,7 +12,7 @@ namespace CAVerifierServer;
     typeof(CAVerifierServerApplicationModule),
     typeof(CAVerifierServerDomainTestModule),
     typeof(CAVerifierServerGrainTestModule)
-    )]
+)]
 public class CAVerifierServerApplicationTestModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)
@@ -22,11 +22,11 @@ public class CAVerifierServerApplicationTestModule : AbpModule
             o.PrivateKey = "XXXXXXXX";
             o.Address = "XXXXXXXXX";
         });
-        
-        //context.Services.AddSingleton<IEmailSender, NullEmailSender>();
-        context.Services.AddSingleton<ISmsSender,NullSmsSender>();
 
-        
+        //context.Services.AddSingleton<IEmailSender, NullEmailSender>();
+        context.Services.AddSingleton<ISmsSender, NullSmsSender>();
+
+
         context.Services.Configure<AwssmsMessageOptions>(o =>
         {
             o.SystemName = "abc";
@@ -39,7 +39,7 @@ public class CAVerifierServerApplicationTestModule : AbpModule
             o.ApiKey = "qbc";
             o.CustomerId = "qbc";
         });
-        
+
         context.Services.Configure<VerifierInfoOptions>(o =>
         {
             o.Name = "Verifier-001";
@@ -56,32 +56,8 @@ public class CAVerifierServerApplicationTestModule : AbpModule
             PrivateKey = "XXXXXXX"
         };
         var dic = new Dictionary<string, ChainInfo>();
-        dic.Add("MockChainId",chainInfo);
-        context.Services.Configure<ChainOptions>(o =>
-        {
-            o.ChainInfos = dic;
-        });
-
-        var smsServiceOption = new SmsServiceOption
-        {
-            IsEnable = true,
-            Ratio = 1
-        };
-        
-        var smsServiceOption1 = new SmsServiceOption
-        {
-            IsEnable = true,
-            Ratio = 2
-        };
-        var smsServiceInfoDic = new Dictionary<string, SmsServiceOption>();
-        smsServiceInfoDic.Add("AWS",smsServiceOption);
-        smsServiceInfoDic.Add("Telesign",smsServiceOption1);
-        
-        context.Services.Configure<SmsServiceOptions>(o =>
-        {
-            o.SmsServiceInfos = smsServiceInfoDic;
-        });
+        dic.Add("MockChainId", chainInfo);
+        context.Services.Configure<ChainOptions>(o => { o.ChainInfos = dic; });
         base.ConfigureServices(context);
     }
-
 }

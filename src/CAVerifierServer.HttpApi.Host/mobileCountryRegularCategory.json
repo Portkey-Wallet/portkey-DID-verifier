@@ -1,0 +1,242 @@
+{
+  "MobileCountryRegularCategory": {
+    "MobileInfos": [
+      {
+        "MobileRegular": "^(\\+?0?86\\-?)?1[3456789]\\d{9}$",
+        "CountryCode": "+86",
+        "Country": "CN"
+      },
+      {
+        "MobileRegular": "^(?:\\+65)?[689]\\d{7}$",
+        "CountryCode": "+65",
+        "Country": "SG"
+      },
+      {
+        "MobileRegular": "^(\\+?45)?(\\d{8})$",
+        "CountryCode": "+45",
+        "Country": "DK"
+      },
+      {
+        "MobileRegular": "^(\\+?33|0)[67]\\d{8}$",
+        "CountryCode": "+33",
+        "Country": "FR"
+      },
+      {
+        "MobileRegular": "^(\\+?886\\-?|0)?9\\d{8}$",
+        "CountryCode": "+886",
+        "Country": "TW"
+      },
+      {
+        "MobileRegular": "^\\+52[0-9]{10}$",
+        "CountryCode": "+52",
+        "Country": "MX"
+      },
+      {
+        "MobileRegular": "^(\\+?852\\-?)?[569]\\d{3}\\-?\\d{4}$",
+        "CountryCode": "+852",
+        "Country": "HK"
+      },
+      {
+        "MobileRegular": "^(\\+?44|0)7\\d{9}$",
+        "CountryCode": "+44",
+        "Country": "GB"
+      },
+      {
+        "MobileRegular": "^\\+1[2-9]\\d{2}[2-9](?!11)\\d{6}$",
+        "CountryCode": "+1",
+        "Country": "US"
+      },
+      {
+        "MobileRegular": "^(\\+?358|0)\\s?(4(0|1|2|4|5)?|50)\\s?(\\d\\s?){4,8}\\d$",
+        "CountryCode": "+358",
+        "Country": "FI"
+      },
+      {
+        "MobileRegular": "^(\\+359|0)8[789]\\d{7}$",
+        "CountryCode": "+359",
+        "Country": "BGR"
+      },
+      {
+        "MobileRegular": "^(?:\\+49|0)[1-9]\\d{1,14}$",
+        "CountryCode": "+49",
+        "Country": "DE"
+      },
+      {
+        "MobileRegular": "^\\+371[2-9]\\d{7}$",
+        "CountryCode": "+371",
+        "Country": "LVA"
+      },
+      {
+        "MobileRegular": "^\\+370\\d{8}$",
+        "CountryCode": "+370",
+        "Country": "LT"
+      },
+      {
+        "MobileRegular": "^\\+212[5-7]\\d{8}$",
+        "CountryCode": "+212",
+        "Country": "MA"
+      },
+      {
+        "MobileRegular": "^\\+820?1([016789])([1-9]\\d{7})$",
+        "CountryCode": "+82",
+        "Country": "KOR"
+      },
+      {
+        "MobileRegular": "^(\\+90)?5\\d{9}$",
+        "CountryCode": "+90",
+        "Country": "TUR"
+      },
+      {
+        "MobileRegular": "^(\\+34)?[6789]\\d{8}$",
+        "CountryCode": "+34",
+        "Country": "ESP"
+      },
+      {
+        "MobileRegular": "^\\+420[1-9]\\d{8}$",
+        "CountryCode": "+420",
+        "Country": "CZE"
+      },
+      {
+        "MobileRegular": "^\\+372[5-9]\\d{7}$",
+        "CountryCode": "+372",
+        "Country": "EST"
+      },
+      {
+        "MobileRegular": "^\\+353[1-9]\\d{8}$",
+        "CountryCode": "+353",
+        "Country": "IRL"
+      },
+      {
+        "MobileRegular": "^\\+31[6][1-9]\\d{7}$",
+        "CountryCode": "+31",
+        "Country": "NLD"
+      },
+      {
+        "MobileRegular": "^\\+40[7-9]\\d{8}$",
+        "CountryCode": "+40",
+        "Country": "ROU"
+      },
+      {
+        "MobileRegular": "^\\+46[7-9]\\d{8}$",
+        "CountryCode": "+46",
+        "Country": "SWE"
+      },
+      {
+        "MobileRegular": "^\\+380\\d{9}$",
+        "CountryCode": "+380",
+        "Country": "UKR"
+      },
+      {
+        "MobileRegular": "^\\+94[1-9]\\d{8}$",
+        "CountryCode": "+94",
+        "Country": "LKA"
+      },
+      {
+        "MobileRegular": "^(\\+?6?01){1}(([145]{1}(\\-|\\s)?\\d{7,8})|([236789]{1}(\\s|\\-)?\\d{7}))$",
+        "CountryCode": "+60",
+        "Country": "MY"
+      },
+      {
+        "MobileRegular": "^(\\+63)?9\\d{9}$",
+        "CountryCode": "+63",
+        "Country": "PH"
+      },
+      {
+        "MobileRegular": "^(\\+66)?[689]\\d{8}$",
+        "CountryCode": "+66",
+        "Country": "TH"
+      },
+      {
+        "MobileRegular": "^(\\+84)?[35789]\\d{8}$",
+        "CountryCode": "+84",
+        "Country": "VN"
+      },
+      {
+        "MobileRegular": "^(\\+3816|06)[- \\d]{5,9}$",
+        "CountryCode": "+38",
+        "Country": "RS"
+      },
+      {
+        "MobileRegular": "^(\\+?7|8)?9\\d{9}$",
+        "CountryCode": "+7",
+        "Country": "RU"
+      },
+      {
+        "MobileRegular": "^(\\+?351)?9[1236]\\d{7}$",
+        "CountryCode": "+351",
+        "Country": "PT"
+      },
+      {
+        "MobileRegular": "^(\\+?55|0)\\-?[1-9]{2}\\-?[2-9]{1}\\d{3,4}\\-?\\d{4}$",
+        "CountryCode": "+55",
+        "Country": "BR"
+      },
+      {
+        "MobileRegular": "^(\\+?48)? ?[5-8]\\d ?\\d{3} ?\\d{2} ?\\d{2}$",
+        "CountryCode": "+48",
+        "Country": "PL"
+      },
+      {
+        "MobileRegular": "\"^(\\\\+?32|0)4?\\\\d{8}$\"",
+        "CountryCode": "+32",
+        "Country": "BE"
+      },
+      {
+        "MobileRegular": "^(\\+?47)?[49]\\d{7}$",
+        "CountryCode": "+47",
+        "Country": "NO"
+      },
+      {
+        "MobileRegular": "^(\\+?81|0)\\d{1,4}[ \\-]?\\d{1,4}[ \\-]?\\d{4}$",
+        "CountryCode": "+81",
+        "Country": "JP"
+
+      },
+      {
+        "MobileRegular": "^(\\+?36)(20|30|70)\\d{7}$",
+        "CountryCode": "+36",
+        "Country": "HU"
+      },
+      {
+        "MobileRegular": "^(\\+972|0)([23489]|5[0248]|77)[1-9]\\d{6}",
+        "CountryCode": "+972",
+        "Country": "IL"
+      },
+      {
+        "MobileRegular": "^(\\+?26)?09[567]\\d{7}$",
+        "CountryCode": "+26",
+        "Country": "ZM"
+      },
+      {
+        "MobileRegular": "^(\\+?27|0)\\d{9}$",
+        "CountryCode": "+27",
+        "Country": "ZA"
+      },
+      {
+        "MobileRegular": "^(\\+?64|0)2\\d{7,9}$",
+        "CountryCode": "+64",
+        "Country": "NZ"
+      },
+      {
+        "MobileRegular": "^(\\+?91|0)?[789]\\d{9}$",
+        "CountryCode": "+91",
+        "Country": "IN"
+      },
+      {
+        "MobileRegular": "^(\\+?1)?[2-9]\\d{2}[2-9](?!11)\\d{6}$",
+        "CountryCode": "+1",
+        "Country": "CA"
+      },
+      {
+        "MobileRegular": "^\\+61[0]?[2-4789]\\d{8}$",
+        "CountryCode": "+61",
+        "Country": "AU"
+      },
+      {
+        "MobileRegular": "^(\\+?30)?(69\\d{8})$",
+        "CountryCode": "+30",
+        "Country": "GR"
+      }
+    ]
+  }
+}
