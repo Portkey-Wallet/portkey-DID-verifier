@@ -146,7 +146,7 @@ public class GuardianIdentifierVerificationGrain : Grain<GuardianIdentifierVerif
         guardianTypeVerification.GuardianIdentifierHash = input.GuardianIdentifierHash;
         var guardianTypeCode = _guardianTypeOptions.GuardianTypeDic[guardianTypeVerification.GuardianType];
         var signature = CryptographyHelper.GenerateSignature(guardianTypeCode, guardianTypeVerification.Salt,
-            guardianTypeVerification.GuardianIdentifierHash, _verifierAccountOptions.PrivateKey, input.OperationType,input.MerklePath);
+            guardianTypeVerification.GuardianIdentifierHash, _verifierAccountOptions.PrivateKey, input.OperationType);
         guardianTypeVerification.VerificationDoc = signature.Data;
         guardianTypeVerification.Signature = signature.Signature;
         dto.Success = true;

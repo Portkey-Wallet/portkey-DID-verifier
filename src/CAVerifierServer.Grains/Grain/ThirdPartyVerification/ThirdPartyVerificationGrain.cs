@@ -71,8 +71,7 @@ public class ThirdPartyVerificationGrain : Grain<ThirdPartyVerificationState>, I
 
             var signatureOutput = CryptographyHelper.GenerateSignature(Convert.ToInt16(GuardianIdentifierType.Google),
                 grainDto.Salt,
-                grainDto.IdentifierHash, _verifierAccountOptions.PrivateKey, grainDto.OperationType,
-                grainDto.MerklePath);
+                grainDto.IdentifierHash, _verifierAccountOptions.PrivateKey, grainDto.OperationType);
 
             tokenDto.Signature = signatureOutput.Signature;
             tokenDto.VerificationDoc = signatureOutput.Data;
@@ -105,7 +104,7 @@ public class ThirdPartyVerificationGrain : Grain<ThirdPartyVerificationState>, I
             var signatureOutput =
                 CryptographyHelper.GenerateSignature(Convert.ToInt16(GuardianIdentifierType.Apple), grainDto.Salt,
                     grainDto.IdentifierHash,
-                    _verifierAccountOptions.PrivateKey, grainDto.OperationType, grainDto.MerklePath);
+                    _verifierAccountOptions.PrivateKey, grainDto.OperationType);
 
             return new GrainResultDto<VerifyAppleTokenGrainDto>
             {

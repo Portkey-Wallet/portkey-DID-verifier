@@ -10,7 +10,7 @@ public class CryptographyHelper
     public static GenerateSignatureOutput GenerateSignature(int guardianType, string salt,
         string guardianIdentifierHash,
         string privateKey,
-        string operationType, string merklePath)
+        string operationType)
     {
         //create signature
         var verifierSPublicKey =
