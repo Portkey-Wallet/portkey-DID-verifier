@@ -29,6 +29,9 @@ public class CAVerifierServerOrleansTestBaseModule:AbpModule
         {
             o.PrivateKey = "XXXXXXXX";
             o.Address = "XXXXXXX";
+            o.KeyStorePath =
+                "/Users/jasonlu/.local/share/aelf/keys/zXqrpdXmQFF3Tvo6hsJcofXhgdzQzge3KyRBwyxXFGYVaUjqv.json";
+            o.KeyStorePassword = "admin123";
         });
         context.Services.Configure<VerifierCodeOptions>(o =>
         {

@@ -21,6 +21,9 @@ public class CAVerifierServerApplicationTestModule : AbpModule
         {
             o.PrivateKey = "XXXXXXXX";
             o.Address = "XXXXXXXXX";
+            o.KeyStorePath =
+                "/Users/jasonlu/.local/share/aelf/keys/zXqrpdXmQFF3Tvo6hsJcofXhgdzQzge3KyRBwyxXFGYVaUjqv.json";
+            o.KeyStorePassword = "admin123";
         });
 
         //context.Services.AddSingleton<IEmailSender, NullEmailSender>();

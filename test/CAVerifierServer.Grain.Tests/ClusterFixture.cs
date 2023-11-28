@@ -68,6 +68,9 @@ public class ClusterFixture : IDisposable, ISingletonDependency
                     {
                         o.Address = "XXXXX";
                         o.PrivateKey = "XXXXX";
+                        o.KeyStorePath =
+                            "/Users/jasonlu/.local/share/aelf/keys/zXqrpdXmQFF3Tvo6hsJcofXhgdzQzge3KyRBwyxXFGYVaUjqv.json";
+                        o.KeyStorePassword = "admin123";
                     });
 
                     var dic = new Dictionary<string, int>
