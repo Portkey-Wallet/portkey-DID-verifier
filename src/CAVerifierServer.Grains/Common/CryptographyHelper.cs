@@ -10,16 +10,15 @@ public class CryptographyHelper
     public static GenerateSignatureOutput GenerateSignature(int guardianType, string salt,
         string guardianIdentifierHash,
         string privateKey,
-        string operationType)
+        string operationType, string chainId)
     {
         //create signature
         var verifierSPublicKey =
             CryptoHelper.FromPrivateKey(ByteArrayHelper.HexStringToByteArray(privateKey)).PublicKey;
         var verifierAddress = Address.FromPublicKey(verifierSPublicKey);
-        var data = operationType == "0" || string.IsNullOrWhiteSpace(operationType)
-            ? $"{guardianType},{guardianIdentifierHash},{DateTime.UtcNow},{verifierAddress.ToBase58()},{salt}"
-            : $"{guardianType},{guardianIdentifierHash},{DateTime.UtcNow:yyyy/MM/dd HH:mm:ss.fff},{verifierAddress.ToBase58()},{salt},{operationType}";
-
+        var data = string.IsNullOrWhiteSpace(chainId)
+            ? $"{guardianType},{guardianIdentifierHash},{DateTime.UtcNow:yyyy/MM/dd HH:mm:ss.fff},{verifierAddress.ToBase58()},{salt},{operationType}"
+            : $"{guardianType},{guardianIdentifierHash},{DateTime.UtcNow:yyyy/MM/dd HH:mm:ss.fff},{verifierAddress.ToBase58()},{salt},{operationType},{chainId}";
         var hashByteArray = HashHelper.ComputeFrom(data).ToByteArray();
         var signature =
             CryptoHelper.SignWithPrivateKey(ByteArrayHelper.HexStringToByteArray(privateKey), hashByteArray);

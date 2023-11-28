@@ -4,6 +4,7 @@ using CAVerifierServer.Grains.Common;
 using CAVerifierServer.Grains.Dto;
 using CAVerifierServer.Grains.Options;
 using CAVerifierServer.Grains.State;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Orleans;
 using Orleans.Providers;
@@ -22,12 +23,14 @@ public class GuardianIdentifierVerificationGrain : Grain<GuardianIdentifierVerif
     private readonly VerifierAccountOptions _verifierAccountOptions;
     private readonly GuardianTypeOptions _guardianTypeOptions;
     private readonly IClock _clock;
+    private ILogger<GuardianIdentifierVerificationGrain> _logger;
 
     public GuardianIdentifierVerificationGrain(IOptions<VerifierCodeOptions> verifierCodeOptions,
         IOptions<VerifierAccountOptions> verifierAccountOptions, IOptions<GuardianTypeOptions> guardianTypeOptions,
-        IClock clock)
+        IClock clock, ILogger<GuardianIdentifierVerificationGrain> logger)
     {
         _clock = clock;
+        _logger = logger;
         _guardianTypeOptions = guardianTypeOptions.Value;
         _verifierCodeOptions = verifierCodeOptions.Value;
         _verifierAccountOptions = verifierAccountOptions.Value;
@@ -144,9 +147,10 @@ public class GuardianIdentifierVerificationGrain : Grain<GuardianIdentifierVerif
         guardianTypeVerification.Verified = true;
         guardianTypeVerification.Salt = input.Salt;
         guardianTypeVerification.GuardianIdentifierHash = input.GuardianIdentifierHash;
+        _logger.LogDebug("guardianTypeVerification.GuardianType is {guardianType}",guardianTypeVerification.GuardianType);
         var guardianTypeCode = _guardianTypeOptions.GuardianTypeDic[guardianTypeVerification.GuardianType];
         var signature = CryptographyHelper.GenerateSignature(guardianTypeCode, guardianTypeVerification.Salt,
-            guardianTypeVerification.GuardianIdentifierHash, _verifierAccountOptions.PrivateKey, input.OperationType);
+            guardianTypeVerification.GuardianIdentifierHash, _verifierAccountOptions.PrivateKey, input.OperationType,input.ChainId);
         guardianTypeVerification.VerificationDoc = signature.Data;
         guardianTypeVerification.Signature = signature.Signature;
         dto.Success = true;
@@ -189,4 +193,5 @@ public class GuardianIdentifierVerificationGrain : Grain<GuardianIdentifierVerif
         guardianIdentifierVerification.ErrorCodeTimes++;
         return Error.WrongCode;
     }
+
 }
