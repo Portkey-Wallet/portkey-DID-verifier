@@ -45,6 +45,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CAVerifierServer.Orleans.Te
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CAVerifierServer.Grain.Tests", "test\CAVerifierServer.Grain.Tests\CAVerifierServer.Grain.Tests.csproj", "{D3DFF6F9-C8FC-4079-9AF1-7C598F9362C7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CAVerifierMonitor", "src\CAVerifierMonitor\CAVerifierMonitor.csproj", "{9D281FAA-8F23-44E9-8C77-E155BE7FE735}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

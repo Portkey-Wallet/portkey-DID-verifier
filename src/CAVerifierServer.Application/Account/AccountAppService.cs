@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using CAVerifierServer.Application;
@@ -11,6 +12,7 @@ using CAVerifierServer.VerifyCodeSender;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using MongoDB.Bson;
 using NUglify.Helpers;
 using Orleans;
 using Volo.Abp;
@@ -55,6 +57,8 @@ public class AccountAppService : CAVerifierServerAppService, IAccountAppService
     public async Task<ResponseResultDto<SendVerificationRequestDto>> SendVerificationRequestAsync(
         SendVerificationRequestInput input)
     {
+        Stopwatch watcher1 = Stopwatch.StartNew();
+        Stopwatch watcher2 = Stopwatch.StartNew();
         var verifyCodeSender = _verifyCodeSenders.FirstOrDefault(v => v.Type == input.Type);
         if (verifyCodeSender == null)
         {
@@ -73,10 +77,15 @@ public class AccountAppService : CAVerifierServerAppService, IAccountAppService
                 Message = Error.Message[Error.InvalidGuardianIdentifierInput]
             };
         }
-
+        watcher2.Stop();
+        var watcher3 = Stopwatch.StartNew();
+        var watcher4 = new Stopwatch();
+        var watcher5 = new Stopwatch();
         try
         {
             var grain = _clusterClient.GetGrain<IGuardianIdentifierVerificationGrain>(input.GuardianIdentifier);
+            watcher3.Stop();
+            watcher4.Start();
             var dto = await grain.GetVerifyCodeAsync(input);
             if (!dto.Success)
             {
@@ -86,9 +95,11 @@ public class AccountAppService : CAVerifierServerAppService, IAccountAppService
                     Message = dto.Message
                 };
             }
+            watcher4.Stop();
+            watcher5.Start();
 
             await verifyCodeSender.SendCodeByGuardianIdentifierAsync(input.GuardianIdentifier, dto.Data.VerifierCode);
-            return new ResponseResultDto<SendVerificationRequestDto>
+            var responseResultDto = new ResponseResultDto<SendVerificationRequestDto>
             {
                 Success = true,
                 Data = new SendVerificationRequestDto
@@ -96,6 +107,8 @@ public class AccountAppService : CAVerifierServerAppService, IAccountAppService
                     VerifierSessionId = input.VerifierSessionId
                 }
             };
+            watcher5.Stop();
+            return responseResultDto;
         }
         catch (Exception e)
         {
@@ -106,11 +119,65 @@ public class AccountAppService : CAVerifierServerAppService, IAccountAppService
                 Message = Error.SendVerificationRequestErrorLogPrefix + e.Message
             };
         }
+        finally
+        {
+            watcher1.Stop();
+            int totalMilliseconds = watcher1.Elapsed.Milliseconds;
+            if (totalMilliseconds > 1000)
+            {
+                Logger.LogInformation("exec SendVerificationRequest 1000, guardianIdentifier:{5}, cost:{0}," +
+                                      " validate cost:{1}, get grain cost:{2}," +
+                                      " getVerifyCode cost:{3}, sendCode cost:{4}",
+                    input.GuardianIdentifier,
+                    totalMilliseconds.ToString(),
+                    watcher2.Elapsed.Milliseconds.ToString(),
+                    watcher3.Elapsed.Milliseconds.ToString(),
+                    watcher4.Elapsed.Milliseconds.ToString(),
+                    watcher5.Elapsed.Milliseconds.ToString());
+            } else if (totalMilliseconds > 500)
+            {
+                Logger.LogInformation("exec SendVerificationRequest 500, guardianIdentifier:{5}, cost:{0}," +
+                                      " validate cost:{1}, get grain cost:{2}," +
+                                      " getVerifyCode cost:{3}, sendCode cost:{4}",
+                    input.GuardianIdentifier,
+                    totalMilliseconds.ToString(),
+                    watcher2.Elapsed.Milliseconds.ToString(),
+                    watcher3.Elapsed.Milliseconds.ToString(),
+                    watcher4.Elapsed.Milliseconds.ToString(),
+                    watcher5.Elapsed.Milliseconds.ToString());
+            } else if (totalMilliseconds > 200)
+            {
+                Logger.LogInformation("exec SendVerificationRequest 200, guardianIdentifier:{5}, cost:{0}," +
+                                      " validate cost:{1}, get grain cost:{2}," +
+                                      " getVerifyCode cost:{3}, sendCode cost:{4}",
+                    input.GuardianIdentifier,
+                    totalMilliseconds.ToString(),
+                    watcher2.Elapsed.Milliseconds.ToString(),
+                    watcher3.Elapsed.Milliseconds.ToString(),
+                    watcher4.Elapsed.Milliseconds.ToString(),
+                    watcher5.Elapsed.Milliseconds.ToString());
+            }
+            else
+            {
+                Logger.LogInformation("exec SendVerificationRequest good, guardianIdentifier:{5}, cost:{0}," +
+                                      " validate cost:{1}, get grain cost:{2}," +
+                                      " getVerifyCode cost:{3}, sendCode cost:{4}",
+                    input.GuardianIdentifier,
+                    totalMilliseconds.ToString(),
+                    watcher2.Elapsed.Milliseconds.ToString(),
+                    watcher3.Elapsed.Milliseconds.ToString(),
+                    watcher4.Elapsed.Milliseconds.ToString(),
+                    watcher5.Elapsed.Milliseconds.ToString());
+            }
+            
+        }
     }
 
 
     public async Task<ResponseResultDto<VerifierCodeDto>> VerifyCodeAsync(VerifyCodeInput input)
     {
+        var watcher1 = Stopwatch.StartNew();
+        
         if (input.VerifierSessionId == Guid.Empty ||
             input.Code.IsNullOrEmpty() ||
             input.GuardianIdentifier.IsNullOrEmpty() ||
@@ -125,13 +192,17 @@ public class AccountAppService : CAVerifierServerAppService, IAccountAppService
             };
         }
 
+        var watcher2 = Stopwatch.StartNew();
+        var watcher3 = new Stopwatch();
         try
         {
             var grain = _clusterClient.GetGrain<IGuardianIdentifierVerificationGrain>(input.GuardianIdentifier);
+            watcher2.Stop();
+            watcher3.Start();
             var resultDto = await grain.VerifyAndCreateSignatureAsync(input);
             if (resultDto.Success)
             {
-                return new ResponseResultDto<VerifierCodeDto>
+                var responseResultDto = new ResponseResultDto<VerifierCodeDto>
                 {
                     Success = true,
                     Data = new VerifierCodeDto
@@ -140,6 +211,12 @@ public class AccountAppService : CAVerifierServerAppService, IAccountAppService
                         Signature = resultDto.Data.Signature
                     }
                 };
+                watcher3.Stop();
+                return responseResultDto;
+            }
+            else
+            {
+                watcher3.Stop();
             }
 
             return new ResponseResultDto<VerifierCodeDto>
@@ -156,6 +233,49 @@ public class AccountAppService : CAVerifierServerAppService, IAccountAppService
                 Success = false,
                 Message = Error.VerifyCodeErrorLogPrefix + e.Message
             };
+        }
+        finally
+        {
+            watcher1.Stop();
+            var totalMilliseconds = watcher1.Elapsed.Milliseconds;
+            if (totalMilliseconds > 1000)
+            {
+                Logger.LogInformation("exec VerifyCode 1000, guardianIdentifier:{3}, cost:{0}," +
+                                      " get grain cost:{1}," +
+                                      " verifyAndCreateSignature cost:{2}",
+                    input.GuardianIdentifier,
+                    totalMilliseconds.ToString(),
+                    watcher2.Elapsed.Milliseconds.ToString(),
+                    watcher3.Elapsed.Milliseconds.ToString());
+            } else if (totalMilliseconds > 500)
+            {
+                Logger.LogInformation("exec VerifyCode 500, guardianIdentifier:{3}, cost:{0}," +
+                                      " get grain cost:{1}," +
+                                      " verifyAndCreateSignature cost:{2}",
+                    input.GuardianIdentifier,
+                    totalMilliseconds.ToString(),
+                    watcher2.Elapsed.Milliseconds.ToString(),
+                    watcher3.Elapsed.Milliseconds.ToString());
+            } else if (totalMilliseconds > 200) 
+            {
+                Logger.LogInformation("exec VerifyCode 200, guardianIdentifier:{3}, cost:{0}," +
+                                      " get grain cost:{1}," +
+                                      " verifyAndCreateSignature cost:{2}",
+                    input.GuardianIdentifier,
+                    totalMilliseconds.ToString(),
+                    watcher2.Elapsed.Milliseconds.ToString(),
+                    watcher3.Elapsed.Milliseconds.ToString());
+            }
+            else
+            {
+                Logger.LogInformation("exec VerifyCode good, guardianIdentifier:{3}, cost:{0}," +
+                                      " get grain cost:{1}," +
+                                      " verifyAndCreateSignature cost:{2}",
+                    input.GuardianIdentifier,
+                    totalMilliseconds.ToString(),
+                    watcher2.Elapsed.Milliseconds.ToString(),
+                    watcher3.Elapsed.Milliseconds.ToString());
+            }
         }
     }
 

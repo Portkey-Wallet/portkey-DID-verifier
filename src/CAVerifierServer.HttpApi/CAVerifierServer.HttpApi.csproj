@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CAVerifierMonitor\CAVerifierMonitor.csproj" />
     <ProjectReference Include="..\CAVerifierServer.Application.Contracts\CAVerifierServer.Application.Contracts.csproj" />
   </ItemGroup>
 

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using CAVerifier.Monitor;
 using CAVerifierServer.Grains;
 using Medallion.Threading;
 using Medallion.Threading.Redis;
@@ -48,7 +49,8 @@ namespace CAVerifierServer;
     typeof(CAVerifierServerApplicationModule),
     typeof(CAVerifierServerMongoDbModule),
     typeof(AbpAspNetCoreSerilogModule),
-    typeof(AbpSwashbuckleModule)
+    typeof(AbpSwashbuckleModule),
+    typeof(CAServerMonitorModule)
 )]
 public class CAVerifierServerHttpApiHostModule : AbpModule
 {
