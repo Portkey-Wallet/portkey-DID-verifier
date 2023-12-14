@@ -40,31 +40,15 @@ public class KeyStoreSigner : ISigner
 
     public void Dispose()
     {
-        Dispose(true);
-        GC.SuppressFinalize(this);
-    }
-
-    private void Dispose(bool disposing)
-    {
         if (_disposed)
         {
             return;
         }
-
-        if (disposing)
-        {
-            if (_privateKey != null)
-            {
-                Array.Clear(_privateKey, 0, _privateKey.Length);
-                _privateKey = null;
-            }
-        }
+        
+        Array.Clear(_privateKey, 0, _privateKey.Length);
 
         _disposed = true;
+        GC.SuppressFinalize(this);
     }
 
-    ~KeyStoreSigner()
-    {
-        Dispose(false);
-    }
 }

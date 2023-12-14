@@ -148,16 +148,16 @@ public class GuardianIdentifierVerificationGrain : Grain<GuardianIdentifierVerif
         guardianTypeVerification.Salt = input.Salt;
         guardianTypeVerification.GuardianIdentifierHash = input.GuardianIdentifierHash;
         var guardianTypeCode = _guardianTypeOptions.GuardianTypeDic[guardianTypeVerification.GuardianType];
-        var data = VerificationParametersProcessor.GenerateSignatureHashString(_signer.GetAddress(),
+        var verificationDoc = VerificationDocFactory.Create(_signer.GetAddress(),
             guardianTypeCode, guardianTypeVerification.Salt, guardianTypeVerification.GuardianIdentifierHash,
-            input.OperationType);
-        var signature = _signer.Sign(HashHelper.ComputeFrom(data));
-        guardianTypeVerification.VerificationDoc = data;
+            input.OperationType).GetStringRepresentation();
+        var signature = _signer.Sign(HashHelper.ComputeFrom(verificationDoc));
+        guardianTypeVerification.VerificationDoc = verificationDoc;
         guardianTypeVerification.Signature = signature.ToHex();
         dto.Success = true;
         dto.Data = new UpdateVerifierSignatureDto
         {
-            Data = data,
+            Data = verificationDoc,
             Signature = signature.ToHex()
         };
         await WriteStateAsync();

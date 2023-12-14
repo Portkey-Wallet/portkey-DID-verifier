@@ -73,13 +73,13 @@ public class ThirdPartyVerificationGrain : Grain<ThirdPartyVerificationState>, I
             tokenDto.GoogleUserExtraInfo.GuardianType = GuardianIdentifierType.Google.ToString();
             tokenDto.GoogleUserExtraInfo.AuthTime = DateTime.UtcNow;
 
-            var data = VerificationParametersProcessor.GenerateSignatureHashString(_signer.GetAddress(),
-                Convert.ToInt16(GuardianIdentifierType.Google), grainDto.Salt, 
-                grainDto.IdentifierHash, grainDto.OperationType);
-            var signature = _signer.Sign(HashHelper.ComputeFrom(data));
+            var verificationDoc = VerificationDocFactory.Create(_signer.GetAddress(),
+                Convert.ToInt16(GuardianIdentifierType.Google), grainDto.Salt,
+                grainDto.IdentifierHash, grainDto.OperationType).GetStringRepresentation();
+            var signature = _signer.Sign(HashHelper.ComputeFrom(verificationDoc));
 
             tokenDto.Signature = signature.ToHex();
-            tokenDto.VerificationDoc = data;
+            tokenDto.VerificationDoc = verificationDoc;
 
             return new GrainResultDto<VerifyGoogleTokenGrainDto>
             {
@@ -105,12 +105,12 @@ public class ThirdPartyVerificationGrain : Grain<ThirdPartyVerificationState>, I
 
             userInfo.GuardianType = GuardianIdentifierType.Apple.ToString();
             userInfo.AuthTime = DateTime.UtcNow;
-            
-            var data = VerificationParametersProcessor.GenerateSignatureHashString(_signer.GetAddress(),
-                Convert.ToInt16(GuardianIdentifierType.Apple), grainDto.Salt, 
-                grainDto.IdentifierHash, grainDto.OperationType);
-            var signature = _signer.Sign(HashHelper.ComputeFrom(data));
-            
+
+            var verificationDoc = VerificationDocFactory.Create(_signer.GetAddress(),
+                Convert.ToInt16(GuardianIdentifierType.Apple), grainDto.Salt,
+                grainDto.IdentifierHash, grainDto.OperationType).GetStringRepresentation();
+            var signature = _signer.Sign(HashHelper.ComputeFrom(verificationDoc));
+
             return new GrainResultDto<VerifyAppleTokenGrainDto>
             {
                 Success = true,
@@ -118,7 +118,7 @@ public class ThirdPartyVerificationGrain : Grain<ThirdPartyVerificationState>, I
                 {
                     AppleUserExtraInfo = userInfo,
                     Signature = signature.ToHex(),
-                    VerificationDoc = data
+                    VerificationDoc = verificationDoc
                 }
             };
         }
