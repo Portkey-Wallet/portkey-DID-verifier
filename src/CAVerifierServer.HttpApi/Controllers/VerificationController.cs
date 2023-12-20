@@ -50,6 +50,8 @@ public class CAVerificationController : CAVerifierServerController
         finally
         {
             watcher.Stop();
+            _logger.LogInformation("send verification request:VerifierSessionId={1}, {2}", 
+                input.VerifierSessionId.ToString(), watcher.ElapsedMilliseconds.ToString());
             _indicatorLogger.LogInformation(MonitorTag.Verifier, MonitorTarget.sendVerificationRequest.ToString(),
                 (int)watcher.ElapsedMilliseconds);
         }
