@@ -117,6 +117,25 @@ public partial class AccountAppServiceTests
                     Success = false
                 };
             });
+
+        mockThirdPartyVerificationGrain.Setup(o => o.VerifyTelegramTokenAsync(It.IsAny<VerifyTokenGrainDto>()))
+            .ReturnsAsync((VerifyTokenGrainDto dto) =>
+            {
+                if (dto.AccessToken == DefaultToken)
+                {
+                    return new GrainResultDto<VerifyTelegramTokenGrainDto>
+                    {
+                        Message = "MockSuccessMessage",
+                        Success = true
+                    };
+                }
+
+                return new GrainResultDto<VerifyTelegramTokenGrainDto>
+                {
+                    Message = "MockFalseMessage",
+                    Success = false
+                };
+            });
         return mockThirdPartyVerificationGrain.Object;
     }
 

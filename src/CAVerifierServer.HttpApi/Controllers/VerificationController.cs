@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using CAVerifierServer.Verifier.Dtos;
 using CAVerifierServer.Account;
 using Microsoft.AspNetCore.Mvc;
 using Volo.Abp;
@@ -42,5 +43,13 @@ public class CAVerificationController : CAVerifierServerController
     public async Task<ResponseResultDto<VerifyAppleTokenDto>> VerifyAppleTokenAsync(VerifyTokenRequestDto tokenRequestDto)
     {
         return await _accountAppService.VerifyAppleTokenAsync(tokenRequestDto);
+    }
+
+    [HttpPost("verifyTelegramToken")]
+    public async Task<ResponseResultDto<VerifyTokenDto<TelegramUserExtraInfo>>> VerifyTelegramTokenAsync(
+        VerifyTokenRequestDto tokenRequestDto)
+    {
+        return await _accountAppService.VerifyTelegramTokenAsync(tokenRequestDto);
+
     }
 }

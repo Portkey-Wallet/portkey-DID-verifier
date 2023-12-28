@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CAVerifierServer.Verifier.Dtos;
 using CAVerifierServer.Application;
 using CAVerifierServer.Contracts;
 using CAVerifierServer.Grains.Grain;
@@ -241,6 +242,41 @@ public class AccountAppService : CAVerifierServerAppService, IAccountAppService
         {
             Logger.LogError(e, Error.VerifyCodeErrorLogPrefix + e.Message);
             return new ResponseResultDto<VerifyAppleTokenDto>
+            {
+                Message = Error.VerifyCodeErrorLogPrefix + e.Message
+            };
+        }
+    }
+
+    public async Task<ResponseResultDto<VerifyTokenDto<TelegramUserExtraInfo>>> VerifyTelegramTokenAsync(
+        VerifyTokenRequestDto tokenRequestDto)
+    {
+        try
+        {
+            var grain = _clusterClient.GetGrain<IThirdPartyVerificationGrain>(tokenRequestDto.AccessToken);
+            var resultDto =
+                await grain.VerifyTelegramTokenAsync(
+                    ObjectMapper.Map<VerifyTokenRequestDto, VerifyTokenGrainDto>(tokenRequestDto));
+
+            if (!resultDto.Success)
+            {
+                return new ResponseResultDto<VerifyTokenDto<TelegramUserExtraInfo>>
+                {
+                    Success = false,
+                    Message = resultDto.Message
+                };
+            }
+
+            return new ResponseResultDto<VerifyTokenDto<TelegramUserExtraInfo>>
+            {
+                Success = true,
+                Data = _objectMapper.Map<VerifyTelegramTokenGrainDto, VerifyTokenDto<TelegramUserExtraInfo>>(resultDto.Data)
+            };
+        }
+        catch (Exception e)
+        {
+            Logger.LogError(e, Error.VerifyCodeErrorLogPrefix + e.Message);
+            return new ResponseResultDto<VerifyTokenDto<TelegramUserExtraInfo>>
             {
                 Message = Error.VerifyCodeErrorLogPrefix + e.Message
             };

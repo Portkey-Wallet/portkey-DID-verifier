@@ -56,6 +56,7 @@ public class ClusterFixture : IDisposable, ISingletonDependency
                 {
                     services.AddSingleton<IGuardianIdentifierVerificationGrain, GuardianIdentifierVerificationGrain>();
                     services.AddSingleton<IThirdPartyVerificationGrain, ThirdPartyVerificationGrain>();
+                    services.AddSingleton<ITelegramAuthProvider, TelegramAuthProvider>();
                     services.Configure<VerifierCodeOptions>(o =>
                     {
                         o.RetryTimes = 1;
