@@ -5,6 +5,7 @@ using CAVerifierServer.Grains.Common;
 using CAVerifierServer.Grains.Dto;
 using CAVerifierServer.Grains.Options;
 using CAVerifierServer.Grains.State;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Orleans;
 using Orleans.Providers;
@@ -25,11 +26,14 @@ public class GuardianIdentifierVerificationGrain : Grain<GuardianIdentifierVerif
     private readonly IClock _clock;
     private readonly ISigner _signer;
     
+    private ILogger<GuardianIdentifierVerificationGrain> _logger;
+
     public GuardianIdentifierVerificationGrain(IOptions<VerifierCodeOptions> verifierCodeOptions,
         IOptions<VerifierAccountOptions> verifierAccountOptions, IOptions<GuardianTypeOptions> guardianTypeOptions,
-        IClock clock, ISigner signer)
+        IClock clock, ISigner signer, ILogger<GuardianIdentifierVerificationGrain> logger)
     {
         _clock = clock;
+        _logger = logger;
         _guardianTypeOptions = guardianTypeOptions.Value;
         _verifierCodeOptions = verifierCodeOptions.Value;
         _verifierAccountOptions = verifierAccountOptions.Value;
@@ -147,10 +151,11 @@ public class GuardianIdentifierVerificationGrain : Grain<GuardianIdentifierVerif
         guardianTypeVerification.Verified = true;
         guardianTypeVerification.Salt = input.Salt;
         guardianTypeVerification.GuardianIdentifierHash = input.GuardianIdentifierHash;
+        _logger.LogDebug("guardianTypeVerification.GuardianType is {guardianType}",guardianTypeVerification.GuardianType);
         var guardianTypeCode = _guardianTypeOptions.GuardianTypeDic[guardianTypeVerification.GuardianType];
         var verificationDoc = VerificationDocFactory.Create(_signer.GetAddress(),
             guardianTypeCode, guardianTypeVerification.Salt, guardianTypeVerification.GuardianIdentifierHash,
-            input.OperationType).GetStringRepresentation();
+            input.OperationType, input.ChainId).GetStringRepresentation();
         var signature = _signer.Sign(HashHelper.ComputeFrom(verificationDoc));
         guardianTypeVerification.VerificationDoc = verificationDoc;
         guardianTypeVerification.Signature = signature.ToHex();

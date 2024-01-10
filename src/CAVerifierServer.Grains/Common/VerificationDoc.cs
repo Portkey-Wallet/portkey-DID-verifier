@@ -28,19 +28,27 @@ namespace CAVerifierServer.Grains.Common
         protected string GuardianIdentifierHash { get; }
 
         /// <summary>
+        /// Gets the operation type associated with the verification document.
+        /// </summary>
+        protected string OperationType { get; }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="VerificationDocBase"/> class.
         /// </summary>
         /// <param name="address">The address associated with the verification document.</param>
         /// <param name="guardianType">The guardian type associated with the verification document.</param>
         /// <param name="salt">The salt value used in the verification document.</param>
         /// <param name="guardianIdentifierHash">The hash of the guardian identifier associated with the verification document.</param>
-        protected VerificationDocBase(Address address, int guardianType, string salt, string guardianIdentifierHash)
+        /// <param name="operationType">The operation type associated with the verification document.</param>
+        protected VerificationDocBase(Address address, int guardianType, string salt, string guardianIdentifierHash,
+            string operationType)
         {
             Address = address ?? throw new ArgumentNullException(nameof(address));
             GuardianType = guardianType;
             Salt = salt ?? throw new ArgumentNullException(nameof(salt));
             GuardianIdentifierHash =
                 guardianIdentifierHash ?? throw new ArgumentNullException(nameof(guardianIdentifierHash));
+            OperationType = operationType ?? throw new ArgumentNullException(nameof(operationType));
         }
 
         /// <summary>
@@ -58,15 +66,17 @@ namespace CAVerifierServer.Grains.Common
         /// <summary>
         /// Initializes a new instance of the <see cref="LegacyVerificationDoc"/> class.
         /// </summary>
-        public LegacyVerificationDoc(Address address, int guardianType, string salt, string guardianIdentifierHash)
-            : base(address, guardianType, salt, guardianIdentifierHash)
+        public LegacyVerificationDoc(Address address, int guardianType, string salt, string guardianIdentifierHash,
+            string operationType)
+            : base(address, guardianType, salt, guardianIdentifierHash, operationType)
         {
         }
 
         /// <inheritdoc />
         public override string GetStringRepresentation()
         {
-            return $"{GuardianType},{GuardianIdentifierHash},{DateTime.UtcNow},{Address.ToBase58()},{Salt}";
+            return
+                $"{GuardianType},{GuardianIdentifierHash},{DateTime.UtcNow},{Address.ToBase58()},{Salt}, {OperationType}";
         }
     }
 
@@ -78,23 +88,23 @@ namespace CAVerifierServer.Grains.Common
         /// <summary>
         /// Gets the operation type associated with the verification document.
         /// </summary>
-        private string OperationType { get; }
+        private string ChainId { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="VerificationDoc"/> class.
         /// </summary>
         public VerificationDoc(Address address, int guardianType, string salt, string guardianIdentifierHash,
-            string operationType)
-            : base(address, guardianType, salt, guardianIdentifierHash)
+            string operationType, string chainId)
+            : base(address, guardianType, salt, guardianIdentifierHash, operationType)
         {
-            OperationType = operationType ?? throw new ArgumentNullException(nameof(operationType));
+            ChainId = chainId ?? throw new ArgumentNullException(nameof(chainId));
         }
 
         /// <inheritdoc />
         public override string GetStringRepresentation()
         {
             return
-                $"{GuardianType},{GuardianIdentifierHash},{DateTime.UtcNow:yyyy/MM/dd HH:mm:ss.fff},{Address.ToBase58()},{Salt},{OperationType}";
+                $"{GuardianType},{GuardianIdentifierHash},{DateTime.UtcNow:yyyy/MM/dd HH:mm:ss.fff},{Address.ToBase58()},{Salt},{OperationType},{ChainId}";
         }
     }
 
@@ -111,18 +121,19 @@ namespace CAVerifierServer.Grains.Common
         /// <param name="salt">The salt value used in the verification document.</param>
         /// <param name="guardianIdentifierHash">The hash of the guardian identifier associated with the verification document.</param>
         /// <param name="operationType">The operation type associated with the verification document.</param>
+        /// <param name="chainId">chain id</param>
         /// <returns>An instance of <see cref="VerificationDocBase"/>.</returns>
         public static VerificationDocBase Create(Address address, int guardianType, string salt,
-            string guardianIdentifierHash, string operationType)
+            string guardianIdentifierHash, string operationType, string chainId)
         {
-            var isLegacy = operationType == "0" || string.IsNullOrWhiteSpace(operationType);
+            var isLegacy = string.IsNullOrWhiteSpace(chainId);
             if (isLegacy)
             {
-                return new LegacyVerificationDoc(address, guardianType, salt, guardianIdentifierHash);
+                return new LegacyVerificationDoc(address, guardianType, salt, guardianIdentifierHash, operationType);
             }
             else
             {
-                return new VerificationDoc(address, guardianType, salt, guardianIdentifierHash, operationType);
+                return new VerificationDoc(address, guardianType, salt, guardianIdentifierHash, operationType, chainId);
             }
         }
     }

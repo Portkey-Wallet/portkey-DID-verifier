@@ -75,7 +75,7 @@ public class ThirdPartyVerificationGrain : Grain<ThirdPartyVerificationState>, I
 
             var verificationDoc = VerificationDocFactory.Create(_signer.GetAddress(),
                 Convert.ToInt16(GuardianIdentifierType.Google), grainDto.Salt,
-                grainDto.IdentifierHash, grainDto.OperationType).GetStringRepresentation();
+                grainDto.IdentifierHash, grainDto.OperationType, grainDto.ChainId).GetStringRepresentation();
             var signature = _signer.Sign(HashHelper.ComputeFrom(verificationDoc));
 
             tokenDto.Signature = signature.ToHex();
@@ -108,7 +108,7 @@ public class ThirdPartyVerificationGrain : Grain<ThirdPartyVerificationState>, I
 
             var verificationDoc = VerificationDocFactory.Create(_signer.GetAddress(),
                 Convert.ToInt16(GuardianIdentifierType.Apple), grainDto.Salt,
-                grainDto.IdentifierHash, grainDto.OperationType).GetStringRepresentation();
+                grainDto.IdentifierHash, grainDto.OperationType, grainDto.ChainId).GetStringRepresentation();
             var signature = _signer.Sign(HashHelper.ComputeFrom(verificationDoc));
 
             return new GrainResultDto<VerifyAppleTokenGrainDto>
