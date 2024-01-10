@@ -19,6 +19,10 @@ public interface IContractsProvider
 
 public class ContractsProvider : IContractsProvider, ISingletonDependency
 {
+    private static readonly string AElfClientDefaultAddress = Address.FromPublicKey(CryptoHelper
+        .FromPrivateKey(ByteArrayHelper.HexStringToByteArray(AElfClientConstants.DefaultPrivateKey))
+        .PublicKey).ToBase58();
+
     public async Task<GetCAServersOutput> GetCaServersListAsync(ChainInfo chainInfo)
     {
         var client = new AElfClient(chainInfo.BaseUrl);
@@ -26,10 +30,7 @@ public class ContractsProvider : IContractsProvider, ISingletonDependency
         var methodName = "GetCAServers";
         var param = new Empty();
         var transaction = await client.GenerateTransactionAsync(
-            Address.FromPublicKey(CryptoHelper
-                    .FromPrivateKey(ByteArrayHelper.HexStringToByteArray(AElfClientConstants.DefaultPrivateKey))
-                    .PublicKey)
-                .ToBase58(),
+            AElfClientDefaultAddress,
             chainInfo.ContractAddress,
             methodName, param);
         var txWithSign = client.SignTransaction(AElfClientConstants.DefaultPrivateKey, transaction);
