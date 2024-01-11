@@ -76,7 +76,7 @@ namespace CAVerifierServer.Grains.Common
         public override string GetStringRepresentation()
         {
             return
-                $"{GuardianType},{GuardianIdentifierHash},{DateTime.UtcNow},{Address.ToBase58()},{Salt}, {OperationType}";
+                $"{GuardianType},{GuardianIdentifierHash},{DateTime.UtcNow:yyyy/MM/dd HH:mm:ss.fff},{Address.ToBase58()},{Salt},{OperationType}";
         }
     }
 
@@ -86,7 +86,7 @@ namespace CAVerifierServer.Grains.Common
     public class VerificationDoc : VerificationDocBase
     {
         /// <summary>
-        /// Gets the operation type associated with the verification document.
+        /// chain Id
         /// </summary>
         private string ChainId { get; }
 

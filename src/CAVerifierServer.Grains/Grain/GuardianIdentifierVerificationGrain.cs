@@ -151,7 +151,8 @@ public class GuardianIdentifierVerificationGrain : Grain<GuardianIdentifierVerif
         guardianTypeVerification.Verified = true;
         guardianTypeVerification.Salt = input.Salt;
         guardianTypeVerification.GuardianIdentifierHash = input.GuardianIdentifierHash;
-        _logger.LogDebug("guardianTypeVerification.GuardianType is {guardianType}",guardianTypeVerification.GuardianType);
+        _logger.LogDebug("guardianTypeVerification.GuardianType is {guardianType}",
+            guardianTypeVerification.GuardianType);
         var guardianTypeCode = _guardianTypeOptions.GuardianTypeDic[guardianTypeVerification.GuardianType];
         var verificationDoc = VerificationDocFactory.Create(_signer.GetAddress(),
             guardianTypeCode, guardianTypeVerification.Salt, guardianTypeVerification.GuardianIdentifierHash,
