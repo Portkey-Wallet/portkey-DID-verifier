@@ -86,7 +86,7 @@ namespace CAVerifierServer.Grains.Common
     public class VerificationDoc : VerificationDocBase
     {
         /// <summary>
-        /// chain Id
+        /// The chain id of the network where the verify account is located.
         /// </summary>
         private string ChainId { get; }
 
@@ -121,7 +121,7 @@ namespace CAVerifierServer.Grains.Common
         /// <param name="salt">The salt value used in the verification document.</param>
         /// <param name="guardianIdentifierHash">The hash of the guardian identifier associated with the verification document.</param>
         /// <param name="operationType">The operation type associated with the verification document.</param>
-        /// <param name="chainId">chain id</param>
+        /// <param name="chainId">The chain id of the network where the verify account is located.</param>
         /// <returns>An instance of <see cref="VerificationDocBase"/>.</returns>
         public static VerificationDocBase Create(Address address, int guardianType, string salt,
             string guardianIdentifierHash, string operationType, string chainId)
