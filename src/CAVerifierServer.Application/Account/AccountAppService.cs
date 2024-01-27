@@ -246,6 +246,40 @@ public class AccountAppService : CAVerifierServerAppService, IAccountAppService
             };
         }
     }
+    
+    public async Task<ResponseResultDto<VerifierCodeDto>> VerifyFacebookToken(VerifyTokenRequestDto input)
+    {
+        try
+        {
+            var grain = _clusterClient.GetGrain<IThirdPartyVerificationGrain>(input.AccessToken);
+            var resultDto =
+                await grain.VerifyFacebookTokenAsync(
+                    ObjectMapper.Map<VerifyTokenRequestDto, VerifyTokenGrainDto>(input));
+
+            if (!resultDto.Success)
+            {
+                return new ResponseResultDto<VerifierCodeDto>
+                {
+                    Success = false,
+                    Message = resultDto.Message
+                };
+            }
+
+            return new ResponseResultDto<VerifierCodeDto>
+            {
+                Success = true,
+                Data = resultDto.Data
+            };
+        }
+        catch (Exception e)
+        {
+            Logger.LogError(e, Error.VerifyCodeErrorLogPrefix + e.Message);
+            return new ResponseResultDto<VerifierCodeDto>
+            {
+                Message = Error.VerifyCodeErrorLogPrefix + e.Message
+            };
+        }
+    }
 
 
     private async Task<DidServerList> GetDidServerListAsync()

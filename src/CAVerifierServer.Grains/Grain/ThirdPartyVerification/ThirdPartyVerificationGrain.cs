@@ -127,6 +127,35 @@ public class ThirdPartyVerificationGrain : Grain<ThirdPartyVerificationState>, I
             };
         }
     }
+    
+    public async Task<GrainResultDto<VerifierCodeDto>> VerifyFacebookTokenAsync(VerifyTokenGrainDto grainDto)
+    {
+        try
+        {
+            var signatureOutput =
+                CryptographyHelper.GenerateSignature(Convert.ToInt16(GuardianIdentifierType.Facebook), grainDto.Salt,
+                    grainDto.IdentifierHash,
+                    _verifierAccountOptions.PrivateKey, grainDto.OperationType, grainDto.ChainId);
+
+            return new GrainResultDto<VerifierCodeDto>
+            {
+                Success = true,
+                Data = new VerifierCodeDto
+                {
+                    Signature = signatureOutput.Signature,
+                    VerificationDoc = signatureOutput.Data
+                }
+            };
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, Error.VerifyAppleErrorLogPrefix + e.Message);
+            return new GrainResultDto<VerifierCodeDto>
+            {
+                Message = e.Message
+            };
+        }
+    }
 
     private async Task<GoogleUserInfoDto> GetUserInfoFromGoogleAsync(string accessToken)
     {

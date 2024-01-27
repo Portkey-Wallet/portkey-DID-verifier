@@ -43,4 +43,11 @@ public class CAVerificationController : CAVerifierServerController
     {
         return await _accountAppService.VerifyAppleTokenAsync(tokenRequestDto);
     }
+    
+    [HttpPost]
+    [Route("verifyFacebookCode")]
+    public async Task<ResponseResultDto<VerifierCodeDto>> VerifyFacebookCodeAsync(VerifyTokenRequestDto input)
+    {
+        return await _accountAppService.VerifyFacebookToken(input);
+    }
 }
