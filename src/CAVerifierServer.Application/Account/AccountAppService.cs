@@ -2,12 +2,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AElf;
+using AElf.Cryptography;
 using CAVerifierServer.Application;
 using CAVerifierServer.Contracts;
 using CAVerifierServer.Grains.Grain;
 using CAVerifierServer.Grains.Grain.ThirdPartyVerification;
 using CAVerifierServer.Options;
 using CAVerifierServer.VerifyCodeSender;
+using Google.Protobuf;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -53,8 +56,22 @@ public class AccountAppService : CAVerifierServerAppService, IAccountAppService
     }
 
     public async Task<ResponseResultDto<SendVerificationRequestDto>> SendVerificationRequestAsync(
-        SendVerificationRequestInput input)
+        SendVerificationRequestInput inputV2)
     {
+        var input = new VerificationRequest();
+        input.MergeFrom(ByteArrayHelper.HexStringToByteArray(inputV2.VerificationRequest));
+        var hash = HashHelper.ComputeFrom(input);
+        // Validate signature
+        CryptoHelper.RecoverPublicKey(ByteArrayHelper.HexStringToByteArray(inputV2.Signature), hash.ToByteArray(), out var pubkey);
+        if (!await ValidatePubkeyAsync(pubkey.ToHex()))
+        {
+            return new ResponseResultDto<SendVerificationRequestDto>
+            {
+                Success = false,
+                Message = Error.Message[Error.CAServerNotExist]
+            };
+        }
+
         var verifyCodeSender = _verifyCodeSenders.FirstOrDefault(v => v.Type == input.Type);
         if (verifyCodeSender == null)
         {
@@ -93,7 +110,7 @@ public class AccountAppService : CAVerifierServerAppService, IAccountAppService
                 Success = true,
                 Data = new SendVerificationRequestDto
                 {
-                    VerifierSessionId = input.VerifierSessionId
+                    VerifierSessionId = Guid.Parse(input.VerifierSessionId)
                 }
             };
         }
@@ -158,6 +175,18 @@ public class AccountAppService : CAVerifierServerAppService, IAccountAppService
             };
         }
     }
+    
+    private async Task<bool> ValidatePubkeyAsync(string pubkey)
+    {
+        var didServerList = await GetDidServerListAsync();
+        if (didServerList == null)
+        {
+            throw new UserFriendlyException("No CAServer is Found");
+        }
+
+        var servers = didServerList.DidServers.Distinct().ToList();
+        return servers.Select(s => s.Pubkey).Contains(pubkey);
+    }
 
     public async Task<string> WhiteListCheckAsync(List<string> ipList)
     {
@@ -175,6 +204,15 @@ public class AccountAppService : CAVerifierServerAppService, IAccountAppService
         _logger.LogDebug("Formatter ipList is {caIpList}", string.Join(",", caIpList));
         var result = ipList.Intersect(caIpList).ToList();
         return result.Count == 0 ? null : result[0];
+        
+        // var servers = didServerList.DidServers.Distinct().ToList();
+        // var pubkeys = new List<string>();
+        // servers.ForEach(t => { pubkeys.Add(t.Pubkey); });
+        // _logger.LogDebug("CaServerPubkeyList id {pubkeyList} :", string.Join(",", pubkeys));
+        // var caPubkeyList = pubkeys.Select(pubkey => pubkey.Split("//")[1]).Select(formatter => formatter.Split(":")[0]).ToList();
+        // _logger.LogDebug("Formatter pubkeyList is {caPubkeyList}", string.Join(",", caPubkeyList));
+        // var result = pubkeyList.Intersect(caPubkeyList).ToList();
+        // return result.Count == 0 ? null : result[0];
     }
 
     public async Task<ResponseResultDto<VerifyGoogleTokenDto>> VerifyGoogleTokenAsync(

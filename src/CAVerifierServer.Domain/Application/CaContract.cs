@@ -26,160 +26,323 @@ namespace CAVerifierServer.Application {
           string.Concat(
             "ChFjYV9jb250cmFjdC5wcm90bxICY2EaD2FlbGYvY29yZS5wcm90bxoSYWVs",
             "Zi9vcHRpb25zLnByb3RvGhtnb29nbGUvcHJvdG9idWYvZW1wdHkucHJvdG8a",
-            "H2dvb2dsZS9wcm90b2J1Zi90aW1lc3RhbXAucHJvdG8iaAoTR2V0R3JhcGhR",
-            "TEluZm9JbnB1dBIPCgdjaGFpbklkGAEgASgJEg4KBmNhSGFzaBgCIAEoCRIY",
-            "ChBzdGFydEJsb2NrSGVpZ2h0GAMgASgDEhYKDmVuZEJsb2NrSGVpZ2h0GAQg",
-            "ASgDInoKHENyb3NzQ2hhaW5NZXJrbGVQcm9vZkNvbnRleHQSIQoZYm91bmRf",
-            "cGFyZW50X2NoYWluX2hlaWdodBgBIAEoAxI3Ch1tZXJrbGVfcGF0aF9mcm9t",
-            "X3BhcmVudF9jaGFpbhgCIAEoCzIQLmFlbGYuTWVya2xlUGF0aCKsAQoKSG9s",
-            "ZGVySW5mbxImCg9jcmVhdG9yX2FkZHJlc3MYASABKAsyDS5hZWxmLkFkZHJl",
-            "c3MSHQoIbWFuYWdlcnMYAiADKAsyCy5jYS5NYW5hZ2VyEikKDmd1YXJkaWFu",
-            "c19pbmZvGAMgASgLMhEuY2EuR3VhcmRpYW5zSW5mbxIsChJqdWRnZW1lbnRf",
-            "c3RyYXRlZ3kYBCABKAsyEC5jYS5TdHJhdGVneU5vZGUiSAoHTWFuYWdlchIm",
-            "Cg9tYW5hZ2VyX2FkZHJlc3MYASABKAsyDS5hZWxmLkFkZHJlc3MSFQoNZGV2",
-            "aWNlX3N0cmluZxgCIAEoCSJnCg1HdWFyZGlhbnNJbmZvEi4KEWd1YXJkaWFu",
-            "X2FjY291bnRzGAEgAygLMhMuY2EuR3VhcmRpYW5BY2NvdW50EiYKHmxvZ2lu",
-            "X2d1YXJkaWFuX2FjY291bnRfaW5kZXhlcxgCIAMoBSJACg9HdWFyZGlhbkFj",
-            "Y291bnQSHgoIZ3VhcmRpYW4YASABKAsyDC5jYS5HdWFyZGlhbhINCgV2YWx1",
-            "ZRgCIAEoCSJKCghHdWFyZGlhbhIeCgR0eXBlGAEgASgOMhAuY2EuR3VhcmRp",
-            "YW5UeXBlEh4KCHZlcmlmaWVyGAIgASgLMgwuY2EuVmVyaWZpZXIiIgoIVmVy",
-            "aWZpZXISFgoCaWQYASABKAsyCi5hZWxmLkhhc2gihgEKDlZlcmlmaWVyU2Vy",
-            "dmVyEhYKAmlkGAEgASgLMgouYWVsZi5IYXNoEgwKBG5hbWUYAiABKAkSEQoJ",
-            "aW1hZ2VfdXJsGAMgASgJEhIKCmVuZF9wb2ludHMYBCADKAkSJwoQdmVyaWZp",
-            "ZXJfYWRkcmVzcxgFIAMoCzINLmFlbGYuQWRkcmVzcyIrCghDQVNlcnZlchIM",
-            "CgRuYW1lGAEgASgJEhEKCWVuZF9wb2ludBgCIAEoCSJCChJWZXJpZmllclNl",
-            "cnZlckxpc3QSLAoQdmVyaWZpZXJfc2VydmVycxgBIAMoCzISLmNhLlZlcmlm",
-            "aWVyU2VydmVyIjAKDENBU2VydmVyTGlzdBIgCgpjYV9zZXJ2ZXJzGAEgAygL",
-            "MgwuY2EuQ0FTZXJ2ZXIiOAoPSW5pdGlhbGl6ZUlucHV0EiUKDmNvbnRyYWN0",
-            "X2FkbWluGAEgASgLMg0uYWVsZi5BZGRyZXNzIpUBChNDcmVhdGVDQUhvbGRl",
-            "cklucHV0EjIKEWd1YXJkaWFuX2FwcHJvdmVkGAEgASgLMhcuY2EuR3VhcmRp",
-            "YW5BY2NvdW50SW5mbxIcCgdtYW5hZ2VyGAIgASgLMgsuY2EuTWFuYWdlchIs",
-            "ChJqdWRnZW1lbnRfc3RyYXRlZ3kYAyABKAsyEC5jYS5TdHJhdGVneU5vZGUi",
-            "dQoTR3VhcmRpYW5BY2NvdW50SW5mbxINCgV2YWx1ZRgBIAEoCRIeCgR0eXBl",
-            "GAIgASgOMhAuY2EuR3VhcmRpYW5UeXBlEi8KEXZlcmlmaWNhdGlvbl9pbmZv",
-            "GAMgASgLMhQuY2EuVmVyaWZpY2F0aW9uSW5mbyJXChBWZXJpZmljYXRpb25J",
-            "bmZvEhYKAmlkGAEgASgLMgouYWVsZi5IYXNoEhEKCXNpZ25hdHVyZRgCIAEo",
-            "DBIYChB2ZXJpZmljYXRpb25fZG9jGAMgASgJImIKDFN0cmF0ZWd5Tm9kZRIe",
-            "CgRuYW1lGAEgASgOMhAuY2EuU3RyYXRlZ3lOYW1lEiMKBHR5cGUYAiADKA4y",
-            "FS5jYS5TdHJhdGVneVZhbHVlVHlwZRINCgV2YWx1ZRgDIAMoDCIkChNTdHJh",
-            "dGVneUxvbmdXcmFwcGVyEg0KBXZhbHVlGAEgASgDIiYKFVN0cmF0ZWd5U3Ry",
-            "aW5nV3JhcHBlchINCgV2YWx1ZRgBIAEoCSKWAQoQQWRkR3VhcmRpYW5JbnB1",
-            "dBIbCgdjYV9oYXNoGAEgASgLMgouYWVsZi5IYXNoEjAKD2d1YXJkaWFuX3Rv",
-            "X2FkZBgCIAEoCzIXLmNhLkd1YXJkaWFuQWNjb3VudEluZm8SMwoSZ3VhcmRp",
-            "YW5zX2FwcHJvdmVkGAMgAygLMhcuY2EuR3VhcmRpYW5BY2NvdW50SW5mbyKc",
-            "AQoTUmVtb3ZlR3VhcmRpYW5JbnB1dBIbCgdjYV9oYXNoGAEgASgLMgouYWVs",
-            "Zi5IYXNoEjMKEmd1YXJkaWFuX3RvX3JlbW92ZRgCIAEoCzIXLmNhLkd1YXJk",
-            "aWFuQWNjb3VudEluZm8SMwoSZ3VhcmRpYW5zX2FwcHJvdmVkGAMgAygLMhcu",
-            "Y2EuR3VhcmRpYW5BY2NvdW50SW5mbyLZAQoTVXBkYXRlR3VhcmRpYW5JbnB1",
-            "dBIbCgdjYV9oYXNoGAEgASgLMgouYWVsZi5IYXNoEjcKFmd1YXJkaWFuX3Rv",
-            "X3VwZGF0ZV9wcmUYAiABKAsyFy5jYS5HdWFyZGlhbkFjY291bnRJbmZvEjcK",
-            "Fmd1YXJkaWFuX3RvX3VwZGF0ZV9uZXcYAyABKAsyFy5jYS5HdWFyZGlhbkFj",
-            "Y291bnRJbmZvEjMKEmd1YXJkaWFuc19hcHByb3ZlZBgEIAMoCzIXLmNhLkd1",
-            "YXJkaWFuQWNjb3VudEluZm8ibQofU2V0R3VhcmRpYW5BY2NvdW50Rm9yTG9n",
-            "aW5JbnB1dBIbCgdjYV9oYXNoGAEgASgLMgouYWVsZi5IYXNoEi0KEGd1YXJk",
-            "aWFuX2FjY291bnQYAiABKAsyEy5jYS5HdWFyZGlhbkFjY291bnQibwohVW5z",
-            "ZXRHdWFyZGlhbkFjY291bnRGb3JMb2dpbklucHV0EhsKB2NhX2hhc2gYASAB",
-            "KAsyCi5hZWxmLkhhc2gSLQoQZ3VhcmRpYW5fYWNjb3VudBgCIAEoCzITLmNh",
-            "Lkd1YXJkaWFuQWNjb3VudCKCAQoXTWFuYWdlckZvcndhcmRDYWxsSW5wdXQS",
-            "GwoHY2FfaGFzaBgBIAEoCzIKLmFlbGYuSGFzaBInChBjb250cmFjdF9hZGRy",
-            "ZXNzGAIgASgLMg0uYWVsZi5BZGRyZXNzEhMKC21ldGhvZF9uYW1lGAMgASgJ",
-            "EgwKBGFyZ3MYBCABKAwifAoUTWFuYWdlclRyYW5zZmVySW5wdXQSGwoHY2Ff",
-            "aGFzaBgBIAEoCzIKLmFlbGYuSGFzaBIZCgJ0bxgCIAEoCzINLmFlbGYuQWRk",
-            "cmVzcxIOCgZzeW1ib2wYAyABKAkSDgoGYW1vdW50GAQgASgDEgwKBG1lbW8Y",
-            "BSABKAkinQEKGE1hbmFnZXJUcmFuc2ZlckZyb21JbnB1dBIbCgdjYV9oYXNo",
-            "GAEgASgLMgouYWVsZi5IYXNoEhsKBGZyb20YAiABKAsyDS5hZWxmLkFkZHJl",
-            "c3MSGQoCdG8YAyABKAsyDS5hZWxmLkFkZHJlc3MSDgoGc3ltYm9sGAQgASgJ",
-            "Eg4KBmFtb3VudBgFIAEoAxIMCgRtZW1vGAYgASgJIlEKEkdldEhvbGRlcklu",
-            "Zm9JbnB1dBIbCgdjYV9oYXNoGAEgASgLMgouYWVsZi5IYXNoEh4KFmxvZ2lu",
-            "X2d1YXJkaWFuX2FjY291bnQYAiABKAkinwEKE0dldEhvbGRlckluZm9PdXRw",
-            "dXQSGwoHY2FfaGFzaBgBIAEoCzIKLmFlbGYuSGFzaBIhCgpjYV9hZGRyZXNz",
-            "GAIgASgLMg0uYWVsZi5BZGRyZXNzEikKDmd1YXJkaWFuc19pbmZvGAMgASgL",
-            "MhEuY2EuR3VhcmRpYW5zSW5mbxIdCghtYW5hZ2VycxgEIAMoCzILLmNhLk1h",
-            "bmFnZXIiiAEKE1NvY2lhbFJlY292ZXJ5SW5wdXQSHgoWbG9naW5fZ3VhcmRp",
-            "YW5fYWNjb3VudBgBIAEoCRIzChJndWFyZGlhbnNfYXBwcm92ZWQYAiADKAsy",
-            "Fy5jYS5HdWFyZGlhbkFjY291bnRJbmZvEhwKB21hbmFnZXIYAyABKAsyCy5j",
-            "YS5NYW5hZ2VyIkwKD0FkZE1hbmFnZXJJbnB1dBIbCgdjYV9oYXNoGAEgASgL",
-            "MgouYWVsZi5IYXNoEhwKB21hbmFnZXIYAiABKAsyCy5jYS5NYW5hZ2VyIk8K",
-            "ElJlbW92ZU1hbmFnZXJJbnB1dBIbCgdjYV9oYXNoGAEgASgLMgouYWVsZi5I",
-            "YXNoEhwKB21hbmFnZXIYAiABKAsyCy5jYS5NYW5hZ2VyIoQBCh9BZGRWZXJp",
-            "ZmllclNlcnZlckVuZFBvaW50c0lucHV0EgwKBG5hbWUYASABKAkSEQoJaW1h",
-            "Z2VfdXJsGAIgASgJEhIKCmVuZF9wb2ludHMYAyADKAkSLAoVdmVyaWZpZXJf",
-            "YWRkcmVzc19saXN0GAQgAygLMg0uYWVsZi5BZGRyZXNzIjMKGVJlbW92ZVZl",
-            "cmlmaWVyU2VydmVySW5wdXQSFgoCaWQYASABKAsyCi5hZWxmLkhhc2giUAoi",
-            "UmVtb3ZlVmVyaWZpZXJTZXJ2ZXJFbmRQb2ludHNJbnB1dBIWCgJpZBgBIAEo",
-            "CzIKLmFlbGYuSGFzaBISCgplbmRfcG9pbnRzGAIgAygJIjQKEEFkZENBU2Vy",
-            "dmVySW5wdXQSDAoEbmFtZRgBIAEoCRISCgplbmRfcG9pbnRzGAIgASgJIiMK",
-            "E1JlbW92ZUNBU2VydmVySW5wdXQSDAoEbmFtZRgBIAEoCSJIChhHZXRWZXJp",
-            "ZmllclNlcnZlcnNPdXRwdXQSLAoQdmVyaWZpZXJfc2VydmVycxgBIAMoCzIS",
-            "LmNhLlZlcmlmaWVyU2VydmVyIjYKEkdldENBU2VydmVyc091dHB1dBIgCgpj",
-            "YV9zZXJ2ZXJzGAEgAygLMgwuY2EuQ0FTZXJ2ZXIirwEKK1ZhbGlkYXRlQ0FI",
-            "b2xkZXJJbmZvV2l0aE1hbmFnZXJzRXhpc3RzSW5wdXQSGwoHY2FfaGFzaBgB",
-            "IAEoCzIKLmFlbGYuSGFzaBIdCghtYW5hZ2VycxgCIAMoCzILLmNhLk1hbmFn",
-            "ZXISHwoXbG9naW5fZ3VhcmRpYW5fYWNjb3VudHMYAyADKAkSIwobbm90X2xv",
-            "Z2luX2d1YXJkaWFuX2FjY291bnRzGAQgAygJIpMBChtWZXJpZmljYXRpb25U",
-            "cmFuc2FjdGlvbkluZm8SFQoNZnJvbV9jaGFpbl9pZBgBIAEoBRIbChNwYXJl",
-            "bnRfY2hhaW5faGVpZ2h0GAIgASgDEhkKEXRyYW5zYWN0aW9uX2J5dGVzGAMg",
-            "ASgMEiUKC21lcmtsZV9wYXRoGAQgASgLMhAuYWVsZi5NZXJrbGVQYXRoIl0K",
-            "E1N5bmNIb2xkZXJJbmZvSW5wdXQSRgoddmVyaWZpY2F0aW9uX3RyYW5zYWN0",
-            "aW9uX2luZm8YASABKAsyHy5jYS5WZXJpZmljYXRpb25UcmFuc2FjdGlvbklu",
-            "Zm8irwEKFVZhbGlkYXRlU3RyYXRlZ3lJbnB1dBInCg1zdHJhdGVneV9ub2Rl",
-            "GAEgASgLMhAuY2EuU3RyYXRlZ3lOb2RlEjsKCXZhcmlhYmxlcxgCIAMoCzIo",
-            "LmNhLlZhbGlkYXRlU3RyYXRlZ3lJbnB1dC5WYXJpYWJsZXNFbnRyeRowCg5W",
-            "YXJpYWJsZXNFbnRyeRILCgNrZXkYASABKAkSDQoFdmFsdWUYAiABKAM6AjgB",
-            "Im4KFlZhbGlkYXRlU3RyYXRlZ3lPdXRwdXQSEwoLYm9vbF9yZXN1bHQYASAB",
-            "KAgSFAoMaW50NjRfcmVzdWx0GAIgASgDEikKD3N0cmF0ZWd5X291dHB1dBgD",
-            "IAEoCzIQLmNhLlN0cmF0ZWd5Tm9kZSpGCgxHdWFyZGlhblR5cGUSGgoWR1VB",
-            "UkRJQU5fVFlQRV9PRl9FTUFJTBAAEhoKFkdVQVJESUFOX1RZUEVfT0ZfUEhP",
-            "TkUQASo5ChFTdHJhdGVneVZhbHVlVHlwZRIMCghTVFJBVEVHWRAAEggKBExP",
-            "TkcQARIMCghWQVJJQUJMRRACKqcBCgxTdHJhdGVneU5hbWUSBwoDQW5kEAAS",
-            "BgoCT3IQARIHCgNOb3QQAhIKCgZJZkVsc2UQAxIOCgpMYXJnZXJUaGFuEAQS",
-            "EQoNTm90TGFyZ2VyVGhhbhAFEgwKCExlc3NUaGFuEAYSDwoLTm90TGVzc1Ro",
-            "YW4QBxIJCgVFcXVhbBAIEgwKCE5vdEVxdWFsEAkSFgoSUmF0aW9CeVRlblRo",
-            "b3VzYW5kEApCHqoCG0NBU2VydmVyLkFwcGxpY2F0aW9uSGFuZGxlcmIGcHJv",
-            "dG8z"));
+            "H2dvb2dsZS9wcm90b2J1Zi90aW1lc3RhbXAucHJvdG8aFGF1dGhvcml0eV9p",
+            "bmZvLnByb3RvGgthY3MxMi5wcm90byKzAQoKSG9sZGVySW5mbxImCg9jcmVh",
+            "dG9yX2FkZHJlc3MYASABKAsyDS5hZWxmLkFkZHJlc3MSJgoNbWFuYWdlcl9p",
+            "bmZvcxgCIAMoCzIPLmNhLk1hbmFnZXJJbmZvEicKDWd1YXJkaWFuX2xpc3QY",
+            "AyABKAsyEC5jYS5HdWFyZGlhbkxpc3QSLAoSanVkZ2VtZW50X3N0cmF0ZWd5",
+            "GAQgASgLMhAuY2EuU3RyYXRlZ3lOb2RlIkEKC01hbmFnZXJJbmZvEh4KB2Fk",
+            "ZHJlc3MYASABKAsyDS5hZWxmLkFkZHJlc3MSEgoKZXh0cmFfZGF0YRgCIAEo",
+            "CSIvCgxHdWFyZGlhbkxpc3QSHwoJZ3VhcmRpYW5zGAEgAygLMgwuY2EuR3Vh",
+            "cmRpYW4imQEKCEd1YXJkaWFuEh4KBHR5cGUYASABKA4yEC5jYS5HdWFyZGlh",
+            "blR5cGUSHwoLdmVyaWZpZXJfaWQYAiABKAsyCi5hZWxmLkhhc2gSIwoPaWRl",
+            "bnRpZmllcl9oYXNoGAMgASgLMgouYWVsZi5IYXNoEgwKBHNhbHQYBCABKAkS",
+            "GQoRaXNfbG9naW5fZ3VhcmRpYW4YBSABKAgiiAEKDlZlcmlmaWVyU2VydmVy",
+            "EhYKAmlkGAEgASgLMgouYWVsZi5IYXNoEgwKBG5hbWUYAiABKAkSEQoJaW1h",
+            "Z2VfdXJsGAMgASgJEhIKCmVuZF9wb2ludHMYBCADKAkSKQoSdmVyaWZpZXJf",
+            "YWRkcmVzc2VzGAUgAygLMg0uYWVsZi5BZGRyZXNzIigKCENBU2VydmVyEgwK",
+            "BG5hbWUYASABKAkSDgoGcHVia2V5GAMgASgJIkIKElZlcmlmaWVyU2VydmVy",
+            "TGlzdBIsChB2ZXJpZmllcl9zZXJ2ZXJzGAEgAygLMhIuY2EuVmVyaWZpZXJT",
+            "ZXJ2ZXIiMAoMQ0FTZXJ2ZXJMaXN0EiAKCmNhX3NlcnZlcnMYASADKAsyDC5j",
+            "YS5DQVNlcnZlciI0Cg5Db250cm9sbGVyTGlzdBIiCgtjb250cm9sbGVycxgB",
+            "IAMoCzINLmFlbGYuQWRkcmVzcyI5Cg9NYW5hZ2VySW5mb0xpc3QSJgoNbWFu",
+            "YWdlcl9pbmZvcxgBIAMoCzIPLmNhLk1hbmFnZXJJbmZvIjgKEUxvZ2luR3Vh",
+            "cmRpYW5MaXN0EiMKD2xvZ2luX2d1YXJkaWFucxgBIAMoCzIKLmFlbGYuSGFz",
+            "aCI4Cg9Jbml0aWFsaXplSW5wdXQSJQoOY29udHJhY3RfYWRtaW4YASABKAsy",
+            "DS5hZWxmLkFkZHJlc3MiMQoPQ29udHJvbGxlcklucHV0Eh4KB2FkZHJlc3MY",
+            "ASABKAsyDS5hZWxmLkFkZHJlc3MiNAoQQ29udHJvbGxlck91dHB1dBIgCglh",
+            "ZGRyZXNzZXMYASADKAsyDS5hZWxmLkFkZHJlc3MiLAoKQWRtaW5JbnB1dBIe",
+            "CgdhZGRyZXNzGAEgASgLMg0uYWVsZi5BZGRyZXNzIi0KC0FkbWluT3V0cHV0",
+            "Eh4KB2FkZHJlc3MYASABKAsyDS5hZWxmLkFkZHJlc3MilwEKE0NyZWF0ZUNB",
+            "SG9sZGVySW5wdXQSKwoRZ3VhcmRpYW5fYXBwcm92ZWQYASABKAsyEC5jYS5H",
+            "dWFyZGlhbkluZm8SJQoMbWFuYWdlcl9pbmZvGAIgASgLMg8uY2EuTWFuYWdl",
+            "ckluZm8SLAoSanVkZ2VtZW50X3N0cmF0ZWd5GAMgASgLMhAuY2EuU3RyYXRl",
+            "Z3lOb2RlIoQBCgxHdWFyZGlhbkluZm8SHgoEdHlwZRgBIAEoDjIQLmNhLkd1",
+            "YXJkaWFuVHlwZRIjCg9pZGVudGlmaWVyX2hhc2gYAiABKAsyCi5hZWxmLkhh",
+            "c2gSLwoRdmVyaWZpY2F0aW9uX2luZm8YAyABKAsyFC5jYS5WZXJpZmljYXRp",
+            "b25JbmZvIlcKEFZlcmlmaWNhdGlvbkluZm8SFgoCaWQYASABKAsyCi5hZWxm",
+            "Lkhhc2gSEQoJc2lnbmF0dXJlGAIgASgMEhgKEHZlcmlmaWNhdGlvbl9kb2MY",
+            "AyABKAkiYgoMU3RyYXRlZ3lOb2RlEh4KBG5hbWUYASABKA4yEC5jYS5TdHJh",
+            "dGVneU5hbWUSIwoEdHlwZRgCIAMoDjIVLmNhLlN0cmF0ZWd5VmFsdWVUeXBl",
+            "Eg0KBXZhbHVlGAMgAygMIiQKE1N0cmF0ZWd5TG9uZ1dyYXBwZXISDQoFdmFs",
+            "dWUYASABKAMiJgoVU3RyYXRlZ3lTdHJpbmdXcmFwcGVyEg0KBXZhbHVlGAEg",
+            "ASgJIicKFUNvbnRyYWN0RGVsZWdhdGlvbkZlZRIOCgZhbW91bnQYASABKAMi",
+            "UgodU2V0Q29udHJhY3REZWxlZ2F0aW9uRmVlSW5wdXQSMQoOZGVsZWdhdGlv",
+            "bl9mZWUYASABKAsyGS5jYS5Db250cmFjdERlbGVnYXRpb25GZWUiUwoeR2V0",
+            "Q29udHJhY3REZWxlZ2F0aW9uRmVlT3V0cHV0EjEKDmRlbGVnYXRpb25fZmVl",
+            "GAEgASgLMhkuY2EuQ29udHJhY3REZWxlZ2F0aW9uRmVlIogBChBBZGRHdWFy",
+            "ZGlhbklucHV0EhsKB2NhX2hhc2gYASABKAsyCi5hZWxmLkhhc2gSKQoPZ3Vh",
+            "cmRpYW5fdG9fYWRkGAIgASgLMhAuY2EuR3VhcmRpYW5JbmZvEiwKEmd1YXJk",
+            "aWFuc19hcHByb3ZlZBgDIAMoCzIQLmNhLkd1YXJkaWFuSW5mbyKOAQoTUmVt",
+            "b3ZlR3VhcmRpYW5JbnB1dBIbCgdjYV9oYXNoGAEgASgLMgouYWVsZi5IYXNo",
+            "EiwKEmd1YXJkaWFuX3RvX3JlbW92ZRgCIAEoCzIQLmNhLkd1YXJkaWFuSW5m",
+            "bxIsChJndWFyZGlhbnNfYXBwcm92ZWQYAyADKAsyEC5jYS5HdWFyZGlhbklu",
+            "Zm8ixAEKE1VwZGF0ZUd1YXJkaWFuSW5wdXQSGwoHY2FfaGFzaBgBIAEoCzIK",
+            "LmFlbGYuSGFzaBIwChZndWFyZGlhbl90b191cGRhdGVfcHJlGAIgASgLMhAu",
+            "Y2EuR3VhcmRpYW5JbmZvEjAKFmd1YXJkaWFuX3RvX3VwZGF0ZV9uZXcYAyAB",
+            "KAsyEC5jYS5HdWFyZGlhbkluZm8SLAoSZ3VhcmRpYW5zX2FwcHJvdmVkGAQg",
+            "AygLMhAuY2EuR3VhcmRpYW5JbmZvIlcKGFNldEd1YXJkaWFuRm9yTG9naW5J",
+            "bnB1dBIbCgdjYV9oYXNoGAEgASgLMgouYWVsZi5IYXNoEh4KCGd1YXJkaWFu",
+            "GAIgASgLMgwuY2EuR3VhcmRpYW4iWQoaVW5zZXRHdWFyZGlhbkZvckxvZ2lu",
+            "SW5wdXQSGwoHY2FfaGFzaBgBIAEoCzIKLmFlbGYuSGFzaBIeCghndWFyZGlh",
+            "bhgCIAEoCzIMLmNhLkd1YXJkaWFuIoIBChdNYW5hZ2VyRm9yd2FyZENhbGxJ",
+            "bnB1dBIbCgdjYV9oYXNoGAEgASgLMgouYWVsZi5IYXNoEicKEGNvbnRyYWN0",
+            "X2FkZHJlc3MYAiABKAsyDS5hZWxmLkFkZHJlc3MSEwoLbWV0aG9kX25hbWUY",
+            "AyABKAkSDAoEYXJncxgEIAEoDCJ8ChRNYW5hZ2VyVHJhbnNmZXJJbnB1dBIb",
+            "CgdjYV9oYXNoGAEgASgLMgouYWVsZi5IYXNoEhkKAnRvGAIgASgLMg0uYWVs",
+            "Zi5BZGRyZXNzEg4KBnN5bWJvbBgDIAEoCRIOCgZhbW91bnQYBCABKAMSDAoE",
+            "bWVtbxgFIAEoCSKdAQoYTWFuYWdlclRyYW5zZmVyRnJvbUlucHV0EhsKB2Nh",
+            "X2hhc2gYASABKAsyCi5hZWxmLkhhc2gSGwoEZnJvbRgCIAEoCzINLmFlbGYu",
+            "QWRkcmVzcxIZCgJ0bxgDIAEoCzINLmFlbGYuQWRkcmVzcxIOCgZzeW1ib2wY",
+            "BCABKAkSDgoGYW1vdW50GAUgASgDEgwKBG1lbW8YBiABKAkiZQoSR2V0SG9s",
+            "ZGVySW5mb0lucHV0EhsKB2NhX2hhc2gYASABKAsyCi5hZWxmLkhhc2gSMgoe",
+            "bG9naW5fZ3VhcmRpYW5faWRlbnRpZmllcl9oYXNoGAIgASgLMgouYWVsZi5I",
+            "YXNoIqYBChNHZXRIb2xkZXJJbmZvT3V0cHV0EhsKB2NhX2hhc2gYASABKAsy",
+            "Ci5hZWxmLkhhc2gSIQoKY2FfYWRkcmVzcxgCIAEoCzINLmFlbGYuQWRkcmVz",
+            "cxInCg1ndWFyZGlhbl9saXN0GAMgASgLMhAuY2EuR3VhcmRpYW5MaXN0EiYK",
+            "DW1hbmFnZXJfaW5mb3MYBCADKAsyDy5jYS5NYW5hZ2VySW5mbyKeAQoTU29j",
+            "aWFsUmVjb3ZlcnlJbnB1dBIyCh5sb2dpbl9ndWFyZGlhbl9pZGVudGlmaWVy",
+            "X2hhc2gYASABKAsyCi5hZWxmLkhhc2gSLAoSZ3VhcmRpYW5zX2FwcHJvdmVk",
+            "GAIgAygLMhAuY2EuR3VhcmRpYW5JbmZvEiUKDG1hbmFnZXJfaW5mbxgDIAEo",
+            "CzIPLmNhLk1hbmFnZXJJbmZvIlkKE0FkZE1hbmFnZXJJbmZvSW5wdXQSGwoH",
+            "Y2FfaGFzaBgBIAEoCzIKLmFlbGYuSGFzaBIlCgxtYW5hZ2VyX2luZm8YAiAB",
+            "KAsyDy5jYS5NYW5hZ2VySW5mbyI1ChZSZW1vdmVNYW5hZ2VySW5mb0lucHV0",
+            "EhsKB2NhX2hhc2gYASABKAsyCi5hZWxmLkhhc2gijwEKG1JlbW92ZU90aGVy",
+            "TWFuYWdlckluZm9JbnB1dBIbCgdjYV9oYXNoGAEgASgLMgouYWVsZi5IYXNo",
+            "EiUKDG1hbmFnZXJfaW5mbxgCIAEoCzIPLmNhLk1hbmFnZXJJbmZvEiwKEmd1",
+            "YXJkaWFuc19hcHByb3ZlZBgDIAMoCzIQLmNhLkd1YXJkaWFuSW5mbyJeChdV",
+            "cGRhdGVNYW5hZ2VySW5mb3NJbnB1dBIbCgdjYV9oYXNoGAEgASgLMgouYWVs",
+            "Zi5IYXNoEiYKDW1hbmFnZXJfaW5mb3MYAiADKAsyDy5jYS5NYW5hZ2VySW5m",
+            "byKEAQofQWRkVmVyaWZpZXJTZXJ2ZXJFbmRQb2ludHNJbnB1dBIMCgRuYW1l",
+            "GAEgASgJEhEKCWltYWdlX3VybBgCIAEoCRISCgplbmRfcG9pbnRzGAMgAygJ",
+            "EiwKFXZlcmlmaWVyX2FkZHJlc3NfbGlzdBgEIAMoCzINLmFlbGYuQWRkcmVz",
+            "cyIzChlSZW1vdmVWZXJpZmllclNlcnZlcklucHV0EhYKAmlkGAEgASgLMgou",
+            "YWVsZi5IYXNoIlAKIlJlbW92ZVZlcmlmaWVyU2VydmVyRW5kUG9pbnRzSW5w",
+            "dXQSFgoCaWQYASABKAsyCi5hZWxmLkhhc2gSEgoKZW5kX3BvaW50cxgCIAMo",
+            "CSIwChBBZGRDQVNlcnZlcklucHV0EgwKBG5hbWUYASABKAkSDgoGcHVia2V5",
+            "GAMgASgJIiMKE1JlbW92ZUNBU2VydmVySW5wdXQSDAoEbmFtZRgBIAEoCSJI",
+            "ChhHZXRWZXJpZmllclNlcnZlcnNPdXRwdXQSLAoQdmVyaWZpZXJfc2VydmVy",
+            "cxgBIAMoCzISLmNhLlZlcmlmaWVyU2VydmVyIjYKEkdldENBU2VydmVyc091",
+            "dHB1dBIgCgpjYV9zZXJ2ZXJzGAEgAygLMgwuY2EuQ0FTZXJ2ZXIixAEKL1Zh",
+            "bGlkYXRlQ0FIb2xkZXJJbmZvV2l0aE1hbmFnZXJJbmZvc0V4aXN0c0lucHV0",
+            "EhsKB2NhX2hhc2gYASABKAsyCi5hZWxmLkhhc2gSJgoNbWFuYWdlcl9pbmZv",
+            "cxgCIAMoCzIPLmNhLk1hbmFnZXJJbmZvEiMKD2xvZ2luX2d1YXJkaWFucxgD",
+            "IAMoCzIKLmFlbGYuSGFzaBInChNub3RfbG9naW5fZ3VhcmRpYW5zGAQgAygL",
+            "MgouYWVsZi5IYXNoIpMBChtWZXJpZmljYXRpb25UcmFuc2FjdGlvbkluZm8S",
+            "FQoNZnJvbV9jaGFpbl9pZBgBIAEoBRIbChNwYXJlbnRfY2hhaW5faGVpZ2h0",
+            "GAIgASgDEhkKEXRyYW5zYWN0aW9uX2J5dGVzGAMgASgMEiUKC21lcmtsZV9w",
+            "YXRoGAQgASgLMhAuYWVsZi5NZXJrbGVQYXRoIl0KE1N5bmNIb2xkZXJJbmZv",
+            "SW5wdXQSRgoddmVyaWZpY2F0aW9uX3RyYW5zYWN0aW9uX2luZm8YASABKAsy",
+            "Hy5jYS5WZXJpZmljYXRpb25UcmFuc2FjdGlvbkluZm8irwEKFVZhbGlkYXRl",
+            "U3RyYXRlZ3lJbnB1dBInCg1zdHJhdGVneV9ub2RlGAEgASgLMhAuY2EuU3Ry",
+            "YXRlZ3lOb2RlEjsKCXZhcmlhYmxlcxgCIAMoCzIoLmNhLlZhbGlkYXRlU3Ry",
+            "YXRlZ3lJbnB1dC5WYXJpYWJsZXNFbnRyeRowCg5WYXJpYWJsZXNFbnRyeRIL",
+            "CgNrZXkYASABKAkSDQoFdmFsdWUYAiABKAM6AjgBIm4KFlZhbGlkYXRlU3Ry",
+            "YXRlZ3lPdXRwdXQSEwoLYm9vbF9yZXN1bHQYASABKAgSFAoMaW50NjRfcmVz",
+            "dWx0GAIgASgDEikKD3N0cmF0ZWd5X291dHB1dBgDIAEoCzIQLmNhLlN0cmF0",
+            "ZWd5Tm9kZSLHAQoPQ0FIb2xkZXJDcmVhdGVkEiUKB2NyZWF0b3IYASABKAsy",
+            "DS5hZWxmLkFkZHJlc3NCBYiP9QEBEiIKB2NhX2hhc2gYAiABKAsyCi5hZWxm",
+            "Lkhhc2hCBYiP9QEBEigKCmNhX2FkZHJlc3MYAyABKAsyDS5hZWxmLkFkZHJl",
+            "c3NCBYiP9QEBEiUKB21hbmFnZXIYBCABKAsyDS5hZWxmLkFkZHJlc3NCBYiP",
+            "9QEBEhIKCmV4dHJhX2RhdGEYBSABKAk6BKC7GAEiggEKDUd1YXJkaWFuQWRk",
+            "ZWQSIgoHY2FfaGFzaBgBIAEoCzIKLmFlbGYuSGFzaEIFiI/1AQESIQoKY2Ff",
+            "YWRkcmVzcxgCIAEoCzINLmFlbGYuQWRkcmVzcxIkCg5ndWFyZGlhbl9hZGRl",
+            "ZBgDIAEoCzIMLmNhLkd1YXJkaWFuOgSguxgBIoYBCg9HdWFyZGlhblJlbW92",
+            "ZWQSIgoHY2FfaGFzaBgBIAEoCzIKLmFlbGYuSGFzaEIFiI/1AQESIQoKY2Ff",
+            "YWRkcmVzcxgCIAEoCzINLmFlbGYuQWRkcmVzcxImChBndWFyZGlhbl9yZW1v",
+            "dmVkGAMgASgLMgwuY2EuR3VhcmRpYW46BKC7GAEitgEKD0d1YXJkaWFuVXBk",
+            "YXRlZBIiCgdjYV9oYXNoGAEgASgLMgouYWVsZi5IYXNoQgWIj/UBARIhCgpj",
+            "YV9hZGRyZXNzGAIgASgLMg0uYWVsZi5BZGRyZXNzEioKFGd1YXJkaWFuX3Vw",
+            "ZGF0ZWRfcHJlGAMgASgLMgwuY2EuR3VhcmRpYW4SKgoUZ3VhcmRpYW5fdXBk",
+            "YXRlZF9uZXcYBCABKAsyDC5jYS5HdWFyZGlhbjoEoLsYASK1AQoSTG9naW5H",
+            "dWFyZGlhbkFkZGVkEiIKB2NhX2hhc2gYASABKAsyCi5hZWxmLkhhc2hCBYiP",
+            "9QEBEiEKCmNhX2FkZHJlc3MYAiABKAsyDS5hZWxmLkFkZHJlc3MSJQoHbWFu",
+            "YWdlchgDIAEoCzINLmFlbGYuQWRkcmVzc0IFiI/1AQESKwoObG9naW5fZ3Vh",
+            "cmRpYW4YBCABKAsyDC5jYS5HdWFyZGlhbkIFiI/1AQE6BKC7GAEiqwEKGk1h",
+            "bmFnZXJJbmZvU29jaWFsUmVjb3ZlcmVkEiIKB2NhX2hhc2gYASABKAsyCi5h",
+            "ZWxmLkhhc2hCBYiP9QEBEigKCmNhX2FkZHJlc3MYAiABKAsyDS5hZWxmLkFk",
+            "ZHJlc3NCBYiP9QEBEiUKB21hbmFnZXIYAyABKAsyDS5hZWxmLkFkZHJlc3NC",
+            "BYiP9QEBEhIKCmV4dHJhX2RhdGEYBCABKAk6BKC7GAEioQEKEE1hbmFnZXJJ",
+            "bmZvQWRkZWQSIgoHY2FfaGFzaBgBIAEoCzIKLmFlbGYuSGFzaEIFiI/1AQES",
+            "KAoKY2FfYWRkcmVzcxgCIAEoCzINLmFlbGYuQWRkcmVzc0IFiI/1AQESJQoH",
+            "bWFuYWdlchgDIAEoCzINLmFlbGYuQWRkcmVzc0IFiI/1AQESEgoKZXh0cmFf",
+            "ZGF0YRgEIAEoCToEoLsYASKjAQoSTWFuYWdlckluZm9SZW1vdmVkEiIKB2Nh",
+            "X2hhc2gYASABKAsyCi5hZWxmLkhhc2hCBYiP9QEBEigKCmNhX2FkZHJlc3MY",
+            "AiABKAsyDS5hZWxmLkFkZHJlc3NCBYiP9QEBEiUKB21hbmFnZXIYAyABKAsy",
+            "DS5hZWxmLkFkZHJlc3NCBYiP9QEBEhIKCmV4dHJhX2RhdGEYBCABKAk6BKC7",
+            "GAEiowEKEk1hbmFnZXJJbmZvVXBkYXRlZBIiCgdjYV9oYXNoGAEgASgLMgou",
+            "YWVsZi5IYXNoQgWIj/UBARIoCgpjYV9hZGRyZXNzGAIgASgLMg0uYWVsZi5B",
+            "ZGRyZXNzQgWIj/UBARIlCgdtYW5hZ2VyGAMgASgLMg0uYWVsZi5BZGRyZXNz",
+            "QgWIj/UBARISCgpleHRyYV9kYXRhGAQgASgJOgSguxgBIsUBChRMb2dpbkd1",
+            "YXJkaWFuVW5ib3VuZBIiCgdjYV9oYXNoGAEgASgLMgouYWVsZi5IYXNoQgWI",
+            "j/UBARIhCgpjYV9hZGRyZXNzGAIgASgLMg0uYWVsZi5BZGRyZXNzEiUKB21h",
+            "bmFnZXIYAyABKAsyDS5hZWxmLkFkZHJlc3NCBYiP9QEBEjkKHmxvZ2luX2d1",
+            "YXJkaWFuX2lkZW50aWZpZXJfaGFzaBgEIAEoCzIKLmFlbGYuSGFzaEIFiI/1",
+            "AQE6BKC7GAEitwEKFExvZ2luR3VhcmRpYW5SZW1vdmVkEiIKB2NhX2hhc2gY",
+            "ASABKAsyCi5hZWxmLkhhc2hCBYiP9QEBEiEKCmNhX2FkZHJlc3MYAiABKAsy",
+            "DS5hZWxmLkFkZHJlc3MSJQoHbWFuYWdlchgDIAEoCzINLmFlbGYuQWRkcmVz",
+            "c0IFiI/1AQESKwoObG9naW5fZ3VhcmRpYW4YBCABKAsyDC5jYS5HdWFyZGlh",
+            "bkIFiI/1AQE6BKC7GAEiWAocVmVyaWZpZXJTZXJ2ZXJFbmRQb2ludHNBZGRl",
+            "ZBIyCg92ZXJpZmllcl9zZXJ2ZXIYASABKAsyEi5jYS5WZXJpZmllclNlcnZl",
+            "ckIFiI/1AQE6BKC7GAEiWgoeVmVyaWZpZXJTZXJ2ZXJFbmRQb2ludHNSZW1v",
+            "dmVkEjIKD3ZlcmlmaWVyX3NlcnZlchgBIAEoCzISLmNhLlZlcmlmaWVyU2Vy",
+            "dmVyQgWIj/UBAToEoLsYASJRChVWZXJpZmllclNlcnZlclJlbW92ZWQSMgoP",
+            "dmVyaWZpZXJfc2VydmVyGAEgASgLMhIuY2EuVmVyaWZpZXJTZXJ2ZXJCBYiP",
+            "9QEBOgSguxgBIjsKDUNBU2VydmVyQWRkZWQSJAoOY2Ffc2V2ZXJfYWRkZWQY",
+            "ASABKAsyDC5jYS5DQVNlcnZlcjoEoLsYASJACg9DQVNlcnZlclJlbW92ZWQS",
+            "JwoRY2Ffc2VydmVyX3JlbW92ZWQYASABKAsyDC5jYS5DQVNlcnZlcjoEoLsY",
+            "ASL7AgoOQ0FIb2xkZXJTeW5jZWQSJQoHY3JlYXRvchgBIAEoCzINLmFlbGYu",
+            "QWRkcmVzc0IFiI/1AQESIgoHY2FfaGFzaBgCIAEoCzIKLmFlbGYuSGFzaEIF",
+            "iI/1AQESKAoKY2FfYWRkcmVzcxgDIAEoCzINLmFlbGYuQWRkcmVzc0IFiI/1",
+            "AQESNwoTbWFuYWdlcl9pbmZvc19hZGRlZBgEIAEoCzITLmNhLk1hbmFnZXJJ",
+            "bmZvTGlzdEIFiI/1AQESOQoVbWFuYWdlcl9pbmZvc19yZW1vdmVkGAUgASgL",
+            "MhMuY2EuTWFuYWdlckluZm9MaXN0QgWIj/UBARI7ChVsb2dpbl9ndWFyZGlh",
+            "bnNfYWRkZWQYBiABKAsyFS5jYS5Mb2dpbkd1YXJkaWFuTGlzdEIFiI/1AQES",
+            "PQoXbG9naW5fZ3VhcmRpYW5zX3VuYm91bmQYByABKAsyFS5jYS5Mb2dpbkd1",
+            "YXJkaWFuTGlzdEIFiI/1AQE6BKC7GAEiRQoWQ3JlYXRvckNvbnRyb2xsZXJB",
+            "ZGRlZBIlCgdhZGRyZXNzGAEgASgLMg0uYWVsZi5BZGRyZXNzQgWIj/UBAToE",
+            "oLsYASJHChhDcmVhdG9yQ29udHJvbGxlclJlbW92ZWQSJQoHYWRkcmVzcxgB",
+            "IAEoCzINLmFlbGYuQWRkcmVzc0IFiI/1AQE6BKC7GAEiRAoVU2VydmVyQ29u",
+            "dHJvbGxlckFkZGVkEiUKB2FkZHJlc3MYASABKAsyDS5hZWxmLkFkZHJlc3NC",
+            "BYiP9QEBOgSguxgBIkYKF1NlcnZlckNvbnRyb2xsZXJSZW1vdmVkEiUKB2Fk",
+            "ZHJlc3MYASABKAsyDS5hZWxmLkFkZHJlc3NCBYiP9QEBOgSguxgBIjsKDEFk",
+            "bWluQ2hhbmdlZBIlCgdhZGRyZXNzGAEgASgLMg0uYWVsZi5BZGRyZXNzQgWI",
+            "j/UBAToEoLsYASJTCiRPcGVyYXRpb25UeXBlSW5TaWduYXR1cmVFbmFibGVk",
+            "SW5wdXQSKwojb3BlcmF0aW9uX3R5cGVfaW5fc2lnbmF0dXJlX2VuYWJsZWQY",
+            "ASABKAgiUwobU2V0Q0FDb250cmFjdEFkZHJlc3Nlc0lucHV0EjQKFWNhX2Nv",
+            "bnRyYWN0X2FkZHJlc3NlcxgBIAMoCzIVLmNhLkNBQ29udHJhY3RBZGRyZXNz",
+            "IkUKEUNBQ29udHJhY3RBZGRyZXNzEh4KB2FkZHJlc3MYASABKAsyDS5hZWxm",
+            "LkFkZHJlc3MSEAoIY2hhaW5faWQYAiABKAUqfwoMR3VhcmRpYW5UeXBlEhoK",
+            "FkdVQVJESUFOX1RZUEVfT0ZfRU1BSUwQABIaChZHVUFSRElBTl9UWVBFX09G",
+            "X1BIT05FEAESGwoXR1VBUkRJQU5fVFlQRV9PRl9HT09HTEUQAhIaChZHVUFS",
+            "RElBTl9UWVBFX09GX0FQUExFEAMqOQoRU3RyYXRlZ3lWYWx1ZVR5cGUSDAoI",
+            "U1RSQVRFR1kQABIICgRMT05HEAESDAoIVkFSSUFCTEUQAiqnAQoMU3RyYXRl",
+            "Z3lOYW1lEgcKA0FuZBAAEgYKAk9yEAESBwoDTm90EAISCgoGSWZFbHNlEAMS",
+            "DgoKTGFyZ2VyVGhhbhAEEhEKDU5vdExhcmdlclRoYW4QBRIMCghMZXNzVGhh",
+            "bhAGEg8KC05vdExlc3NUaGFuEAcSCQoFRXF1YWwQCBIMCghOb3RFcXVhbBAJ",
+            "EhYKElJhdGlvQnlUZW5UaG91c2FuZBAKKpkBCg1PcGVyYXRpb25UeXBlEgsK",
+            "B1Vua25vd24QABISCg5DcmVhdGVDQUhvbGRlchABEhIKDlNvY2lhbFJlY292",
+            "ZXJ5EAISDwoLQWRkR3VhcmRpYW4QAxISCg5SZW1vdmVHdWFyZGlhbhAEEhIK",
+            "DlVwZGF0ZUd1YXJkaWFuEAUSGgoWUmVtb3ZlT3RoZXJNYW5hZ2VySW5mbxAG",
+            "Mr8XCgpDQUNvbnRyYWN0EjsKCkluaXRpYWxpemUSEy5jYS5Jbml0aWFsaXpl",
+            "SW5wdXQaFi5nb29nbGUucHJvdG9idWYuRW1wdHkiABJDCg5DcmVhdGVDQUhv",
+            "bGRlchIXLmNhLkNyZWF0ZUNBSG9sZGVySW5wdXQaFi5nb29nbGUucHJvdG9i",
+            "dWYuRW1wdHkiABI9CgtBZGRHdWFyZGlhbhIULmNhLkFkZEd1YXJkaWFuSW5w",
+            "dXQaFi5nb29nbGUucHJvdG9idWYuRW1wdHkiABJDCg5SZW1vdmVHdWFyZGlh",
+            "bhIXLmNhLlJlbW92ZUd1YXJkaWFuSW5wdXQaFi5nb29nbGUucHJvdG9idWYu",
+            "RW1wdHkiABJDCg5VcGRhdGVHdWFyZGlhbhIXLmNhLlVwZGF0ZUd1YXJkaWFu",
+            "SW5wdXQaFi5nb29nbGUucHJvdG9idWYuRW1wdHkiABJNChNTZXRHdWFyZGlh",
+            "bkZvckxvZ2luEhwuY2EuU2V0R3VhcmRpYW5Gb3JMb2dpbklucHV0GhYuZ29v",
+            "Z2xlLnByb3RvYnVmLkVtcHR5IgASUQoVVW5zZXRHdWFyZGlhbkZvckxvZ2lu",
+            "Eh4uY2EuVW5zZXRHdWFyZGlhbkZvckxvZ2luSW5wdXQaFi5nb29nbGUucHJv",
+            "dG9idWYuRW1wdHkiABJLChJNYW5hZ2VyRm9yd2FyZENhbGwSGy5jYS5NYW5h",
+            "Z2VyRm9yd2FyZENhbGxJbnB1dBoWLmdvb2dsZS5wcm90b2J1Zi5FbXB0eSIA",
+            "EkUKD01hbmFnZXJUcmFuc2ZlchIYLmNhLk1hbmFnZXJUcmFuc2ZlcklucHV0",
+            "GhYuZ29vZ2xlLnByb3RvYnVmLkVtcHR5IgASTQoTTWFuYWdlclRyYW5zZmVy",
+            "RnJvbRIcLmNhLk1hbmFnZXJUcmFuc2ZlckZyb21JbnB1dBoWLmdvb2dsZS5w",
+            "cm90b2J1Zi5FbXB0eSIAEkMKDlNvY2lhbFJlY292ZXJ5EhcuY2EuU29jaWFs",
+            "UmVjb3ZlcnlJbnB1dBoWLmdvb2dsZS5wcm90b2J1Zi5FbXB0eSIAEkMKDkFk",
+            "ZE1hbmFnZXJJbmZvEhcuY2EuQWRkTWFuYWdlckluZm9JbnB1dBoWLmdvb2ds",
+            "ZS5wcm90b2J1Zi5FbXB0eSIAEkkKEVJlbW92ZU1hbmFnZXJJbmZvEhouY2Eu",
+            "UmVtb3ZlTWFuYWdlckluZm9JbnB1dBoWLmdvb2dsZS5wcm90b2J1Zi5FbXB0",
+            "eSIAElMKFlJlbW92ZU90aGVyTWFuYWdlckluZm8SHy5jYS5SZW1vdmVPdGhl",
+            "ck1hbmFnZXJJbmZvSW5wdXQaFi5nb29nbGUucHJvdG9idWYuRW1wdHkiABJL",
+            "ChJVcGRhdGVNYW5hZ2VySW5mb3MSGy5jYS5VcGRhdGVNYW5hZ2VySW5mb3NJ",
+            "bnB1dBoWLmdvb2dsZS5wcm90b2J1Zi5FbXB0eSIAElsKGkFkZFZlcmlmaWVy",
+            "U2VydmVyRW5kUG9pbnRzEiMuY2EuQWRkVmVyaWZpZXJTZXJ2ZXJFbmRQb2lu",
+            "dHNJbnB1dBoWLmdvb2dsZS5wcm90b2J1Zi5FbXB0eSIAEmEKHVJlbW92ZVZl",
+            "cmlmaWVyU2VydmVyRW5kUG9pbnRzEiYuY2EuUmVtb3ZlVmVyaWZpZXJTZXJ2",
+            "ZXJFbmRQb2ludHNJbnB1dBoWLmdvb2dsZS5wcm90b2J1Zi5FbXB0eSIAEk8K",
+            "FFJlbW92ZVZlcmlmaWVyU2VydmVyEh0uY2EuUmVtb3ZlVmVyaWZpZXJTZXJ2",
+            "ZXJJbnB1dBoWLmdvb2dsZS5wcm90b2J1Zi5FbXB0eSIAEj0KC0FkZENBU2Vy",
+            "dmVyEhQuY2EuQWRkQ0FTZXJ2ZXJJbnB1dBoWLmdvb2dsZS5wcm90b2J1Zi5F",
+            "bXB0eSIAEkMKDlJlbW92ZUNBU2VydmVyEhcuY2EuUmVtb3ZlQ0FTZXJ2ZXJJ",
+            "bnB1dBoWLmdvb2dsZS5wcm90b2J1Zi5FbXB0eSIAEkcKDUdldEhvbGRlcklu",
+            "Zm8SFi5jYS5HZXRIb2xkZXJJbmZvSW5wdXQaFy5jYS5HZXRIb2xkZXJJbmZv",
+            "T3V0cHV0IgWIifcBARJRChJHZXRWZXJpZmllclNlcnZlcnMSFi5nb29nbGUu",
+            "cHJvdG9idWYuRW1wdHkaHC5jYS5HZXRWZXJpZmllclNlcnZlcnNPdXRwdXQi",
+            "BYiJ9wEBEkUKDEdldENBU2VydmVycxIWLmdvb2dsZS5wcm90b2J1Zi5FbXB0",
+            "eRoWLmNhLkdldENBU2VydmVyc091dHB1dCIFiIn3AQESewoqVmFsaWRhdGVD",
+            "QUhvbGRlckluZm9XaXRoTWFuYWdlckluZm9zRXhpc3RzEjMuY2EuVmFsaWRh",
+            "dGVDQUhvbGRlckluZm9XaXRoTWFuYWdlckluZm9zRXhpc3RzSW5wdXQaFi5n",
+            "b29nbGUucHJvdG9idWYuRW1wdHkiABJDCg5TeW5jSG9sZGVySW5mbxIXLmNh",
+            "LlN5bmNIb2xkZXJJbmZvSW5wdXQaFi5nb29nbGUucHJvdG9idWYuRW1wdHki",
+            "ABJQChBWYWxpZGF0ZVN0cmF0ZWd5EhkuY2EuVmFsaWRhdGVTdHJhdGVneUlu",
+            "cHV0GhouY2EuVmFsaWRhdGVTdHJhdGVneU91dHB1dCIFiIn3AQESVwoYU2V0",
+            "Q29udHJhY3REZWxlZ2F0aW9uRmVlEiEuY2EuU2V0Q29udHJhY3REZWxlZ2F0",
+            "aW9uRmVlSW5wdXQaFi5nb29nbGUucHJvdG9idWYuRW1wdHkiABJYChhHZXRD",
+            "b250cmFjdERlbGVnYXRpb25GZWUSFi5nb29nbGUucHJvdG9idWYuRW1wdHka",
+            "Ii5jYS5HZXRDb250cmFjdERlbGVnYXRpb25GZWVPdXRwdXQiABJFChRBZGRD",
+            "cmVhdG9yQ29udHJvbGxlchITLmNhLkNvbnRyb2xsZXJJbnB1dBoWLmdvb2ds",
+            "ZS5wcm90b2J1Zi5FbXB0eSIAEkgKF1JlbW92ZUNyZWF0b3JDb250cm9sbGVy",
+            "EhMuY2EuQ29udHJvbGxlcklucHV0GhYuZ29vZ2xlLnByb3RvYnVmLkVtcHR5",
+            "IgASTAoVR2V0Q3JlYXRvckNvbnRyb2xsZXJzEhYuZ29vZ2xlLnByb3RvYnVm",
+            "LkVtcHR5GhQuY2EuQ29udHJvbGxlck91dHB1dCIFiIn3AQESRAoTQWRkU2Vy",
+            "dmVyQ29udHJvbGxlchITLmNhLkNvbnRyb2xsZXJJbnB1dBoWLmdvb2dsZS5w",
+            "cm90b2J1Zi5FbXB0eSIAEkcKFlJlbW92ZVNlcnZlckNvbnRyb2xsZXISEy5j",
+            "YS5Db250cm9sbGVySW5wdXQaFi5nb29nbGUucHJvdG9idWYuRW1wdHkiABJL",
+            "ChRHZXRTZXJ2ZXJDb250cm9sbGVycxIWLmdvb2dsZS5wcm90b2J1Zi5FbXB0",
+            "eRoULmNhLkNvbnRyb2xsZXJPdXRwdXQiBYiJ9wEBEjcKC0NoYW5nZUFkbWlu",
+            "Eg4uY2EuQWRtaW5JbnB1dBoWLmdvb2dsZS5wcm90b2J1Zi5FbXB0eSIAEjoK",
+            "CEdldEFkbWluEhYuZ29vZ2xlLnByb3RvYnVmLkVtcHR5Gg8uY2EuQWRtaW5P",
+            "dXRwdXQiBYiJ9wEBEmsKJUNoYW5nZU9wZXJhdGlvblR5cGVJblNpZ25hdHVy",
+            "ZUVuYWJsZWQSKC5jYS5PcGVyYXRpb25UeXBlSW5TaWduYXR1cmVFbmFibGVk",
+            "SW5wdXQaFi5nb29nbGUucHJvdG9idWYuRW1wdHkiABJTChZTZXRDQUNvbnRy",
+            "YWN0QWRkcmVzc2VzEh8uY2EuU2V0Q0FDb250cmFjdEFkZHJlc3Nlc0lucHV0",
+            "GhYuZ29vZ2xlLnByb3RvYnVmLkVtcHR5IgAaOcrK9gELYWNzMTIucHJvdG+y",
+            "zPYBJFBvcnRrZXkuQ29udHJhY3RzLkNBLkNBQ29udHJhY3RTdGF0ZUIfqgIc",
+            "Q0FWZXJpZmllclNlcnZlci5BcHBsaWNhdGlvbmIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::AElf.Types.CoreReflection.Descriptor, global::AElf.OptionsReflection.Descriptor, global::Google.Protobuf.WellKnownTypes.EmptyReflection.Descriptor, global::Google.Protobuf.WellKnownTypes.TimestampReflection.Descriptor, },
-          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::CAVerifierServer.Application.GuardianType), typeof(global::CAVerifierServer.Application.StrategyValueType), typeof(global::CAVerifierServer.Application.StrategyName), }, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::CAVerifierServer.Application.GetGraphQLInfoInput), global::CAVerifierServer.Application.GetGraphQLInfoInput.Parser, new[]{ "ChainId", "CaHash", "StartBlockHeight", "EndBlockHeight" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::CAVerifierServer.Application.CrossChainMerkleProofContext), global::CAVerifierServer.Application.CrossChainMerkleProofContext.Parser, new[]{ "BoundParentChainHeight", "MerklePathFromParentChain" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::CAVerifierServer.Application.HolderInfo), global::CAVerifierServer.Application.HolderInfo.Parser, new[]{ "CreatorAddress", "Managers", "GuardiansInfo", "JudgementStrategy" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::CAVerifierServer.Application.Manager), global::CAVerifierServer.Application.Manager.Parser, new[]{ "ManagerAddress", "DeviceString" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::CAVerifierServer.Application.GuardiansInfo), global::CAVerifierServer.Application.GuardiansInfo.Parser, new[]{ "GuardianAccounts", "LoginGuardianAccountIndexes" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::CAVerifierServer.Application.GuardianAccount), global::CAVerifierServer.Application.GuardianAccount.Parser, new[]{ "Guardian", "Value" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::CAVerifierServer.Application.Guardian), global::CAVerifierServer.Application.Guardian.Parser, new[]{ "Type", "Verifier" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::CAVerifierServer.Application.Verifier), global::CAVerifierServer.Application.Verifier.Parser, new[]{ "Id" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::CAVerifierServer.Application.VerifierServer), global::CAVerifierServer.Application.VerifierServer.Parser, new[]{ "Id", "Name", "ImageUrl", "EndPoints", "VerifierAddress" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::CAVerifierServer.Application.CAServer), global::CAVerifierServer.Application.CAServer.Parser, new[]{ "Name", "EndPoint" }, null, null, null, null),
+          new pbr::FileDescriptor[] { global::AElf.Types.CoreReflection.Descriptor, global::AElf.OptionsReflection.Descriptor, global::Google.Protobuf.WellKnownTypes.EmptyReflection.Descriptor, global::Google.Protobuf.WellKnownTypes.TimestampReflection.Descriptor},
+          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::CAVerifierServer.Application.GuardianType), typeof(global::CAVerifierServer.Application.StrategyValueType), typeof(global::CAVerifierServer.Application.StrategyName), typeof(global::CAVerifierServer.Application.OperationType), }, null, new pbr::GeneratedClrTypeInfo[] {
+            new pbr::GeneratedClrTypeInfo(typeof(global::CAVerifierServer.Application.HolderInfo), global::CAVerifierServer.Application.HolderInfo.Parser, new[]{ "CreatorAddress", "ManagerInfos", "GuardianList", "JudgementStrategy" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::CAVerifierServer.Application.ManagerInfo), global::CAVerifierServer.Application.ManagerInfo.Parser, new[]{ "Address", "ExtraData" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::CAVerifierServer.Application.GuardianList), global::CAVerifierServer.Application.GuardianList.Parser, new[]{ "Guardians" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::CAVerifierServer.Application.Guardian), global::CAVerifierServer.Application.Guardian.Parser, new[]{ "Type", "VerifierId", "IdentifierHash", "Salt", "IsLoginGuardian" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::CAVerifierServer.Application.VerifierServer), global::CAVerifierServer.Application.VerifierServer.Parser, new[]{ "Id", "Name", "ImageUrl", "EndPoints", "VerifierAddresses" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::CAVerifierServer.Application.CAServer), global::CAVerifierServer.Application.CAServer.Parser, new[]{ "Name", "Pubkey" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::CAVerifierServer.Application.VerifierServerList), global::CAVerifierServer.Application.VerifierServerList.Parser, new[]{ "VerifierServers" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::CAVerifierServer.Application.CAServerList), global::CAVerifierServer.Application.CAServerList.Parser, new[]{ "CaServers" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::CAVerifierServer.Application.ControllerList), global::CAVerifierServer.Application.ControllerList.Parser, new[]{ "Controllers" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::CAVerifierServer.Application.ManagerInfoList), global::CAVerifierServer.Application.ManagerInfoList.Parser, new[]{ "ManagerInfos" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::CAVerifierServer.Application.LoginGuardianList), global::CAVerifierServer.Application.LoginGuardianList.Parser, new[]{ "LoginGuardians" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::CAVerifierServer.Application.InitializeInput), global::CAVerifierServer.Application.InitializeInput.Parser, new[]{ "ContractAdmin" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::CAVerifierServer.Application.CreateCAHolderInput), global::CAVerifierServer.Application.CreateCAHolderInput.Parser, new[]{ "GuardianApproved", "Manager", "JudgementStrategy" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::CAVerifierServer.Application.GuardianAccountInfo), global::CAVerifierServer.Application.GuardianAccountInfo.Parser, new[]{ "Value", "Type", "VerificationInfo" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::CAVerifierServer.Application.ControllerInput), global::CAVerifierServer.Application.ControllerInput.Parser, new[]{ "Address" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::CAVerifierServer.Application.ControllerOutput), global::CAVerifierServer.Application.ControllerOutput.Parser, new[]{ "Addresses" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::CAVerifierServer.Application.AdminInput), global::CAVerifierServer.Application.AdminInput.Parser, new[]{ "Address" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::CAVerifierServer.Application.AdminOutput), global::CAVerifierServer.Application.AdminOutput.Parser, new[]{ "Address" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::CAVerifierServer.Application.CreateCAHolderInput), global::CAVerifierServer.Application.CreateCAHolderInput.Parser, new[]{ "GuardianApproved", "ManagerInfo", "JudgementStrategy" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::CAVerifierServer.Application.GuardianInfo), global::CAVerifierServer.Application.GuardianInfo.Parser, new[]{ "Type", "IdentifierHash", "VerificationInfo" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::CAVerifierServer.Application.VerificationInfo), global::CAVerifierServer.Application.VerificationInfo.Parser, new[]{ "Id", "Signature", "VerificationDoc" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::CAVerifierServer.Application.StrategyNode), global::CAVerifierServer.Application.StrategyNode.Parser, new[]{ "Name", "Type", "Value" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::CAVerifierServer.Application.StrategyLongWrapper), global::CAVerifierServer.Application.StrategyLongWrapper.Parser, new[]{ "Value" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::CAVerifierServer.Application.StrategyStringWrapper), global::CAVerifierServer.Application.StrategyStringWrapper.Parser, new[]{ "Value" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::CAVerifierServer.Application.ContractDelegationFee), global::CAVerifierServer.Application.ContractDelegationFee.Parser, new[]{ "Amount" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::CAVerifierServer.Application.SetContractDelegationFeeInput), global::CAVerifierServer.Application.SetContractDelegationFeeInput.Parser, new[]{ "DelegationFee" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::CAVerifierServer.Application.GetContractDelegationFeeOutput), global::CAVerifierServer.Application.GetContractDelegationFeeOutput.Parser, new[]{ "DelegationFee" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::CAVerifierServer.Application.AddGuardianInput), global::CAVerifierServer.Application.AddGuardianInput.Parser, new[]{ "CaHash", "GuardianToAdd", "GuardiansApproved" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::CAVerifierServer.Application.RemoveGuardianInput), global::CAVerifierServer.Application.RemoveGuardianInput.Parser, new[]{ "CaHash", "GuardianToRemove", "GuardiansApproved" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::CAVerifierServer.Application.UpdateGuardianInput), global::CAVerifierServer.Application.UpdateGuardianInput.Parser, new[]{ "CaHash", "GuardianToUpdatePre", "GuardianToUpdateNew", "GuardiansApproved" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::CAVerifierServer.Application.SetGuardianAccountForLoginInput), global::CAVerifierServer.Application.SetGuardianAccountForLoginInput.Parser, new[]{ "CaHash", "GuardianAccount" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::CAVerifierServer.Application.UnsetGuardianAccountForLoginInput), global::CAVerifierServer.Application.UnsetGuardianAccountForLoginInput.Parser, new[]{ "CaHash", "GuardianAccount" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::CAVerifierServer.Application.SetGuardianForLoginInput), global::CAVerifierServer.Application.SetGuardianForLoginInput.Parser, new[]{ "CaHash", "Guardian" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::CAVerifierServer.Application.UnsetGuardianForLoginInput), global::CAVerifierServer.Application.UnsetGuardianForLoginInput.Parser, new[]{ "CaHash", "Guardian" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::CAVerifierServer.Application.ManagerForwardCallInput), global::CAVerifierServer.Application.ManagerForwardCallInput.Parser, new[]{ "CaHash", "ContractAddress", "MethodName", "Args" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::CAVerifierServer.Application.ManagerTransferInput), global::CAVerifierServer.Application.ManagerTransferInput.Parser, new[]{ "CaHash", "To", "Symbol", "Amount", "Memo" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::CAVerifierServer.Application.ManagerTransferFromInput), global::CAVerifierServer.Application.ManagerTransferFromInput.Parser, new[]{ "CaHash", "From", "To", "Symbol", "Amount", "Memo" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::CAVerifierServer.Application.GetHolderInfoInput), global::CAVerifierServer.Application.GetHolderInfoInput.Parser, new[]{ "CaHash", "LoginGuardianAccount" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::CAVerifierServer.Application.GetHolderInfoOutput), global::CAVerifierServer.Application.GetHolderInfoOutput.Parser, new[]{ "CaHash", "CaAddress", "GuardiansInfo", "Managers" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::CAVerifierServer.Application.SocialRecoveryInput), global::CAVerifierServer.Application.SocialRecoveryInput.Parser, new[]{ "LoginGuardianAccount", "GuardiansApproved", "Manager" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::CAVerifierServer.Application.AddManagerInput), global::CAVerifierServer.Application.AddManagerInput.Parser, new[]{ "CaHash", "Manager" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::CAVerifierServer.Application.RemoveManagerInput), global::CAVerifierServer.Application.RemoveManagerInput.Parser, new[]{ "CaHash", "Manager" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::CAVerifierServer.Application.GetHolderInfoInput), global::CAVerifierServer.Application.GetHolderInfoInput.Parser, new[]{ "CaHash", "LoginGuardianIdentifierHash" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::CAVerifierServer.Application.GetHolderInfoOutput), global::CAVerifierServer.Application.GetHolderInfoOutput.Parser, new[]{ "CaHash", "CaAddress", "GuardianList", "ManagerInfos" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::CAVerifierServer.Application.SocialRecoveryInput), global::CAVerifierServer.Application.SocialRecoveryInput.Parser, new[]{ "LoginGuardianIdentifierHash", "GuardiansApproved", "ManagerInfo" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::CAVerifierServer.Application.AddManagerInfoInput), global::CAVerifierServer.Application.AddManagerInfoInput.Parser, new[]{ "CaHash", "ManagerInfo" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::CAVerifierServer.Application.RemoveManagerInfoInput), global::CAVerifierServer.Application.RemoveManagerInfoInput.Parser, new[]{ "CaHash" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::CAVerifierServer.Application.RemoveOtherManagerInfoInput), global::CAVerifierServer.Application.RemoveOtherManagerInfoInput.Parser, new[]{ "CaHash", "ManagerInfo", "GuardiansApproved" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::CAVerifierServer.Application.UpdateManagerInfosInput), global::CAVerifierServer.Application.UpdateManagerInfosInput.Parser, new[]{ "CaHash", "ManagerInfos" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::CAVerifierServer.Application.AddVerifierServerEndPointsInput), global::CAVerifierServer.Application.AddVerifierServerEndPointsInput.Parser, new[]{ "Name", "ImageUrl", "EndPoints", "VerifierAddressList" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::CAVerifierServer.Application.RemoveVerifierServerInput), global::CAVerifierServer.Application.RemoveVerifierServerInput.Parser, new[]{ "Id" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::CAVerifierServer.Application.RemoveVerifierServerEndPointsInput), global::CAVerifierServer.Application.RemoveVerifierServerEndPointsInput.Parser, new[]{ "Id", "EndPoints" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::CAVerifierServer.Application.AddCAServerInput), global::CAVerifierServer.Application.AddCAServerInput.Parser, new[]{ "Name", "EndPoints" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::CAVerifierServer.Application.AddCAServerInput), global::CAVerifierServer.Application.AddCAServerInput.Parser, new[]{ "Name", "Pubkey" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::CAVerifierServer.Application.RemoveCAServerInput), global::CAVerifierServer.Application.RemoveCAServerInput.Parser, new[]{ "Name" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::CAVerifierServer.Application.GetVerifierServersOutput), global::CAVerifierServer.Application.GetVerifierServersOutput.Parser, new[]{ "VerifierServers" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::CAVerifierServer.Application.GetCAServersOutput), global::CAVerifierServer.Application.GetCAServersOutput.Parser, new[]{ "CaServers" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::CAVerifierServer.Application.ValidateCAHolderInfoWithManagersExistsInput), global::CAVerifierServer.Application.ValidateCAHolderInfoWithManagersExistsInput.Parser, new[]{ "CaHash", "Managers", "LoginGuardianAccounts", "NotLoginGuardianAccounts" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::CAVerifierServer.Application.ValidateCAHolderInfoWithManagerInfosExistsInput), global::CAVerifierServer.Application.ValidateCAHolderInfoWithManagerInfosExistsInput.Parser, new[]{ "CaHash", "ManagerInfos", "LoginGuardians", "NotLoginGuardians" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::CAVerifierServer.Application.VerificationTransactionInfo), global::CAVerifierServer.Application.VerificationTransactionInfo.Parser, new[]{ "FromChainId", "ParentChainHeight", "TransactionBytes", "MerklePath" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::CAVerifierServer.Application.SyncHolderInfoInput), global::CAVerifierServer.Application.SyncHolderInfoInput.Parser, new[]{ "VerificationTransactionInfo" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::CAVerifierServer.Application.ValidateStrategyInput), global::CAVerifierServer.Application.ValidateStrategyInput.Parser, new[]{ "StrategyNode", "Variables" }, null, null, null, new pbr::GeneratedClrTypeInfo[] { null, }),
@@ -193,6 +356,8 @@ namespace CAVerifierServer.Application {
   public enum GuardianType {
     [pbr::OriginalName("GUARDIAN_TYPE_OF_EMAIL")] OfEmail = 0,
     [pbr::OriginalName("GUARDIAN_TYPE_OF_PHONE")] OfPhone = 1,
+    [pbr::OriginalName("GUARDIAN_TYPE_OF_GOOGLE")] OfGoogle = 2,
+    [pbr::OriginalName("GUARDIAN_TYPE_OF_APPLE")] OfApple = 3,
   }
 
   public enum StrategyValueType {
@@ -215,550 +380,19 @@ namespace CAVerifierServer.Application {
     [pbr::OriginalName("RatioByTenThousand")] RatioByTenThousand = 10,
   }
 
+  public enum OperationType {
+    [pbr::OriginalName("Unknown")] Unknown = 0,
+    [pbr::OriginalName("CreateCAHolder")] CreateCaholder = 1,
+    [pbr::OriginalName("SocialRecovery")] SocialRecovery = 2,
+    [pbr::OriginalName("AddGuardian")] AddGuardian = 3,
+    [pbr::OriginalName("RemoveGuardian")] RemoveGuardian = 4,
+    [pbr::OriginalName("UpdateGuardian")] UpdateGuardian = 5,
+    [pbr::OriginalName("RemoveOtherManagerInfo")] RemoveOtherManagerInfo = 6,
+  }
+
   #endregion
 
   #region Messages
-  public sealed partial class GetGraphQLInfoInput : pb::IMessage<GetGraphQLInfoInput>
-  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      , pb::IBufferMessage
-  #endif
-  {
-    private static readonly pb::MessageParser<GetGraphQLInfoInput> _parser = new pb::MessageParser<GetGraphQLInfoInput>(() => new GetGraphQLInfoInput());
-    private pb::UnknownFieldSet _unknownFields;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pb::MessageParser<GetGraphQLInfoInput> Parser { get { return _parser; } }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pbr::MessageDescriptor Descriptor {
-      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[0]; }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    pbr::MessageDescriptor pb::IMessage.Descriptor {
-      get { return Descriptor; }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public GetGraphQLInfoInput() {
-      OnConstruction();
-    }
-
-    partial void OnConstruction();
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public GetGraphQLInfoInput(GetGraphQLInfoInput other) : this() {
-      chainId_ = other.chainId_;
-      caHash_ = other.caHash_;
-      startBlockHeight_ = other.startBlockHeight_;
-      endBlockHeight_ = other.endBlockHeight_;
-      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public GetGraphQLInfoInput Clone() {
-      return new GetGraphQLInfoInput(this);
-    }
-
-    /// <summary>Field number for the "chainId" field.</summary>
-    public const int ChainIdFieldNumber = 1;
-    private string chainId_ = "";
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public string ChainId {
-      get { return chainId_; }
-      set {
-        chainId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
-      }
-    }
-
-    /// <summary>Field number for the "caHash" field.</summary>
-    public const int CaHashFieldNumber = 2;
-    private string caHash_ = "";
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public string CaHash {
-      get { return caHash_; }
-      set {
-        caHash_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
-      }
-    }
-
-    /// <summary>Field number for the "startBlockHeight" field.</summary>
-    public const int StartBlockHeightFieldNumber = 3;
-    private long startBlockHeight_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public long StartBlockHeight {
-      get { return startBlockHeight_; }
-      set {
-        startBlockHeight_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "endBlockHeight" field.</summary>
-    public const int EndBlockHeightFieldNumber = 4;
-    private long endBlockHeight_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public long EndBlockHeight {
-      get { return endBlockHeight_; }
-      set {
-        endBlockHeight_ = value;
-      }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override bool Equals(object other) {
-      return Equals(other as GetGraphQLInfoInput);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool Equals(GetGraphQLInfoInput other) {
-      if (ReferenceEquals(other, null)) {
-        return false;
-      }
-      if (ReferenceEquals(other, this)) {
-        return true;
-      }
-      if (ChainId != other.ChainId) return false;
-      if (CaHash != other.CaHash) return false;
-      if (StartBlockHeight != other.StartBlockHeight) return false;
-      if (EndBlockHeight != other.EndBlockHeight) return false;
-      return Equals(_unknownFields, other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override int GetHashCode() {
-      int hash = 1;
-      if (ChainId.Length != 0) hash ^= ChainId.GetHashCode();
-      if (CaHash.Length != 0) hash ^= CaHash.GetHashCode();
-      if (StartBlockHeight != 0L) hash ^= StartBlockHeight.GetHashCode();
-      if (EndBlockHeight != 0L) hash ^= EndBlockHeight.GetHashCode();
-      if (_unknownFields != null) {
-        hash ^= _unknownFields.GetHashCode();
-      }
-      return hash;
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override string ToString() {
-      return pb::JsonFormatter.ToDiagnosticString(this);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void WriteTo(pb::CodedOutputStream output) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      output.WriteRawMessage(this);
-    #else
-      if (ChainId.Length != 0) {
-        output.WriteRawTag(10);
-        output.WriteString(ChainId);
-      }
-      if (CaHash.Length != 0) {
-        output.WriteRawTag(18);
-        output.WriteString(CaHash);
-      }
-      if (StartBlockHeight != 0L) {
-        output.WriteRawTag(24);
-        output.WriteInt64(StartBlockHeight);
-      }
-      if (EndBlockHeight != 0L) {
-        output.WriteRawTag(32);
-        output.WriteInt64(EndBlockHeight);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(output);
-      }
-    #endif
-    }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (ChainId.Length != 0) {
-        output.WriteRawTag(10);
-        output.WriteString(ChainId);
-      }
-      if (CaHash.Length != 0) {
-        output.WriteRawTag(18);
-        output.WriteString(CaHash);
-      }
-      if (StartBlockHeight != 0L) {
-        output.WriteRawTag(24);
-        output.WriteInt64(StartBlockHeight);
-      }
-      if (EndBlockHeight != 0L) {
-        output.WriteRawTag(32);
-        output.WriteInt64(EndBlockHeight);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(ref output);
-      }
-    }
-    #endif
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public int CalculateSize() {
-      int size = 0;
-      if (ChainId.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(ChainId);
-      }
-      if (CaHash.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(CaHash);
-      }
-      if (StartBlockHeight != 0L) {
-        size += 1 + pb::CodedOutputStream.ComputeInt64Size(StartBlockHeight);
-      }
-      if (EndBlockHeight != 0L) {
-        size += 1 + pb::CodedOutputStream.ComputeInt64Size(EndBlockHeight);
-      }
-      if (_unknownFields != null) {
-        size += _unknownFields.CalculateSize();
-      }
-      return size;
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(GetGraphQLInfoInput other) {
-      if (other == null) {
-        return;
-      }
-      if (other.ChainId.Length != 0) {
-        ChainId = other.ChainId;
-      }
-      if (other.CaHash.Length != 0) {
-        CaHash = other.CaHash;
-      }
-      if (other.StartBlockHeight != 0L) {
-        StartBlockHeight = other.StartBlockHeight;
-      }
-      if (other.EndBlockHeight != 0L) {
-        EndBlockHeight = other.EndBlockHeight;
-      }
-      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(pb::CodedInputStream input) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      input.ReadRawMessage(this);
-    #else
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
-            break;
-          case 10: {
-            ChainId = input.ReadString();
-            break;
-          }
-          case 18: {
-            CaHash = input.ReadString();
-            break;
-          }
-          case 24: {
-            StartBlockHeight = input.ReadInt64();
-            break;
-          }
-          case 32: {
-            EndBlockHeight = input.ReadInt64();
-            break;
-          }
-        }
-      }
-    #endif
-    }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
-            break;
-          case 10: {
-            ChainId = input.ReadString();
-            break;
-          }
-          case 18: {
-            CaHash = input.ReadString();
-            break;
-          }
-          case 24: {
-            StartBlockHeight = input.ReadInt64();
-            break;
-          }
-          case 32: {
-            EndBlockHeight = input.ReadInt64();
-            break;
-          }
-        }
-      }
-    }
-    #endif
-
-  }
-
-  public sealed partial class CrossChainMerkleProofContext : pb::IMessage<CrossChainMerkleProofContext>
-  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      , pb::IBufferMessage
-  #endif
-  {
-    private static readonly pb::MessageParser<CrossChainMerkleProofContext> _parser = new pb::MessageParser<CrossChainMerkleProofContext>(() => new CrossChainMerkleProofContext());
-    private pb::UnknownFieldSet _unknownFields;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pb::MessageParser<CrossChainMerkleProofContext> Parser { get { return _parser; } }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pbr::MessageDescriptor Descriptor {
-      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[1]; }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    pbr::MessageDescriptor pb::IMessage.Descriptor {
-      get { return Descriptor; }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public CrossChainMerkleProofContext() {
-      OnConstruction();
-    }
-
-    partial void OnConstruction();
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public CrossChainMerkleProofContext(CrossChainMerkleProofContext other) : this() {
-      boundParentChainHeight_ = other.boundParentChainHeight_;
-      merklePathFromParentChain_ = other.merklePathFromParentChain_ != null ? other.merklePathFromParentChain_.Clone() : null;
-      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public CrossChainMerkleProofContext Clone() {
-      return new CrossChainMerkleProofContext(this);
-    }
-
-    /// <summary>Field number for the "bound_parent_chain_height" field.</summary>
-    public const int BoundParentChainHeightFieldNumber = 1;
-    private long boundParentChainHeight_;
-    /// <summary>
-    /// The height of parent chain bound up with side chain.
-    /// </summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public long BoundParentChainHeight {
-      get { return boundParentChainHeight_; }
-      set {
-        boundParentChainHeight_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "merkle_path_from_parent_chain" field.</summary>
-    public const int MerklePathFromParentChainFieldNumber = 2;
-    private global::AElf.Types.MerklePath merklePathFromParentChain_;
-    /// <summary>
-    /// The merkle path generated from parent chain.
-    /// </summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::AElf.Types.MerklePath MerklePathFromParentChain {
-      get { return merklePathFromParentChain_; }
-      set {
-        merklePathFromParentChain_ = value;
-      }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override bool Equals(object other) {
-      return Equals(other as CrossChainMerkleProofContext);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool Equals(CrossChainMerkleProofContext other) {
-      if (ReferenceEquals(other, null)) {
-        return false;
-      }
-      if (ReferenceEquals(other, this)) {
-        return true;
-      }
-      if (BoundParentChainHeight != other.BoundParentChainHeight) return false;
-      if (!object.Equals(MerklePathFromParentChain, other.MerklePathFromParentChain)) return false;
-      return Equals(_unknownFields, other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override int GetHashCode() {
-      int hash = 1;
-      if (BoundParentChainHeight != 0L) hash ^= BoundParentChainHeight.GetHashCode();
-      if (merklePathFromParentChain_ != null) hash ^= MerklePathFromParentChain.GetHashCode();
-      if (_unknownFields != null) {
-        hash ^= _unknownFields.GetHashCode();
-      }
-      return hash;
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override string ToString() {
-      return pb::JsonFormatter.ToDiagnosticString(this);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void WriteTo(pb::CodedOutputStream output) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      output.WriteRawMessage(this);
-    #else
-      if (BoundParentChainHeight != 0L) {
-        output.WriteRawTag(8);
-        output.WriteInt64(BoundParentChainHeight);
-      }
-      if (merklePathFromParentChain_ != null) {
-        output.WriteRawTag(18);
-        output.WriteMessage(MerklePathFromParentChain);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(output);
-      }
-    #endif
-    }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (BoundParentChainHeight != 0L) {
-        output.WriteRawTag(8);
-        output.WriteInt64(BoundParentChainHeight);
-      }
-      if (merklePathFromParentChain_ != null) {
-        output.WriteRawTag(18);
-        output.WriteMessage(MerklePathFromParentChain);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(ref output);
-      }
-    }
-    #endif
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public int CalculateSize() {
-      int size = 0;
-      if (BoundParentChainHeight != 0L) {
-        size += 1 + pb::CodedOutputStream.ComputeInt64Size(BoundParentChainHeight);
-      }
-      if (merklePathFromParentChain_ != null) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(MerklePathFromParentChain);
-      }
-      if (_unknownFields != null) {
-        size += _unknownFields.CalculateSize();
-      }
-      return size;
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(CrossChainMerkleProofContext other) {
-      if (other == null) {
-        return;
-      }
-      if (other.BoundParentChainHeight != 0L) {
-        BoundParentChainHeight = other.BoundParentChainHeight;
-      }
-      if (other.merklePathFromParentChain_ != null) {
-        if (merklePathFromParentChain_ == null) {
-          MerklePathFromParentChain = new global::AElf.Types.MerklePath();
-        }
-        MerklePathFromParentChain.MergeFrom(other.MerklePathFromParentChain);
-      }
-      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(pb::CodedInputStream input) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      input.ReadRawMessage(this);
-    #else
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
-            break;
-          case 8: {
-            BoundParentChainHeight = input.ReadInt64();
-            break;
-          }
-          case 18: {
-            if (merklePathFromParentChain_ == null) {
-              MerklePathFromParentChain = new global::AElf.Types.MerklePath();
-            }
-            input.ReadMessage(MerklePathFromParentChain);
-            break;
-          }
-        }
-      }
-    #endif
-    }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
-            break;
-          case 8: {
-            BoundParentChainHeight = input.ReadInt64();
-            break;
-          }
-          case 18: {
-            if (merklePathFromParentChain_ == null) {
-              MerklePathFromParentChain = new global::AElf.Types.MerklePath();
-            }
-            input.ReadMessage(MerklePathFromParentChain);
-            break;
-          }
-        }
-      }
-    }
-    #endif
-
-  }
-
   /// <summary>
   ///Data structure
   /// </summary>
@@ -776,7 +410,7 @@ namespace CAVerifierServer.Application {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[2]; }
+      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -797,8 +431,8 @@ namespace CAVerifierServer.Application {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public HolderInfo(HolderInfo other) : this() {
       creatorAddress_ = other.creatorAddress_ != null ? other.creatorAddress_.Clone() : null;
-      managers_ = other.managers_.Clone();
-      guardiansInfo_ = other.guardiansInfo_ != null ? other.guardiansInfo_.Clone() : null;
+      managerInfos_ = other.managerInfos_.Clone();
+      guardianList_ = other.guardianList_ != null ? other.guardianList_.Clone() : null;
       judgementStrategy_ = other.judgementStrategy_ != null ? other.judgementStrategy_.Clone() : null;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
@@ -821,26 +455,26 @@ namespace CAVerifierServer.Application {
       }
     }
 
-    /// <summary>Field number for the "managers" field.</summary>
-    public const int ManagersFieldNumber = 2;
-    private static readonly pb::FieldCodec<global::CAVerifierServer.Application.Manager> _repeated_managers_codec
-        = pb::FieldCodec.ForMessage(18, global::CAVerifierServer.Application.Manager.Parser);
-    private readonly pbc::RepeatedField<global::CAVerifierServer.Application.Manager> managers_ = new pbc::RepeatedField<global::CAVerifierServer.Application.Manager>();
+    /// <summary>Field number for the "manager_infos" field.</summary>
+    public const int ManagerInfosFieldNumber = 2;
+    private static readonly pb::FieldCodec<global::CAVerifierServer.Application.ManagerInfo> _repeated_managerInfos_codec
+        = pb::FieldCodec.ForMessage(18, global::CAVerifierServer.Application.ManagerInfo.Parser);
+    private readonly pbc::RepeatedField<global::CAVerifierServer.Application.ManagerInfo> managerInfos_ = new pbc::RepeatedField<global::CAVerifierServer.Application.ManagerInfo>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::RepeatedField<global::CAVerifierServer.Application.Manager> Managers {
-      get { return managers_; }
+    public pbc::RepeatedField<global::CAVerifierServer.Application.ManagerInfo> ManagerInfos {
+      get { return managerInfos_; }
     }
 
-    /// <summary>Field number for the "guardians_info" field.</summary>
-    public const int GuardiansInfoFieldNumber = 3;
-    private global::CAVerifierServer.Application.GuardiansInfo guardiansInfo_;
+    /// <summary>Field number for the "guardian_list" field.</summary>
+    public const int GuardianListFieldNumber = 3;
+    private global::CAVerifierServer.Application.GuardianList guardianList_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::CAVerifierServer.Application.GuardiansInfo GuardiansInfo {
-      get { return guardiansInfo_; }
+    public global::CAVerifierServer.Application.GuardianList GuardianList {
+      get { return guardianList_; }
       set {
-        guardiansInfo_ = value;
+        guardianList_ = value;
       }
     }
 
@@ -872,8 +506,8 @@ namespace CAVerifierServer.Application {
         return true;
       }
       if (!object.Equals(CreatorAddress, other.CreatorAddress)) return false;
-      if(!managers_.Equals(other.managers_)) return false;
-      if (!object.Equals(GuardiansInfo, other.GuardiansInfo)) return false;
+      if(!managerInfos_.Equals(other.managerInfos_)) return false;
+      if (!object.Equals(GuardianList, other.GuardianList)) return false;
       if (!object.Equals(JudgementStrategy, other.JudgementStrategy)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
@@ -883,8 +517,8 @@ namespace CAVerifierServer.Application {
     public override int GetHashCode() {
       int hash = 1;
       if (creatorAddress_ != null) hash ^= CreatorAddress.GetHashCode();
-      hash ^= managers_.GetHashCode();
-      if (guardiansInfo_ != null) hash ^= GuardiansInfo.GetHashCode();
+      hash ^= managerInfos_.GetHashCode();
+      if (guardianList_ != null) hash ^= GuardianList.GetHashCode();
       if (judgementStrategy_ != null) hash ^= JudgementStrategy.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
@@ -908,10 +542,10 @@ namespace CAVerifierServer.Application {
         output.WriteRawTag(10);
         output.WriteMessage(CreatorAddress);
       }
-      managers_.WriteTo(output, _repeated_managers_codec);
-      if (guardiansInfo_ != null) {
+      managerInfos_.WriteTo(output, _repeated_managerInfos_codec);
+      if (guardianList_ != null) {
         output.WriteRawTag(26);
-        output.WriteMessage(GuardiansInfo);
+        output.WriteMessage(GuardianList);
       }
       if (judgementStrategy_ != null) {
         output.WriteRawTag(34);
@@ -931,10 +565,10 @@ namespace CAVerifierServer.Application {
         output.WriteRawTag(10);
         output.WriteMessage(CreatorAddress);
       }
-      managers_.WriteTo(ref output, _repeated_managers_codec);
-      if (guardiansInfo_ != null) {
+      managerInfos_.WriteTo(ref output, _repeated_managerInfos_codec);
+      if (guardianList_ != null) {
         output.WriteRawTag(26);
-        output.WriteMessage(GuardiansInfo);
+        output.WriteMessage(GuardianList);
       }
       if (judgementStrategy_ != null) {
         output.WriteRawTag(34);
@@ -953,9 +587,9 @@ namespace CAVerifierServer.Application {
       if (creatorAddress_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(CreatorAddress);
       }
-      size += managers_.CalculateSize(_repeated_managers_codec);
-      if (guardiansInfo_ != null) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(GuardiansInfo);
+      size += managerInfos_.CalculateSize(_repeated_managerInfos_codec);
+      if (guardianList_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(GuardianList);
       }
       if (judgementStrategy_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(JudgementStrategy);
@@ -978,12 +612,12 @@ namespace CAVerifierServer.Application {
         }
         CreatorAddress.MergeFrom(other.CreatorAddress);
       }
-      managers_.Add(other.managers_);
-      if (other.guardiansInfo_ != null) {
-        if (guardiansInfo_ == null) {
-          GuardiansInfo = new global::CAVerifierServer.Application.GuardiansInfo();
+      managerInfos_.Add(other.managerInfos_);
+      if (other.guardianList_ != null) {
+        if (guardianList_ == null) {
+          GuardianList = new global::CAVerifierServer.Application.GuardianList();
         }
-        GuardiansInfo.MergeFrom(other.GuardiansInfo);
+        GuardianList.MergeFrom(other.GuardianList);
       }
       if (other.judgementStrategy_ != null) {
         if (judgementStrategy_ == null) {
@@ -1014,19 +648,19 @@ namespace CAVerifierServer.Application {
             break;
           }
           case 18: {
-            managers_.AddEntriesFrom(input, _repeated_managers_codec);
+            managerInfos_.AddEntriesFrom(input, _repeated_managerInfos_codec);
             break;
           }
           case 26: {
-            if (guardiansInfo_ == null) {
-              GuardiansInfo = new global::CAServer.Grains.Grain.ApplicationHandler.GuardiansInfo();
+            if (guardianList_ == null) {
+              GuardianList = new global::CAVerifierServer.Application.GuardianList();
             }
-            input.ReadMessage(GuardiansInfo);
+            input.ReadMessage(GuardianList);
             break;
           }
           case 34: {
             if (judgementStrategy_ == null) {
-              JudgementStrategy = new global::CAServer.Grains.Grain.ApplicationHandler.StrategyNode();
+              JudgementStrategy = new global::CAVerifierServer.Application.StrategyNode();
             }
             input.ReadMessage(JudgementStrategy);
             break;
@@ -1054,14 +688,14 @@ namespace CAVerifierServer.Application {
             break;
           }
           case 18: {
-            managers_.AddEntriesFrom(ref input, _repeated_managers_codec);
+            managerInfos_.AddEntriesFrom(ref input, _repeated_managerInfos_codec);
             break;
           }
           case 26: {
-            if (guardiansInfo_ == null) {
-              GuardiansInfo = new global::CAVerifierServer.Application.GuardiansInfo();
+            if (guardianList_ == null) {
+              GuardianList = new global::CAVerifierServer.Application.GuardianList();
             }
-            input.ReadMessage(GuardiansInfo);
+            input.ReadMessage(GuardianList);
             break;
           }
           case 34: {
@@ -1078,21 +712,21 @@ namespace CAVerifierServer.Application {
 
   }
 
-  public sealed partial class Manager : pb::IMessage<Manager>
+  public sealed partial class ManagerInfo : pb::IMessage<ManagerInfo>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
   #endif
   {
-    private static readonly pb::MessageParser<Manager> _parser = new pb::MessageParser<Manager>(() => new Manager());
+    private static readonly pb::MessageParser<ManagerInfo> _parser = new pb::MessageParser<ManagerInfo>(() => new ManagerInfo());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pb::MessageParser<Manager> Parser { get { return _parser; } }
+    public static pb::MessageParser<ManagerInfo> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[3]; }
+      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[1]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1103,7 +737,7 @@ namespace CAVerifierServer.Application {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public Manager() {
+    public ManagerInfo() {
       OnConstruction();
     }
 
@@ -1111,59 +745,59 @@ namespace CAVerifierServer.Application {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public Manager(Manager other) : this() {
-      managerAddress_ = other.managerAddress_ != null ? other.managerAddress_.Clone() : null;
-      deviceString_ = other.deviceString_;
+    public ManagerInfo(ManagerInfo other) : this() {
+      address_ = other.address_ != null ? other.address_.Clone() : null;
+      extraData_ = other.extraData_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public Manager Clone() {
-      return new Manager(this);
+    public ManagerInfo Clone() {
+      return new ManagerInfo(this);
     }
 
-    /// <summary>Field number for the "manager_address" field.</summary>
-    public const int ManagerAddressFieldNumber = 1;
-    private global::AElf.Types.Address managerAddress_;
+    /// <summary>Field number for the "address" field.</summary>
+    public const int AddressFieldNumber = 1;
+    private global::AElf.Types.Address address_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::AElf.Types.Address ManagerAddress {
-      get { return managerAddress_; }
+    public global::AElf.Types.Address Address {
+      get { return address_; }
       set {
-        managerAddress_ = value;
+        address_ = value;
       }
     }
 
-    /// <summary>Field number for the "device_string" field.</summary>
-    public const int DeviceStringFieldNumber = 2;
-    private string deviceString_ = "";
+    /// <summary>Field number for the "extra_data" field.</summary>
+    public const int ExtraDataFieldNumber = 2;
+    private string extraData_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public string DeviceString {
-      get { return deviceString_; }
+    public string ExtraData {
+      get { return extraData_; }
       set {
-        deviceString_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+        extraData_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
-      return Equals(other as Manager);
+      return Equals(other as ManagerInfo);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool Equals(Manager other) {
+    public bool Equals(ManagerInfo other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if (!object.Equals(ManagerAddress, other.ManagerAddress)) return false;
-      if (DeviceString != other.DeviceString) return false;
+      if (!object.Equals(Address, other.Address)) return false;
+      if (ExtraData != other.ExtraData) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -1171,8 +805,8 @@ namespace CAVerifierServer.Application {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
-      if (managerAddress_ != null) hash ^= ManagerAddress.GetHashCode();
-      if (DeviceString.Length != 0) hash ^= DeviceString.GetHashCode();
+      if (address_ != null) hash ^= Address.GetHashCode();
+      if (ExtraData.Length != 0) hash ^= ExtraData.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -1191,13 +825,13 @@ namespace CAVerifierServer.Application {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
     #else
-      if (managerAddress_ != null) {
+      if (address_ != null) {
         output.WriteRawTag(10);
-        output.WriteMessage(ManagerAddress);
+        output.WriteMessage(Address);
       }
-      if (DeviceString.Length != 0) {
+      if (ExtraData.Length != 0) {
         output.WriteRawTag(18);
-        output.WriteString(DeviceString);
+        output.WriteString(ExtraData);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -1209,13 +843,13 @@ namespace CAVerifierServer.Application {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (managerAddress_ != null) {
+      if (address_ != null) {
         output.WriteRawTag(10);
-        output.WriteMessage(ManagerAddress);
+        output.WriteMessage(Address);
       }
-      if (DeviceString.Length != 0) {
+      if (ExtraData.Length != 0) {
         output.WriteRawTag(18);
-        output.WriteString(DeviceString);
+        output.WriteString(ExtraData);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
@@ -1227,11 +861,11 @@ namespace CAVerifierServer.Application {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
-      if (managerAddress_ != null) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(ManagerAddress);
+      if (address_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Address);
       }
-      if (DeviceString.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(DeviceString);
+      if (ExtraData.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(ExtraData);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -1241,18 +875,18 @@ namespace CAVerifierServer.Application {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(Manager other) {
+    public void MergeFrom(ManagerInfo other) {
       if (other == null) {
         return;
       }
-      if (other.managerAddress_ != null) {
-        if (managerAddress_ == null) {
-          ManagerAddress = new global::AElf.Types.Address();
+      if (other.address_ != null) {
+        if (address_ == null) {
+          Address = new global::AElf.Types.Address();
         }
-        ManagerAddress.MergeFrom(other.ManagerAddress);
+        Address.MergeFrom(other.Address);
       }
-      if (other.DeviceString.Length != 0) {
-        DeviceString = other.DeviceString;
+      if (other.ExtraData.Length != 0) {
+        ExtraData = other.ExtraData;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -1270,14 +904,14 @@ namespace CAVerifierServer.Application {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 10: {
-            if (managerAddress_ == null) {
-              ManagerAddress = new global::AElf.Types.Address();
+            if (address_ == null) {
+              Address = new global::AElf.Types.Address();
             }
-            input.ReadMessage(ManagerAddress);
+            input.ReadMessage(Address);
             break;
           }
           case 18: {
-            DeviceString = input.ReadString();
+            ExtraData = input.ReadString();
             break;
           }
         }
@@ -1296,14 +930,14 @@ namespace CAVerifierServer.Application {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
           case 10: {
-            if (managerAddress_ == null) {
-              ManagerAddress = new global::AElf.Types.Address();
+            if (address_ == null) {
+              Address = new global::AElf.Types.Address();
             }
-            input.ReadMessage(ManagerAddress);
+            input.ReadMessage(Address);
             break;
           }
           case 18: {
-            DeviceString = input.ReadString();
+            ExtraData = input.ReadString();
             break;
           }
         }
@@ -1313,21 +947,21 @@ namespace CAVerifierServer.Application {
 
   }
 
-  public sealed partial class GuardiansInfo : pb::IMessage<GuardiansInfo>
+  public sealed partial class GuardianList : pb::IMessage<GuardianList>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
   #endif
   {
-    private static readonly pb::MessageParser<GuardiansInfo> _parser = new pb::MessageParser<GuardiansInfo>(() => new GuardiansInfo());
+    private static readonly pb::MessageParser<GuardianList> _parser = new pb::MessageParser<GuardianList>(() => new GuardianList());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pb::MessageParser<GuardiansInfo> Parser { get { return _parser; } }
+    public static pb::MessageParser<GuardianList> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[4]; }
+      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[2]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1338,7 +972,7 @@ namespace CAVerifierServer.Application {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public GuardiansInfo() {
+    public GuardianList() {
       OnConstruction();
     }
 
@@ -1346,57 +980,44 @@ namespace CAVerifierServer.Application {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public GuardiansInfo(GuardiansInfo other) : this() {
-      guardianAccounts_ = other.guardianAccounts_.Clone();
-      loginGuardianAccountIndexes_ = other.loginGuardianAccountIndexes_.Clone();
+    public GuardianList(GuardianList other) : this() {
+      guardians_ = other.guardians_.Clone();
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public GuardiansInfo Clone() {
-      return new GuardiansInfo(this);
+    public GuardianList Clone() {
+      return new GuardianList(this);
     }
 
-    /// <summary>Field number for the "guardian_accounts" field.</summary>
-    public const int GuardianAccountsFieldNumber = 1;
-    private static readonly pb::FieldCodec<global::CAVerifierServer.Application.GuardianAccount> _repeated_guardianAccounts_codec
-        = pb::FieldCodec.ForMessage(10, global::CAVerifierServer.Application.GuardianAccount.Parser);
-    private readonly pbc::RepeatedField<global::CAVerifierServer.Application.GuardianAccount> guardianAccounts_ = new pbc::RepeatedField<global::CAVerifierServer.Application.GuardianAccount>();
+    /// <summary>Field number for the "guardians" field.</summary>
+    public const int GuardiansFieldNumber = 1;
+    private static readonly pb::FieldCodec<global::CAVerifierServer.Application.Guardian> _repeated_guardians_codec
+        = pb::FieldCodec.ForMessage(10, global::CAVerifierServer.Application.Guardian.Parser);
+    private readonly pbc::RepeatedField<global::CAVerifierServer.Application.Guardian> guardians_ = new pbc::RepeatedField<global::CAVerifierServer.Application.Guardian>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::RepeatedField<global::CAVerifierServer.Application.GuardianAccount> GuardianAccounts {
-      get { return guardianAccounts_; }
-    }
-
-    /// <summary>Field number for the "login_guardian_account_indexes" field.</summary>
-    public const int LoginGuardianAccountIndexesFieldNumber = 2;
-    private static readonly pb::FieldCodec<int> _repeated_loginGuardianAccountIndexes_codec
-        = pb::FieldCodec.ForInt32(18);
-    private readonly pbc::RepeatedField<int> loginGuardianAccountIndexes_ = new pbc::RepeatedField<int>();
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::RepeatedField<int> LoginGuardianAccountIndexes {
-      get { return loginGuardianAccountIndexes_; }
+    public pbc::RepeatedField<global::CAVerifierServer.Application.Guardian> Guardians {
+      get { return guardians_; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
-      return Equals(other as GuardiansInfo);
+      return Equals(other as GuardianList);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool Equals(GuardiansInfo other) {
+    public bool Equals(GuardianList other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if(!guardianAccounts_.Equals(other.guardianAccounts_)) return false;
-      if(!loginGuardianAccountIndexes_.Equals(other.loginGuardianAccountIndexes_)) return false;
+      if(!guardians_.Equals(other.guardians_)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -1404,8 +1025,7 @@ namespace CAVerifierServer.Application {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
-      hash ^= guardianAccounts_.GetHashCode();
-      hash ^= loginGuardianAccountIndexes_.GetHashCode();
+      hash ^= guardians_.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -1424,8 +1044,7 @@ namespace CAVerifierServer.Application {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
     #else
-      guardianAccounts_.WriteTo(output, _repeated_guardianAccounts_codec);
-      loginGuardianAccountIndexes_.WriteTo(output, _repeated_loginGuardianAccountIndexes_codec);
+      guardians_.WriteTo(output, _repeated_guardians_codec);
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -1436,8 +1055,7 @@ namespace CAVerifierServer.Application {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      guardianAccounts_.WriteTo(ref output, _repeated_guardianAccounts_codec);
-      loginGuardianAccountIndexes_.WriteTo(ref output, _repeated_loginGuardianAccountIndexes_codec);
+      guardians_.WriteTo(ref output, _repeated_guardians_codec);
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -1448,8 +1066,7 @@ namespace CAVerifierServer.Application {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
-      size += guardianAccounts_.CalculateSize(_repeated_guardianAccounts_codec);
-      size += loginGuardianAccountIndexes_.CalculateSize(_repeated_loginGuardianAccountIndexes_codec);
+      size += guardians_.CalculateSize(_repeated_guardians_codec);
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
       }
@@ -1458,12 +1075,11 @@ namespace CAVerifierServer.Application {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(GuardiansInfo other) {
+    public void MergeFrom(GuardianList other) {
       if (other == null) {
         return;
       }
-      guardianAccounts_.Add(other.guardianAccounts_);
-      loginGuardianAccountIndexes_.Add(other.loginGuardianAccountIndexes_);
+      guardians_.Add(other.guardians_);
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
 
@@ -1480,12 +1096,7 @@ namespace CAVerifierServer.Application {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 10: {
-            guardianAccounts_.AddEntriesFrom(input, _repeated_guardianAccounts_codec);
-            break;
-          }
-          case 18:
-          case 16: {
-            loginGuardianAccountIndexes_.AddEntriesFrom(input, _repeated_loginGuardianAccountIndexes_codec);
+            guardians_.AddEntriesFrom(input, _repeated_guardians_codec);
             break;
           }
         }
@@ -1504,247 +1115,7 @@ namespace CAVerifierServer.Application {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
           case 10: {
-            guardianAccounts_.AddEntriesFrom(ref input, _repeated_guardianAccounts_codec);
-            break;
-          }
-          case 18:
-          case 16: {
-            loginGuardianAccountIndexes_.AddEntriesFrom(ref input, _repeated_loginGuardianAccountIndexes_codec);
-            break;
-          }
-        }
-      }
-    }
-    #endif
-
-  }
-
-  public sealed partial class GuardianAccount : pb::IMessage<GuardianAccount>
-  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      , pb::IBufferMessage
-  #endif
-  {
-    private static readonly pb::MessageParser<GuardianAccount> _parser = new pb::MessageParser<GuardianAccount>(() => new GuardianAccount());
-    private pb::UnknownFieldSet _unknownFields;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pb::MessageParser<GuardianAccount> Parser { get { return _parser; } }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pbr::MessageDescriptor Descriptor {
-      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[5]; }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    pbr::MessageDescriptor pb::IMessage.Descriptor {
-      get { return Descriptor; }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public GuardianAccount() {
-      OnConstruction();
-    }
-
-    partial void OnConstruction();
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public GuardianAccount(GuardianAccount other) : this() {
-      guardian_ = other.guardian_ != null ? other.guardian_.Clone() : null;
-      value_ = other.value_;
-      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public GuardianAccount Clone() {
-      return new GuardianAccount(this);
-    }
-
-    /// <summary>Field number for the "guardian" field.</summary>
-    public const int GuardianFieldNumber = 1;
-    private global::CAVerifierServer.Application.Guardian guardian_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::CAVerifierServer.Application.Guardian Guardian {
-      get { return guardian_; }
-      set {
-        guardian_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "value" field.</summary>
-    public const int ValueFieldNumber = 2;
-    private string value_ = "";
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public string Value {
-      get { return value_; }
-      set {
-        value_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
-      }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override bool Equals(object other) {
-      return Equals(other as GuardianAccount);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool Equals(GuardianAccount other) {
-      if (ReferenceEquals(other, null)) {
-        return false;
-      }
-      if (ReferenceEquals(other, this)) {
-        return true;
-      }
-      if (!object.Equals(Guardian, other.Guardian)) return false;
-      if (Value != other.Value) return false;
-      return Equals(_unknownFields, other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override int GetHashCode() {
-      int hash = 1;
-      if (guardian_ != null) hash ^= Guardian.GetHashCode();
-      if (Value.Length != 0) hash ^= Value.GetHashCode();
-      if (_unknownFields != null) {
-        hash ^= _unknownFields.GetHashCode();
-      }
-      return hash;
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override string ToString() {
-      return pb::JsonFormatter.ToDiagnosticString(this);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void WriteTo(pb::CodedOutputStream output) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      output.WriteRawMessage(this);
-    #else
-      if (guardian_ != null) {
-        output.WriteRawTag(10);
-        output.WriteMessage(Guardian);
-      }
-      if (Value.Length != 0) {
-        output.WriteRawTag(18);
-        output.WriteString(Value);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(output);
-      }
-    #endif
-    }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (guardian_ != null) {
-        output.WriteRawTag(10);
-        output.WriteMessage(Guardian);
-      }
-      if (Value.Length != 0) {
-        output.WriteRawTag(18);
-        output.WriteString(Value);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(ref output);
-      }
-    }
-    #endif
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public int CalculateSize() {
-      int size = 0;
-      if (guardian_ != null) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Guardian);
-      }
-      if (Value.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(Value);
-      }
-      if (_unknownFields != null) {
-        size += _unknownFields.CalculateSize();
-      }
-      return size;
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(GuardianAccount other) {
-      if (other == null) {
-        return;
-      }
-      if (other.guardian_ != null) {
-        if (guardian_ == null) {
-          Guardian = new global::CAVerifierServer.Application.Guardian();
-        }
-        Guardian.MergeFrom(other.Guardian);
-      }
-      if (other.Value.Length != 0) {
-        Value = other.Value;
-      }
-      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(pb::CodedInputStream input) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      input.ReadRawMessage(this);
-    #else
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
-            break;
-          case 10: {
-            if (guardian_ == null) {
-              Guardian = new global::CAServer.Grains.Grain.ApplicationHandler.Guardian();
-            }
-            input.ReadMessage(Guardian);
-            break;
-          }
-          case 18: {
-            Value = input.ReadString();
-            break;
-          }
-        }
-      }
-    #endif
-    }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
-            break;
-          case 10: {
-            if (guardian_ == null) {
-              Guardian = new global::CAVerifierServer.Application.Guardian();
-            }
-            input.ReadMessage(Guardian);
-            break;
-          }
-          case 18: {
-            Value = input.ReadString();
+            guardians_.AddEntriesFrom(ref input, _repeated_guardians_codec);
             break;
           }
         }
@@ -1768,7 +1139,7 @@ namespace CAVerifierServer.Application {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[6]; }
+      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[3]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1789,7 +1160,10 @@ namespace CAVerifierServer.Application {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public Guardian(Guardian other) : this() {
       type_ = other.type_;
-      verifier_ = other.verifier_ != null ? other.verifier_.Clone() : null;
+      verifierId_ = other.verifierId_ != null ? other.verifierId_.Clone() : null;
+      identifierHash_ = other.identifierHash_ != null ? other.identifierHash_.Clone() : null;
+      salt_ = other.salt_;
+      isLoginGuardian_ = other.isLoginGuardian_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -1811,15 +1185,51 @@ namespace CAVerifierServer.Application {
       }
     }
 
-    /// <summary>Field number for the "verifier" field.</summary>
-    public const int VerifierFieldNumber = 2;
-    private global::CAVerifierServer.Application.Verifier verifier_;
+    /// <summary>Field number for the "verifier_id" field.</summary>
+    public const int VerifierIdFieldNumber = 2;
+    private global::AElf.Types.Hash verifierId_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::CAVerifierServer.Application.Verifier Verifier {
-      get { return verifier_; }
+    public global::AElf.Types.Hash VerifierId {
+      get { return verifierId_; }
       set {
-        verifier_ = value;
+        verifierId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "identifier_hash" field.</summary>
+    public const int IdentifierHashFieldNumber = 3;
+    private global::AElf.Types.Hash identifierHash_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::AElf.Types.Hash IdentifierHash {
+      get { return identifierHash_; }
+      set {
+        identifierHash_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "salt" field.</summary>
+    public const int SaltFieldNumber = 4;
+    private string salt_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public string Salt {
+      get { return salt_; }
+      set {
+        salt_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "is_login_guardian" field.</summary>
+    public const int IsLoginGuardianFieldNumber = 5;
+    private bool isLoginGuardian_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool IsLoginGuardian {
+      get { return isLoginGuardian_; }
+      set {
+        isLoginGuardian_ = value;
       }
     }
 
@@ -1839,7 +1249,10 @@ namespace CAVerifierServer.Application {
         return true;
       }
       if (Type != other.Type) return false;
-      if (!object.Equals(Verifier, other.Verifier)) return false;
+      if (!object.Equals(VerifierId, other.VerifierId)) return false;
+      if (!object.Equals(IdentifierHash, other.IdentifierHash)) return false;
+      if (Salt != other.Salt) return false;
+      if (IsLoginGuardian != other.IsLoginGuardian) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -1848,7 +1261,10 @@ namespace CAVerifierServer.Application {
     public override int GetHashCode() {
       int hash = 1;
       if (Type != global::CAVerifierServer.Application.GuardianType.OfEmail) hash ^= Type.GetHashCode();
-      if (verifier_ != null) hash ^= Verifier.GetHashCode();
+      if (verifierId_ != null) hash ^= VerifierId.GetHashCode();
+      if (identifierHash_ != null) hash ^= IdentifierHash.GetHashCode();
+      if (Salt.Length != 0) hash ^= Salt.GetHashCode();
+      if (IsLoginGuardian != false) hash ^= IsLoginGuardian.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -1867,13 +1283,25 @@ namespace CAVerifierServer.Application {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
     #else
-      if (Type != global::CAServer.Grains.Grain.ApplicationHandler.GuardianType.OfEmail) {
+      if (Type != global::CAVerifierServer.Application.GuardianType.OfEmail) {
         output.WriteRawTag(8);
         output.WriteEnum((int) Type);
       }
-      if (verifier_ != null) {
+      if (verifierId_ != null) {
         output.WriteRawTag(18);
-        output.WriteMessage(Verifier);
+        output.WriteMessage(VerifierId);
+      }
+      if (identifierHash_ != null) {
+        output.WriteRawTag(26);
+        output.WriteMessage(IdentifierHash);
+      }
+      if (Salt.Length != 0) {
+        output.WriteRawTag(34);
+        output.WriteString(Salt);
+      }
+      if (IsLoginGuardian != false) {
+        output.WriteRawTag(40);
+        output.WriteBool(IsLoginGuardian);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -1889,9 +1317,21 @@ namespace CAVerifierServer.Application {
         output.WriteRawTag(8);
         output.WriteEnum((int) Type);
       }
-      if (verifier_ != null) {
+      if (verifierId_ != null) {
         output.WriteRawTag(18);
-        output.WriteMessage(Verifier);
+        output.WriteMessage(VerifierId);
+      }
+      if (identifierHash_ != null) {
+        output.WriteRawTag(26);
+        output.WriteMessage(IdentifierHash);
+      }
+      if (Salt.Length != 0) {
+        output.WriteRawTag(34);
+        output.WriteString(Salt);
+      }
+      if (IsLoginGuardian != false) {
+        output.WriteRawTag(40);
+        output.WriteBool(IsLoginGuardian);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
@@ -1906,8 +1346,17 @@ namespace CAVerifierServer.Application {
       if (Type != global::CAVerifierServer.Application.GuardianType.OfEmail) {
         size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) Type);
       }
-      if (verifier_ != null) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Verifier);
+      if (verifierId_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(VerifierId);
+      }
+      if (identifierHash_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(IdentifierHash);
+      }
+      if (Salt.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Salt);
+      }
+      if (IsLoginGuardian != false) {
+        size += 1 + 1;
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -1924,11 +1373,23 @@ namespace CAVerifierServer.Application {
       if (other.Type != global::CAVerifierServer.Application.GuardianType.OfEmail) {
         Type = other.Type;
       }
-      if (other.verifier_ != null) {
-        if (verifier_ == null) {
-          Verifier = new global::CAVerifierServer.Application.Verifier();
+      if (other.verifierId_ != null) {
+        if (verifierId_ == null) {
+          VerifierId = new global::AElf.Types.Hash();
         }
-        Verifier.MergeFrom(other.Verifier);
+        VerifierId.MergeFrom(other.VerifierId);
+      }
+      if (other.identifierHash_ != null) {
+        if (identifierHash_ == null) {
+          IdentifierHash = new global::AElf.Types.Hash();
+        }
+        IdentifierHash.MergeFrom(other.IdentifierHash);
+      }
+      if (other.Salt.Length != 0) {
+        Salt = other.Salt;
+      }
+      if (other.IsLoginGuardian != false) {
+        IsLoginGuardian = other.IsLoginGuardian;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -1946,14 +1407,29 @@ namespace CAVerifierServer.Application {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 8: {
-            Type = (global::CAServer.Grains.Grain.ApplicationHandler.GuardianType) input.ReadEnum();
+            Type = (global::CAVerifierServer.Application.GuardianType) input.ReadEnum();
             break;
           }
           case 18: {
-            if (verifier_ == null) {
-              Verifier = new global::CAServer.Grains.Grain.ApplicationHandler.Verifier();
+            if (verifierId_ == null) {
+              VerifierId = new global::AElf.Types.Hash();
             }
-            input.ReadMessage(Verifier);
+            input.ReadMessage(VerifierId);
+            break;
+          }
+          case 26: {
+            if (identifierHash_ == null) {
+              IdentifierHash = new global::AElf.Types.Hash();
+            }
+            input.ReadMessage(IdentifierHash);
+            break;
+          }
+          case 34: {
+            Salt = input.ReadString();
+            break;
+          }
+          case 40: {
+            IsLoginGuardian = input.ReadBool();
             break;
           }
         }
@@ -1976,208 +1452,25 @@ namespace CAVerifierServer.Application {
             break;
           }
           case 18: {
-            if (verifier_ == null) {
-              Verifier = new global::CAVerifierServer.Application.Verifier();
+            if (verifierId_ == null) {
+              VerifierId = new global::AElf.Types.Hash();
             }
-            input.ReadMessage(Verifier);
+            input.ReadMessage(VerifierId);
             break;
           }
-        }
-      }
-    }
-    #endif
-
-  }
-
-  public sealed partial class Verifier : pb::IMessage<Verifier>
-  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      , pb::IBufferMessage
-  #endif
-  {
-    private static readonly pb::MessageParser<Verifier> _parser = new pb::MessageParser<Verifier>(() => new Verifier());
-    private pb::UnknownFieldSet _unknownFields;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pb::MessageParser<Verifier> Parser { get { return _parser; } }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pbr::MessageDescriptor Descriptor {
-      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[7]; }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    pbr::MessageDescriptor pb::IMessage.Descriptor {
-      get { return Descriptor; }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public Verifier() {
-      OnConstruction();
-    }
-
-    partial void OnConstruction();
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public Verifier(Verifier other) : this() {
-      id_ = other.id_ != null ? other.id_.Clone() : null;
-      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public Verifier Clone() {
-      return new Verifier(this);
-    }
-
-    /// <summary>Field number for the "id" field.</summary>
-    public const int IdFieldNumber = 1;
-    private global::AElf.Types.Hash id_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::AElf.Types.Hash Id {
-      get { return id_; }
-      set {
-        id_ = value;
-      }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override bool Equals(object other) {
-      return Equals(other as Verifier);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool Equals(Verifier other) {
-      if (ReferenceEquals(other, null)) {
-        return false;
-      }
-      if (ReferenceEquals(other, this)) {
-        return true;
-      }
-      if (!object.Equals(Id, other.Id)) return false;
-      return Equals(_unknownFields, other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override int GetHashCode() {
-      int hash = 1;
-      if (id_ != null) hash ^= Id.GetHashCode();
-      if (_unknownFields != null) {
-        hash ^= _unknownFields.GetHashCode();
-      }
-      return hash;
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override string ToString() {
-      return pb::JsonFormatter.ToDiagnosticString(this);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void WriteTo(pb::CodedOutputStream output) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      output.WriteRawMessage(this);
-    #else
-      if (id_ != null) {
-        output.WriteRawTag(10);
-        output.WriteMessage(Id);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(output);
-      }
-    #endif
-    }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (id_ != null) {
-        output.WriteRawTag(10);
-        output.WriteMessage(Id);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(ref output);
-      }
-    }
-    #endif
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public int CalculateSize() {
-      int size = 0;
-      if (id_ != null) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Id);
-      }
-      if (_unknownFields != null) {
-        size += _unknownFields.CalculateSize();
-      }
-      return size;
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(Verifier other) {
-      if (other == null) {
-        return;
-      }
-      if (other.id_ != null) {
-        if (id_ == null) {
-          Id = new global::AElf.Types.Hash();
-        }
-        Id.MergeFrom(other.Id);
-      }
-      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(pb::CodedInputStream input) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      input.ReadRawMessage(this);
-    #else
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
-            break;
-          case 10: {
-            if (id_ == null) {
-              Id = new global::AElf.Types.Hash();
+          case 26: {
+            if (identifierHash_ == null) {
+              IdentifierHash = new global::AElf.Types.Hash();
             }
-            input.ReadMessage(Id);
+            input.ReadMessage(IdentifierHash);
             break;
           }
-        }
-      }
-    #endif
-    }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+          case 34: {
+            Salt = input.ReadString();
             break;
-          case 10: {
-            if (id_ == null) {
-              Id = new global::AElf.Types.Hash();
-            }
-            input.ReadMessage(Id);
+          }
+          case 40: {
+            IsLoginGuardian = input.ReadBool();
             break;
           }
         }
@@ -2201,7 +1494,7 @@ namespace CAVerifierServer.Application {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[8]; }
+      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[4]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -2225,7 +1518,7 @@ namespace CAVerifierServer.Application {
       name_ = other.name_;
       imageUrl_ = other.imageUrl_;
       endPoints_ = other.endPoints_.Clone();
-      verifierAddress_ = other.verifierAddress_.Clone();
+      verifierAddresses_ = other.verifierAddresses_.Clone();
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -2282,15 +1575,15 @@ namespace CAVerifierServer.Application {
       get { return endPoints_; }
     }
 
-    /// <summary>Field number for the "verifier_address" field.</summary>
-    public const int VerifierAddressFieldNumber = 5;
-    private static readonly pb::FieldCodec<global::AElf.Types.Address> _repeated_verifierAddress_codec
+    /// <summary>Field number for the "verifier_addresses" field.</summary>
+    public const int VerifierAddressesFieldNumber = 5;
+    private static readonly pb::FieldCodec<global::AElf.Types.Address> _repeated_verifierAddresses_codec
         = pb::FieldCodec.ForMessage(42, global::AElf.Types.Address.Parser);
-    private readonly pbc::RepeatedField<global::AElf.Types.Address> verifierAddress_ = new pbc::RepeatedField<global::AElf.Types.Address>();
+    private readonly pbc::RepeatedField<global::AElf.Types.Address> verifierAddresses_ = new pbc::RepeatedField<global::AElf.Types.Address>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::RepeatedField<global::AElf.Types.Address> VerifierAddress {
-      get { return verifierAddress_; }
+    public pbc::RepeatedField<global::AElf.Types.Address> VerifierAddresses {
+      get { return verifierAddresses_; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -2312,7 +1605,7 @@ namespace CAVerifierServer.Application {
       if (Name != other.Name) return false;
       if (ImageUrl != other.ImageUrl) return false;
       if(!endPoints_.Equals(other.endPoints_)) return false;
-      if(!verifierAddress_.Equals(other.verifierAddress_)) return false;
+      if(!verifierAddresses_.Equals(other.verifierAddresses_)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -2324,7 +1617,7 @@ namespace CAVerifierServer.Application {
       if (Name.Length != 0) hash ^= Name.GetHashCode();
       if (ImageUrl.Length != 0) hash ^= ImageUrl.GetHashCode();
       hash ^= endPoints_.GetHashCode();
-      hash ^= verifierAddress_.GetHashCode();
+      hash ^= verifierAddresses_.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -2356,7 +1649,7 @@ namespace CAVerifierServer.Application {
         output.WriteString(ImageUrl);
       }
       endPoints_.WriteTo(output, _repeated_endPoints_codec);
-      verifierAddress_.WriteTo(output, _repeated_verifierAddress_codec);
+      verifierAddresses_.WriteTo(output, _repeated_verifierAddresses_codec);
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -2380,7 +1673,7 @@ namespace CAVerifierServer.Application {
         output.WriteString(ImageUrl);
       }
       endPoints_.WriteTo(ref output, _repeated_endPoints_codec);
-      verifierAddress_.WriteTo(ref output, _repeated_verifierAddress_codec);
+      verifierAddresses_.WriteTo(ref output, _repeated_verifierAddresses_codec);
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -2401,7 +1694,7 @@ namespace CAVerifierServer.Application {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(ImageUrl);
       }
       size += endPoints_.CalculateSize(_repeated_endPoints_codec);
-      size += verifierAddress_.CalculateSize(_repeated_verifierAddress_codec);
+      size += verifierAddresses_.CalculateSize(_repeated_verifierAddresses_codec);
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
       }
@@ -2427,7 +1720,7 @@ namespace CAVerifierServer.Application {
         ImageUrl = other.ImageUrl;
       }
       endPoints_.Add(other.endPoints_);
-      verifierAddress_.Add(other.verifierAddress_);
+      verifierAddresses_.Add(other.verifierAddresses_);
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
 
@@ -2463,7 +1756,7 @@ namespace CAVerifierServer.Application {
             break;
           }
           case 42: {
-            verifierAddress_.AddEntriesFrom(input, _repeated_verifierAddress_codec);
+            verifierAddresses_.AddEntriesFrom(input, _repeated_verifierAddresses_codec);
             break;
           }
         }
@@ -2501,7 +1794,7 @@ namespace CAVerifierServer.Application {
             break;
           }
           case 42: {
-            verifierAddress_.AddEntriesFrom(ref input, _repeated_verifierAddress_codec);
+            verifierAddresses_.AddEntriesFrom(ref input, _repeated_verifierAddresses_codec);
             break;
           }
         }
@@ -2525,7 +1818,7 @@ namespace CAVerifierServer.Application {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[9]; }
+      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[5]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -2546,7 +1839,7 @@ namespace CAVerifierServer.Application {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public CAServer(CAServer other) : this() {
       name_ = other.name_;
-      endPoint_ = other.endPoint_;
+      pubkey_ = other.pubkey_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -2568,15 +1861,18 @@ namespace CAVerifierServer.Application {
       }
     }
 
-    /// <summary>Field number for the "end_point" field.</summary>
-    public const int EndPointFieldNumber = 2;
-    private string endPoint_ = "";
+    /// <summary>Field number for the "pubkey" field.</summary>
+    public const int PubkeyFieldNumber = 3;
+    private string pubkey_ = "";
+    /// <summary>
+    /// string end_point = 2;
+    /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public string EndPoint {
-      get { return endPoint_; }
+    public string Pubkey {
+      get { return pubkey_; }
       set {
-        endPoint_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+        pubkey_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
@@ -2596,7 +1892,7 @@ namespace CAVerifierServer.Application {
         return true;
       }
       if (Name != other.Name) return false;
-      if (EndPoint != other.EndPoint) return false;
+      if (Pubkey != other.Pubkey) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -2605,7 +1901,7 @@ namespace CAVerifierServer.Application {
     public override int GetHashCode() {
       int hash = 1;
       if (Name.Length != 0) hash ^= Name.GetHashCode();
-      if (EndPoint.Length != 0) hash ^= EndPoint.GetHashCode();
+      if (Pubkey.Length != 0) hash ^= Pubkey.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -2628,9 +1924,9 @@ namespace CAVerifierServer.Application {
         output.WriteRawTag(10);
         output.WriteString(Name);
       }
-      if (EndPoint.Length != 0) {
-        output.WriteRawTag(18);
-        output.WriteString(EndPoint);
+      if (Pubkey.Length != 0) {
+        output.WriteRawTag(26);
+        output.WriteString(Pubkey);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -2646,9 +1942,9 @@ namespace CAVerifierServer.Application {
         output.WriteRawTag(10);
         output.WriteString(Name);
       }
-      if (EndPoint.Length != 0) {
-        output.WriteRawTag(18);
-        output.WriteString(EndPoint);
+      if (Pubkey.Length != 0) {
+        output.WriteRawTag(26);
+        output.WriteString(Pubkey);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
@@ -2663,8 +1959,8 @@ namespace CAVerifierServer.Application {
       if (Name.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(Name);
       }
-      if (EndPoint.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(EndPoint);
+      if (Pubkey.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Pubkey);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -2681,8 +1977,8 @@ namespace CAVerifierServer.Application {
       if (other.Name.Length != 0) {
         Name = other.Name;
       }
-      if (other.EndPoint.Length != 0) {
-        EndPoint = other.EndPoint;
+      if (other.Pubkey.Length != 0) {
+        Pubkey = other.Pubkey;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -2703,8 +1999,8 @@ namespace CAVerifierServer.Application {
             Name = input.ReadString();
             break;
           }
-          case 18: {
-            EndPoint = input.ReadString();
+          case 26: {
+            Pubkey = input.ReadString();
             break;
           }
         }
@@ -2726,8 +2022,8 @@ namespace CAVerifierServer.Application {
             Name = input.ReadString();
             break;
           }
-          case 18: {
-            EndPoint = input.ReadString();
+          case 26: {
+            Pubkey = input.ReadString();
             break;
           }
         }
@@ -2751,7 +2047,7 @@ namespace CAVerifierServer.Application {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[10]; }
+      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[6]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -2929,7 +2225,7 @@ namespace CAVerifierServer.Application {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[11]; }
+      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[7]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -3093,6 +2389,540 @@ namespace CAVerifierServer.Application {
 
   }
 
+  public sealed partial class ControllerList : pb::IMessage<ControllerList>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<ControllerList> _parser = new pb::MessageParser<ControllerList>(() => new ControllerList());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<ControllerList> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[8]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ControllerList() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ControllerList(ControllerList other) : this() {
+      controllers_ = other.controllers_.Clone();
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ControllerList Clone() {
+      return new ControllerList(this);
+    }
+
+    /// <summary>Field number for the "controllers" field.</summary>
+    public const int ControllersFieldNumber = 1;
+    private static readonly pb::FieldCodec<global::AElf.Types.Address> _repeated_controllers_codec
+        = pb::FieldCodec.ForMessage(10, global::AElf.Types.Address.Parser);
+    private readonly pbc::RepeatedField<global::AElf.Types.Address> controllers_ = new pbc::RepeatedField<global::AElf.Types.Address>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public pbc::RepeatedField<global::AElf.Types.Address> Controllers {
+      get { return controllers_; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as ControllerList);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(ControllerList other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if(!controllers_.Equals(other.controllers_)) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      hash ^= controllers_.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      controllers_.WriteTo(output, _repeated_controllers_codec);
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      controllers_.WriteTo(ref output, _repeated_controllers_codec);
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      size += controllers_.CalculateSize(_repeated_controllers_codec);
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(ControllerList other) {
+      if (other == null) {
+        return;
+      }
+      controllers_.Add(other.controllers_);
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            controllers_.AddEntriesFrom(input, _repeated_controllers_codec);
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            controllers_.AddEntriesFrom(ref input, _repeated_controllers_codec);
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  public sealed partial class ManagerInfoList : pb::IMessage<ManagerInfoList>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<ManagerInfoList> _parser = new pb::MessageParser<ManagerInfoList>(() => new ManagerInfoList());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<ManagerInfoList> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[9]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ManagerInfoList() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ManagerInfoList(ManagerInfoList other) : this() {
+      managerInfos_ = other.managerInfos_.Clone();
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ManagerInfoList Clone() {
+      return new ManagerInfoList(this);
+    }
+
+    /// <summary>Field number for the "manager_infos" field.</summary>
+    public const int ManagerInfosFieldNumber = 1;
+    private static readonly pb::FieldCodec<global::CAVerifierServer.Application.ManagerInfo> _repeated_managerInfos_codec
+        = pb::FieldCodec.ForMessage(10, global::CAVerifierServer.Application.ManagerInfo.Parser);
+    private readonly pbc::RepeatedField<global::CAVerifierServer.Application.ManagerInfo> managerInfos_ = new pbc::RepeatedField<global::CAVerifierServer.Application.ManagerInfo>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public pbc::RepeatedField<global::CAVerifierServer.Application.ManagerInfo> ManagerInfos {
+      get { return managerInfos_; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as ManagerInfoList);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(ManagerInfoList other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if(!managerInfos_.Equals(other.managerInfos_)) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      hash ^= managerInfos_.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      managerInfos_.WriteTo(output, _repeated_managerInfos_codec);
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      managerInfos_.WriteTo(ref output, _repeated_managerInfos_codec);
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      size += managerInfos_.CalculateSize(_repeated_managerInfos_codec);
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(ManagerInfoList other) {
+      if (other == null) {
+        return;
+      }
+      managerInfos_.Add(other.managerInfos_);
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            managerInfos_.AddEntriesFrom(input, _repeated_managerInfos_codec);
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            managerInfos_.AddEntriesFrom(ref input, _repeated_managerInfos_codec);
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  public sealed partial class LoginGuardianList : pb::IMessage<LoginGuardianList>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<LoginGuardianList> _parser = new pb::MessageParser<LoginGuardianList>(() => new LoginGuardianList());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<LoginGuardianList> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[10]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public LoginGuardianList() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public LoginGuardianList(LoginGuardianList other) : this() {
+      loginGuardians_ = other.loginGuardians_.Clone();
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public LoginGuardianList Clone() {
+      return new LoginGuardianList(this);
+    }
+
+    /// <summary>Field number for the "login_guardians" field.</summary>
+    public const int LoginGuardiansFieldNumber = 1;
+    private static readonly pb::FieldCodec<global::AElf.Types.Hash> _repeated_loginGuardians_codec
+        = pb::FieldCodec.ForMessage(10, global::AElf.Types.Hash.Parser);
+    private readonly pbc::RepeatedField<global::AElf.Types.Hash> loginGuardians_ = new pbc::RepeatedField<global::AElf.Types.Hash>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public pbc::RepeatedField<global::AElf.Types.Hash> LoginGuardians {
+      get { return loginGuardians_; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as LoginGuardianList);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(LoginGuardianList other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if(!loginGuardians_.Equals(other.loginGuardians_)) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      hash ^= loginGuardians_.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      loginGuardians_.WriteTo(output, _repeated_loginGuardians_codec);
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      loginGuardians_.WriteTo(ref output, _repeated_loginGuardians_codec);
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      size += loginGuardians_.CalculateSize(_repeated_loginGuardians_codec);
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(LoginGuardianList other) {
+      if (other == null) {
+        return;
+      }
+      loginGuardians_.Add(other.loginGuardians_);
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            loginGuardians_.AddEntriesFrom(input, _repeated_loginGuardians_codec);
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            loginGuardians_.AddEntriesFrom(ref input, _repeated_loginGuardians_codec);
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
   /// <summary>
   ///Input
   /// </summary>
@@ -3110,7 +2940,7 @@ namespace CAVerifierServer.Application {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[12]; }
+      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[11]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -3294,6 +3124,778 @@ namespace CAVerifierServer.Application {
 
   }
 
+  public sealed partial class ControllerInput : pb::IMessage<ControllerInput>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<ControllerInput> _parser = new pb::MessageParser<ControllerInput>(() => new ControllerInput());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<ControllerInput> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[12]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ControllerInput() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ControllerInput(ControllerInput other) : this() {
+      address_ = other.address_ != null ? other.address_.Clone() : null;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ControllerInput Clone() {
+      return new ControllerInput(this);
+    }
+
+    /// <summary>Field number for the "address" field.</summary>
+    public const int AddressFieldNumber = 1;
+    private global::AElf.Types.Address address_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::AElf.Types.Address Address {
+      get { return address_; }
+      set {
+        address_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as ControllerInput);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(ControllerInput other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (!object.Equals(Address, other.Address)) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (address_ != null) hash ^= Address.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (address_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(Address);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (address_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(Address);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (address_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Address);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(ControllerInput other) {
+      if (other == null) {
+        return;
+      }
+      if (other.address_ != null) {
+        if (address_ == null) {
+          Address = new global::AElf.Types.Address();
+        }
+        Address.MergeFrom(other.Address);
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            if (address_ == null) {
+              Address = new global::AElf.Types.Address();
+            }
+            input.ReadMessage(Address);
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            if (address_ == null) {
+              Address = new global::AElf.Types.Address();
+            }
+            input.ReadMessage(Address);
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  public sealed partial class ControllerOutput : pb::IMessage<ControllerOutput>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<ControllerOutput> _parser = new pb::MessageParser<ControllerOutput>(() => new ControllerOutput());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<ControllerOutput> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[13]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ControllerOutput() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ControllerOutput(ControllerOutput other) : this() {
+      addresses_ = other.addresses_.Clone();
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ControllerOutput Clone() {
+      return new ControllerOutput(this);
+    }
+
+    /// <summary>Field number for the "addresses" field.</summary>
+    public const int AddressesFieldNumber = 1;
+    private static readonly pb::FieldCodec<global::AElf.Types.Address> _repeated_addresses_codec
+        = pb::FieldCodec.ForMessage(10, global::AElf.Types.Address.Parser);
+    private readonly pbc::RepeatedField<global::AElf.Types.Address> addresses_ = new pbc::RepeatedField<global::AElf.Types.Address>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public pbc::RepeatedField<global::AElf.Types.Address> Addresses {
+      get { return addresses_; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as ControllerOutput);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(ControllerOutput other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if(!addresses_.Equals(other.addresses_)) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      hash ^= addresses_.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      addresses_.WriteTo(output, _repeated_addresses_codec);
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      addresses_.WriteTo(ref output, _repeated_addresses_codec);
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      size += addresses_.CalculateSize(_repeated_addresses_codec);
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(ControllerOutput other) {
+      if (other == null) {
+        return;
+      }
+      addresses_.Add(other.addresses_);
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            addresses_.AddEntriesFrom(input, _repeated_addresses_codec);
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            addresses_.AddEntriesFrom(ref input, _repeated_addresses_codec);
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  public sealed partial class AdminInput : pb::IMessage<AdminInput>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<AdminInput> _parser = new pb::MessageParser<AdminInput>(() => new AdminInput());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<AdminInput> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[14]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public AdminInput() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public AdminInput(AdminInput other) : this() {
+      address_ = other.address_ != null ? other.address_.Clone() : null;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public AdminInput Clone() {
+      return new AdminInput(this);
+    }
+
+    /// <summary>Field number for the "address" field.</summary>
+    public const int AddressFieldNumber = 1;
+    private global::AElf.Types.Address address_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::AElf.Types.Address Address {
+      get { return address_; }
+      set {
+        address_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as AdminInput);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(AdminInput other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (!object.Equals(Address, other.Address)) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (address_ != null) hash ^= Address.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (address_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(Address);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (address_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(Address);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (address_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Address);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(AdminInput other) {
+      if (other == null) {
+        return;
+      }
+      if (other.address_ != null) {
+        if (address_ == null) {
+          Address = new global::AElf.Types.Address();
+        }
+        Address.MergeFrom(other.Address);
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            if (address_ == null) {
+              Address = new global::AElf.Types.Address();
+            }
+            input.ReadMessage(Address);
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            if (address_ == null) {
+              Address = new global::AElf.Types.Address();
+            }
+            input.ReadMessage(Address);
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  public sealed partial class AdminOutput : pb::IMessage<AdminOutput>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<AdminOutput> _parser = new pb::MessageParser<AdminOutput>(() => new AdminOutput());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<AdminOutput> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[15]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public AdminOutput() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public AdminOutput(AdminOutput other) : this() {
+      address_ = other.address_ != null ? other.address_.Clone() : null;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public AdminOutput Clone() {
+      return new AdminOutput(this);
+    }
+
+    /// <summary>Field number for the "address" field.</summary>
+    public const int AddressFieldNumber = 1;
+    private global::AElf.Types.Address address_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::AElf.Types.Address Address {
+      get { return address_; }
+      set {
+        address_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as AdminOutput);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(AdminOutput other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (!object.Equals(Address, other.Address)) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (address_ != null) hash ^= Address.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (address_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(Address);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (address_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(Address);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (address_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Address);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(AdminOutput other) {
+      if (other == null) {
+        return;
+      }
+      if (other.address_ != null) {
+        if (address_ == null) {
+          Address = new global::AElf.Types.Address();
+        }
+        Address.MergeFrom(other.Address);
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            if (address_ == null) {
+              Address = new global::AElf.Types.Address();
+            }
+            input.ReadMessage(Address);
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            if (address_ == null) {
+              Address = new global::AElf.Types.Address();
+            }
+            input.ReadMessage(Address);
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
   public sealed partial class CreateCAHolderInput : pb::IMessage<CreateCAHolderInput>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
@@ -3308,7 +3910,7 @@ namespace CAVerifierServer.Application {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[13]; }
+      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[16]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -3329,7 +3931,7 @@ namespace CAVerifierServer.Application {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public CreateCAHolderInput(CreateCAHolderInput other) : this() {
       guardianApproved_ = other.guardianApproved_ != null ? other.guardianApproved_.Clone() : null;
-      manager_ = other.manager_ != null ? other.manager_.Clone() : null;
+      managerInfo_ = other.managerInfo_ != null ? other.managerInfo_.Clone() : null;
       judgementStrategy_ = other.judgementStrategy_ != null ? other.judgementStrategy_.Clone() : null;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
@@ -3342,25 +3944,25 @@ namespace CAVerifierServer.Application {
 
     /// <summary>Field number for the "guardian_approved" field.</summary>
     public const int GuardianApprovedFieldNumber = 1;
-    private global::CAVerifierServer.Application.GuardianAccountInfo guardianApproved_;
+    private global::CAVerifierServer.Application.GuardianInfo guardianApproved_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::CAVerifierServer.Application.GuardianAccountInfo GuardianApproved {
+    public global::CAVerifierServer.Application.GuardianInfo GuardianApproved {
       get { return guardianApproved_; }
       set {
         guardianApproved_ = value;
       }
     }
 
-    /// <summary>Field number for the "manager" field.</summary>
-    public const int ManagerFieldNumber = 2;
-    private global::CAVerifierServer.Application.Manager manager_;
+    /// <summary>Field number for the "manager_info" field.</summary>
+    public const int ManagerInfoFieldNumber = 2;
+    private global::CAVerifierServer.Application.ManagerInfo managerInfo_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::CAVerifierServer.Application.Manager Manager {
-      get { return manager_; }
+    public global::CAVerifierServer.Application.ManagerInfo ManagerInfo {
+      get { return managerInfo_; }
       set {
-        manager_ = value;
+        managerInfo_ = value;
       }
     }
 
@@ -3392,7 +3994,7 @@ namespace CAVerifierServer.Application {
         return true;
       }
       if (!object.Equals(GuardianApproved, other.GuardianApproved)) return false;
-      if (!object.Equals(Manager, other.Manager)) return false;
+      if (!object.Equals(ManagerInfo, other.ManagerInfo)) return false;
       if (!object.Equals(JudgementStrategy, other.JudgementStrategy)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
@@ -3402,7 +4004,7 @@ namespace CAVerifierServer.Application {
     public override int GetHashCode() {
       int hash = 1;
       if (guardianApproved_ != null) hash ^= GuardianApproved.GetHashCode();
-      if (manager_ != null) hash ^= Manager.GetHashCode();
+      if (managerInfo_ != null) hash ^= ManagerInfo.GetHashCode();
       if (judgementStrategy_ != null) hash ^= JudgementStrategy.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
@@ -3426,9 +4028,9 @@ namespace CAVerifierServer.Application {
         output.WriteRawTag(10);
         output.WriteMessage(GuardianApproved);
       }
-      if (manager_ != null) {
+      if (managerInfo_ != null) {
         output.WriteRawTag(18);
-        output.WriteMessage(Manager);
+        output.WriteMessage(ManagerInfo);
       }
       if (judgementStrategy_ != null) {
         output.WriteRawTag(26);
@@ -3448,9 +4050,9 @@ namespace CAVerifierServer.Application {
         output.WriteRawTag(10);
         output.WriteMessage(GuardianApproved);
       }
-      if (manager_ != null) {
+      if (managerInfo_ != null) {
         output.WriteRawTag(18);
-        output.WriteMessage(Manager);
+        output.WriteMessage(ManagerInfo);
       }
       if (judgementStrategy_ != null) {
         output.WriteRawTag(26);
@@ -3469,8 +4071,8 @@ namespace CAVerifierServer.Application {
       if (guardianApproved_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(GuardianApproved);
       }
-      if (manager_ != null) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Manager);
+      if (managerInfo_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(ManagerInfo);
       }
       if (judgementStrategy_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(JudgementStrategy);
@@ -3489,15 +4091,15 @@ namespace CAVerifierServer.Application {
       }
       if (other.guardianApproved_ != null) {
         if (guardianApproved_ == null) {
-          GuardianApproved = new global::CAVerifierServer.Application.GuardianAccountInfo();
+          GuardianApproved = new global::CAVerifierServer.Application.GuardianInfo();
         }
         GuardianApproved.MergeFrom(other.GuardianApproved);
       }
-      if (other.manager_ != null) {
-        if (manager_ == null) {
-          Manager = new global::CAVerifierServer.Application.Manager();
+      if (other.managerInfo_ != null) {
+        if (managerInfo_ == null) {
+          ManagerInfo = new global::CAVerifierServer.Application.ManagerInfo();
         }
-        Manager.MergeFrom(other.Manager);
+        ManagerInfo.MergeFrom(other.ManagerInfo);
       }
       if (other.judgementStrategy_ != null) {
         if (judgementStrategy_ == null) {
@@ -3522,21 +4124,21 @@ namespace CAVerifierServer.Application {
             break;
           case 10: {
             if (guardianApproved_ == null) {
-              GuardianApproved = new global::CAServer.Grains.Grain.ApplicationHandler.GuardianAccountInfo();
+              GuardianApproved = new global::CAVerifierServer.Application.GuardianInfo();
             }
             input.ReadMessage(GuardianApproved);
             break;
           }
           case 18: {
-            if (manager_ == null) {
-              Manager = new global::CAServer.Grains.Grain.ApplicationHandler.Manager();
+            if (managerInfo_ == null) {
+              ManagerInfo = new global::CAVerifierServer.Application.ManagerInfo();
             }
-            input.ReadMessage(Manager);
+            input.ReadMessage(ManagerInfo);
             break;
           }
           case 26: {
             if (judgementStrategy_ == null) {
-              JudgementStrategy = new global::CAServer.Grains.Grain.ApplicationHandler.StrategyNode();
+              JudgementStrategy = new global::CAVerifierServer.Application.StrategyNode();
             }
             input.ReadMessage(JudgementStrategy);
             break;
@@ -3558,16 +4160,16 @@ namespace CAVerifierServer.Application {
             break;
           case 10: {
             if (guardianApproved_ == null) {
-              GuardianApproved = new global::CAVerifierServer.Application.GuardianAccountInfo();
+              GuardianApproved = new global::CAVerifierServer.Application.GuardianInfo();
             }
             input.ReadMessage(GuardianApproved);
             break;
           }
           case 18: {
-            if (manager_ == null) {
-              Manager = new global::CAVerifierServer.Application.Manager();
+            if (managerInfo_ == null) {
+              ManagerInfo = new global::CAVerifierServer.Application.ManagerInfo();
             }
-            input.ReadMessage(Manager);
+            input.ReadMessage(ManagerInfo);
             break;
           }
           case 26: {
@@ -3584,21 +4186,21 @@ namespace CAVerifierServer.Application {
 
   }
 
-  public sealed partial class GuardianAccountInfo : pb::IMessage<GuardianAccountInfo>
+  public sealed partial class GuardianInfo : pb::IMessage<GuardianInfo>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
   #endif
   {
-    private static readonly pb::MessageParser<GuardianAccountInfo> _parser = new pb::MessageParser<GuardianAccountInfo>(() => new GuardianAccountInfo());
+    private static readonly pb::MessageParser<GuardianInfo> _parser = new pb::MessageParser<GuardianInfo>(() => new GuardianInfo());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pb::MessageParser<GuardianAccountInfo> Parser { get { return _parser; } }
+    public static pb::MessageParser<GuardianInfo> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[14]; }
+      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[17]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -3609,7 +4211,7 @@ namespace CAVerifierServer.Application {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public GuardianAccountInfo() {
+    public GuardianInfo() {
       OnConstruction();
     }
 
@@ -3617,33 +4219,21 @@ namespace CAVerifierServer.Application {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public GuardianAccountInfo(GuardianAccountInfo other) : this() {
-      value_ = other.value_;
+    public GuardianInfo(GuardianInfo other) : this() {
       type_ = other.type_;
+      identifierHash_ = other.identifierHash_ != null ? other.identifierHash_.Clone() : null;
       verificationInfo_ = other.verificationInfo_ != null ? other.verificationInfo_.Clone() : null;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public GuardianAccountInfo Clone() {
-      return new GuardianAccountInfo(this);
-    }
-
-    /// <summary>Field number for the "value" field.</summary>
-    public const int ValueFieldNumber = 1;
-    private string value_ = "";
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public string Value {
-      get { return value_; }
-      set {
-        value_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
-      }
+    public GuardianInfo Clone() {
+      return new GuardianInfo(this);
     }
 
     /// <summary>Field number for the "type" field.</summary>
-    public const int TypeFieldNumber = 2;
+    public const int TypeFieldNumber = 1;
     private global::CAVerifierServer.Application.GuardianType type_ = global::CAVerifierServer.Application.GuardianType.OfEmail;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -3651,6 +4241,18 @@ namespace CAVerifierServer.Application {
       get { return type_; }
       set {
         type_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "identifier_hash" field.</summary>
+    public const int IdentifierHashFieldNumber = 2;
+    private global::AElf.Types.Hash identifierHash_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::AElf.Types.Hash IdentifierHash {
+      get { return identifierHash_; }
+      set {
+        identifierHash_ = value;
       }
     }
 
@@ -3669,20 +4271,20 @@ namespace CAVerifierServer.Application {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
-      return Equals(other as GuardianAccountInfo);
+      return Equals(other as GuardianInfo);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool Equals(GuardianAccountInfo other) {
+    public bool Equals(GuardianInfo other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if (Value != other.Value) return false;
       if (Type != other.Type) return false;
+      if (!object.Equals(IdentifierHash, other.IdentifierHash)) return false;
       if (!object.Equals(VerificationInfo, other.VerificationInfo)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
@@ -3691,8 +4293,8 @@ namespace CAVerifierServer.Application {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
-      if (Value.Length != 0) hash ^= Value.GetHashCode();
       if (Type != global::CAVerifierServer.Application.GuardianType.OfEmail) hash ^= Type.GetHashCode();
+      if (identifierHash_ != null) hash ^= IdentifierHash.GetHashCode();
       if (verificationInfo_ != null) hash ^= VerificationInfo.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
@@ -3712,13 +4314,13 @@ namespace CAVerifierServer.Application {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
     #else
-      if (Value.Length != 0) {
-        output.WriteRawTag(10);
-        output.WriteString(Value);
-      }
-      if (Type != global::CAServer.Grains.Grain.ApplicationHandler.GuardianType.OfEmail) {
-        output.WriteRawTag(16);
+      if (Type != global::CAVerifierServer.Application.GuardianType.OfEmail) {
+        output.WriteRawTag(8);
         output.WriteEnum((int) Type);
+      }
+      if (identifierHash_ != null) {
+        output.WriteRawTag(18);
+        output.WriteMessage(IdentifierHash);
       }
       if (verificationInfo_ != null) {
         output.WriteRawTag(26);
@@ -3734,13 +4336,13 @@ namespace CAVerifierServer.Application {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (Value.Length != 0) {
-        output.WriteRawTag(10);
-        output.WriteString(Value);
-      }
       if (Type != global::CAVerifierServer.Application.GuardianType.OfEmail) {
-        output.WriteRawTag(16);
+        output.WriteRawTag(8);
         output.WriteEnum((int) Type);
+      }
+      if (identifierHash_ != null) {
+        output.WriteRawTag(18);
+        output.WriteMessage(IdentifierHash);
       }
       if (verificationInfo_ != null) {
         output.WriteRawTag(26);
@@ -3756,11 +4358,11 @@ namespace CAVerifierServer.Application {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
-      if (Value.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(Value);
-      }
       if (Type != global::CAVerifierServer.Application.GuardianType.OfEmail) {
         size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) Type);
+      }
+      if (identifierHash_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(IdentifierHash);
       }
       if (verificationInfo_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(VerificationInfo);
@@ -3773,15 +4375,18 @@ namespace CAVerifierServer.Application {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(GuardianAccountInfo other) {
+    public void MergeFrom(GuardianInfo other) {
       if (other == null) {
         return;
       }
-      if (other.Value.Length != 0) {
-        Value = other.Value;
-      }
       if (other.Type != global::CAVerifierServer.Application.GuardianType.OfEmail) {
         Type = other.Type;
+      }
+      if (other.identifierHash_ != null) {
+        if (identifierHash_ == null) {
+          IdentifierHash = new global::AElf.Types.Hash();
+        }
+        IdentifierHash.MergeFrom(other.IdentifierHash);
       }
       if (other.verificationInfo_ != null) {
         if (verificationInfo_ == null) {
@@ -3804,17 +4409,20 @@ namespace CAVerifierServer.Application {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
-          case 10: {
-            Value = input.ReadString();
+          case 8: {
+            Type = (global::CAVerifierServer.Application.GuardianType) input.ReadEnum();
             break;
           }
-          case 16: {
-            Type = (global::CAServer.Grains.Grain.ApplicationHandler.GuardianType) input.ReadEnum();
+          case 18: {
+            if (identifierHash_ == null) {
+              IdentifierHash = new global::AElf.Types.Hash();
+            }
+            input.ReadMessage(IdentifierHash);
             break;
           }
           case 26: {
             if (verificationInfo_ == null) {
-              VerificationInfo = new global::CAServer.Grains.Grain.ApplicationHandler.VerificationInfo();
+              VerificationInfo = new global::CAVerifierServer.Application.VerificationInfo();
             }
             input.ReadMessage(VerificationInfo);
             break;
@@ -3834,12 +4442,15 @@ namespace CAVerifierServer.Application {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
-          case 10: {
-            Value = input.ReadString();
+          case 8: {
+            Type = (global::CAVerifierServer.Application.GuardianType) input.ReadEnum();
             break;
           }
-          case 16: {
-            Type = (global::CAVerifierServer.Application.GuardianType) input.ReadEnum();
+          case 18: {
+            if (identifierHash_ == null) {
+              IdentifierHash = new global::AElf.Types.Hash();
+            }
+            input.ReadMessage(IdentifierHash);
             break;
           }
           case 26: {
@@ -3870,7 +4481,7 @@ namespace CAVerifierServer.Application {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[15]; }
+      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[18]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -4142,7 +4753,7 @@ namespace CAVerifierServer.Application {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[16]; }
+      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[19]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -4254,7 +4865,7 @@ namespace CAVerifierServer.Application {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
     #else
-      if (Name != global::CAServer.Grains.Grain.ApplicationHandler.StrategyName.And) {
+      if (Name != global::CAVerifierServer.Application.StrategyName.And) {
         output.WriteRawTag(8);
         output.WriteEnum((int) Name);
       }
@@ -4324,7 +4935,7 @@ namespace CAVerifierServer.Application {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 8: {
-            Name = (global::CAServer.Grains.Grain.ApplicationHandler.StrategyName) input.ReadEnum();
+            Name = (global::CAVerifierServer.Application.StrategyName) input.ReadEnum();
             break;
           }
           case 18:
@@ -4385,7 +4996,7 @@ namespace CAVerifierServer.Application {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[17]; }
+      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[20]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -4574,7 +5185,7 @@ namespace CAVerifierServer.Application {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[18]; }
+      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[21]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -4749,6 +5360,591 @@ namespace CAVerifierServer.Application {
 
   }
 
+  public sealed partial class ContractDelegationFee : pb::IMessage<ContractDelegationFee>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<ContractDelegationFee> _parser = new pb::MessageParser<ContractDelegationFee>(() => new ContractDelegationFee());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<ContractDelegationFee> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[22]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ContractDelegationFee() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ContractDelegationFee(ContractDelegationFee other) : this() {
+      amount_ = other.amount_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ContractDelegationFee Clone() {
+      return new ContractDelegationFee(this);
+    }
+
+    /// <summary>Field number for the "amount" field.</summary>
+    public const int AmountFieldNumber = 1;
+    private long amount_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public long Amount {
+      get { return amount_; }
+      set {
+        amount_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as ContractDelegationFee);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(ContractDelegationFee other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (Amount != other.Amount) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (Amount != 0L) hash ^= Amount.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (Amount != 0L) {
+        output.WriteRawTag(8);
+        output.WriteInt64(Amount);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (Amount != 0L) {
+        output.WriteRawTag(8);
+        output.WriteInt64(Amount);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (Amount != 0L) {
+        size += 1 + pb::CodedOutputStream.ComputeInt64Size(Amount);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(ContractDelegationFee other) {
+      if (other == null) {
+        return;
+      }
+      if (other.Amount != 0L) {
+        Amount = other.Amount;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 8: {
+            Amount = input.ReadInt64();
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 8: {
+            Amount = input.ReadInt64();
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  public sealed partial class SetContractDelegationFeeInput : pb::IMessage<SetContractDelegationFeeInput>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<SetContractDelegationFeeInput> _parser = new pb::MessageParser<SetContractDelegationFeeInput>(() => new SetContractDelegationFeeInput());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<SetContractDelegationFeeInput> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[23]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public SetContractDelegationFeeInput() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public SetContractDelegationFeeInput(SetContractDelegationFeeInput other) : this() {
+      delegationFee_ = other.delegationFee_ != null ? other.delegationFee_.Clone() : null;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public SetContractDelegationFeeInput Clone() {
+      return new SetContractDelegationFeeInput(this);
+    }
+
+    /// <summary>Field number for the "delegation_fee" field.</summary>
+    public const int DelegationFeeFieldNumber = 1;
+    private global::CAVerifierServer.Application.ContractDelegationFee delegationFee_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::CAVerifierServer.Application.ContractDelegationFee DelegationFee {
+      get { return delegationFee_; }
+      set {
+        delegationFee_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as SetContractDelegationFeeInput);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(SetContractDelegationFeeInput other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (!object.Equals(DelegationFee, other.DelegationFee)) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (delegationFee_ != null) hash ^= DelegationFee.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (delegationFee_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(DelegationFee);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (delegationFee_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(DelegationFee);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (delegationFee_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(DelegationFee);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(SetContractDelegationFeeInput other) {
+      if (other == null) {
+        return;
+      }
+      if (other.delegationFee_ != null) {
+        if (delegationFee_ == null) {
+          DelegationFee = new global::CAVerifierServer.Application.ContractDelegationFee();
+        }
+        DelegationFee.MergeFrom(other.DelegationFee);
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            if (delegationFee_ == null) {
+              DelegationFee = new global::CAVerifierServer.Application.ContractDelegationFee();
+            }
+            input.ReadMessage(DelegationFee);
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            if (delegationFee_ == null) {
+              DelegationFee = new global::CAVerifierServer.Application.ContractDelegationFee();
+            }
+            input.ReadMessage(DelegationFee);
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  public sealed partial class GetContractDelegationFeeOutput : pb::IMessage<GetContractDelegationFeeOutput>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<GetContractDelegationFeeOutput> _parser = new pb::MessageParser<GetContractDelegationFeeOutput>(() => new GetContractDelegationFeeOutput());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<GetContractDelegationFeeOutput> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[24]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public GetContractDelegationFeeOutput() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public GetContractDelegationFeeOutput(GetContractDelegationFeeOutput other) : this() {
+      delegationFee_ = other.delegationFee_ != null ? other.delegationFee_.Clone() : null;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public GetContractDelegationFeeOutput Clone() {
+      return new GetContractDelegationFeeOutput(this);
+    }
+
+    /// <summary>Field number for the "delegation_fee" field.</summary>
+    public const int DelegationFeeFieldNumber = 1;
+    private global::CAVerifierServer.Application.ContractDelegationFee delegationFee_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::CAVerifierServer.Application.ContractDelegationFee DelegationFee {
+      get { return delegationFee_; }
+      set {
+        delegationFee_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as GetContractDelegationFeeOutput);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(GetContractDelegationFeeOutput other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (!object.Equals(DelegationFee, other.DelegationFee)) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (delegationFee_ != null) hash ^= DelegationFee.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (delegationFee_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(DelegationFee);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (delegationFee_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(DelegationFee);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (delegationFee_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(DelegationFee);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(GetContractDelegationFeeOutput other) {
+      if (other == null) {
+        return;
+      }
+      if (other.delegationFee_ != null) {
+        if (delegationFee_ == null) {
+          DelegationFee = new global::CAVerifierServer.Application.ContractDelegationFee();
+        }
+        DelegationFee.MergeFrom(other.DelegationFee);
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            if (delegationFee_ == null) {
+              DelegationFee = new global::CAVerifierServer.Application.ContractDelegationFee();
+            }
+            input.ReadMessage(DelegationFee);
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            if (delegationFee_ == null) {
+              DelegationFee = new global::CAVerifierServer.Application.ContractDelegationFee();
+            }
+            input.ReadMessage(DelegationFee);
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
   public sealed partial class AddGuardianInput : pb::IMessage<AddGuardianInput>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
@@ -4763,7 +5959,7 @@ namespace CAVerifierServer.Application {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[19]; }
+      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[25]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -4809,10 +6005,10 @@ namespace CAVerifierServer.Application {
 
     /// <summary>Field number for the "guardian_to_add" field.</summary>
     public const int GuardianToAddFieldNumber = 2;
-    private global::CAVerifierServer.Application.GuardianAccountInfo guardianToAdd_;
+    private global::CAVerifierServer.Application.GuardianInfo guardianToAdd_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::CAVerifierServer.Application.GuardianAccountInfo GuardianToAdd {
+    public global::CAVerifierServer.Application.GuardianInfo GuardianToAdd {
       get { return guardianToAdd_; }
       set {
         guardianToAdd_ = value;
@@ -4821,12 +6017,12 @@ namespace CAVerifierServer.Application {
 
     /// <summary>Field number for the "guardians_approved" field.</summary>
     public const int GuardiansApprovedFieldNumber = 3;
-    private static readonly pb::FieldCodec<global::CAVerifierServer.Application.GuardianAccountInfo> _repeated_guardiansApproved_codec
-        = pb::FieldCodec.ForMessage(26, global::CAVerifierServer.Application.GuardianAccountInfo.Parser);
-    private readonly pbc::RepeatedField<global::CAVerifierServer.Application.GuardianAccountInfo> guardiansApproved_ = new pbc::RepeatedField<global::CAVerifierServer.Application.GuardianAccountInfo>();
+    private static readonly pb::FieldCodec<global::CAVerifierServer.Application.GuardianInfo> _repeated_guardiansApproved_codec
+        = pb::FieldCodec.ForMessage(26, global::CAVerifierServer.Application.GuardianInfo.Parser);
+    private readonly pbc::RepeatedField<global::CAVerifierServer.Application.GuardianInfo> guardiansApproved_ = new pbc::RepeatedField<global::CAVerifierServer.Application.GuardianInfo>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::RepeatedField<global::CAVerifierServer.Application.GuardianAccountInfo> GuardiansApproved {
+    public pbc::RepeatedField<global::CAVerifierServer.Application.GuardianInfo> GuardiansApproved {
       get { return guardiansApproved_; }
     }
 
@@ -4941,7 +6137,7 @@ namespace CAVerifierServer.Application {
       }
       if (other.guardianToAdd_ != null) {
         if (guardianToAdd_ == null) {
-          GuardianToAdd = new global::CAVerifierServer.Application.GuardianAccountInfo();
+          GuardianToAdd = new global::CAVerifierServer.Application.GuardianInfo();
         }
         GuardianToAdd.MergeFrom(other.GuardianToAdd);
       }
@@ -4970,7 +6166,7 @@ namespace CAVerifierServer.Application {
           }
           case 18: {
             if (guardianToAdd_ == null) {
-              GuardianToAdd = new global::CAServer.Grains.Grain.ApplicationHandler.GuardianAccountInfo();
+              GuardianToAdd = new global::CAVerifierServer.Application.GuardianInfo();
             }
             input.ReadMessage(GuardianToAdd);
             break;
@@ -5003,7 +6199,7 @@ namespace CAVerifierServer.Application {
           }
           case 18: {
             if (guardianToAdd_ == null) {
-              GuardianToAdd = new global::CAVerifierServer.Application.GuardianAccountInfo();
+              GuardianToAdd = new global::CAVerifierServer.Application.GuardianInfo();
             }
             input.ReadMessage(GuardianToAdd);
             break;
@@ -5033,7 +6229,7 @@ namespace CAVerifierServer.Application {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[20]; }
+      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[26]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -5079,10 +6275,10 @@ namespace CAVerifierServer.Application {
 
     /// <summary>Field number for the "guardian_to_remove" field.</summary>
     public const int GuardianToRemoveFieldNumber = 2;
-    private global::CAVerifierServer.Application.GuardianAccountInfo guardianToRemove_;
+    private global::CAVerifierServer.Application.GuardianInfo guardianToRemove_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::CAVerifierServer.Application.GuardianAccountInfo GuardianToRemove {
+    public global::CAVerifierServer.Application.GuardianInfo GuardianToRemove {
       get { return guardianToRemove_; }
       set {
         guardianToRemove_ = value;
@@ -5091,12 +6287,12 @@ namespace CAVerifierServer.Application {
 
     /// <summary>Field number for the "guardians_approved" field.</summary>
     public const int GuardiansApprovedFieldNumber = 3;
-    private static readonly pb::FieldCodec<global::CAVerifierServer.Application.GuardianAccountInfo> _repeated_guardiansApproved_codec
-        = pb::FieldCodec.ForMessage(26, global::CAVerifierServer.Application.GuardianAccountInfo.Parser);
-    private readonly pbc::RepeatedField<global::CAVerifierServer.Application.GuardianAccountInfo> guardiansApproved_ = new pbc::RepeatedField<global::CAVerifierServer.Application.GuardianAccountInfo>();
+    private static readonly pb::FieldCodec<global::CAVerifierServer.Application.GuardianInfo> _repeated_guardiansApproved_codec
+        = pb::FieldCodec.ForMessage(26, global::CAVerifierServer.Application.GuardianInfo.Parser);
+    private readonly pbc::RepeatedField<global::CAVerifierServer.Application.GuardianInfo> guardiansApproved_ = new pbc::RepeatedField<global::CAVerifierServer.Application.GuardianInfo>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::RepeatedField<global::CAVerifierServer.Application.GuardianAccountInfo> GuardiansApproved {
+    public pbc::RepeatedField<global::CAVerifierServer.Application.GuardianInfo> GuardiansApproved {
       get { return guardiansApproved_; }
     }
 
@@ -5211,7 +6407,7 @@ namespace CAVerifierServer.Application {
       }
       if (other.guardianToRemove_ != null) {
         if (guardianToRemove_ == null) {
-          GuardianToRemove = new global::CAVerifierServer.Application.GuardianAccountInfo();
+          GuardianToRemove = new global::CAVerifierServer.Application.GuardianInfo();
         }
         GuardianToRemove.MergeFrom(other.GuardianToRemove);
       }
@@ -5240,7 +6436,7 @@ namespace CAVerifierServer.Application {
           }
           case 18: {
             if (guardianToRemove_ == null) {
-              GuardianToRemove = new global::CAServer.Grains.Grain.ApplicationHandler.GuardianAccountInfo();
+              GuardianToRemove = new global::CAVerifierServer.Application.GuardianInfo();
             }
             input.ReadMessage(GuardianToRemove);
             break;
@@ -5273,7 +6469,7 @@ namespace CAVerifierServer.Application {
           }
           case 18: {
             if (guardianToRemove_ == null) {
-              GuardianToRemove = new global::CAVerifierServer.Application.GuardianAccountInfo();
+              GuardianToRemove = new global::CAVerifierServer.Application.GuardianInfo();
             }
             input.ReadMessage(GuardianToRemove);
             break;
@@ -5303,7 +6499,7 @@ namespace CAVerifierServer.Application {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[21]; }
+      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[27]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -5350,10 +6546,10 @@ namespace CAVerifierServer.Application {
 
     /// <summary>Field number for the "guardian_to_update_pre" field.</summary>
     public const int GuardianToUpdatePreFieldNumber = 2;
-    private global::CAVerifierServer.Application.GuardianAccountInfo guardianToUpdatePre_;
+    private global::CAVerifierServer.Application.GuardianInfo guardianToUpdatePre_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::CAVerifierServer.Application.GuardianAccountInfo GuardianToUpdatePre {
+    public global::CAVerifierServer.Application.GuardianInfo GuardianToUpdatePre {
       get { return guardianToUpdatePre_; }
       set {
         guardianToUpdatePre_ = value;
@@ -5362,10 +6558,10 @@ namespace CAVerifierServer.Application {
 
     /// <summary>Field number for the "guardian_to_update_new" field.</summary>
     public const int GuardianToUpdateNewFieldNumber = 3;
-    private global::CAVerifierServer.Application.GuardianAccountInfo guardianToUpdateNew_;
+    private global::CAVerifierServer.Application.GuardianInfo guardianToUpdateNew_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::CAVerifierServer.Application.GuardianAccountInfo GuardianToUpdateNew {
+    public global::CAVerifierServer.Application.GuardianInfo GuardianToUpdateNew {
       get { return guardianToUpdateNew_; }
       set {
         guardianToUpdateNew_ = value;
@@ -5374,12 +6570,12 @@ namespace CAVerifierServer.Application {
 
     /// <summary>Field number for the "guardians_approved" field.</summary>
     public const int GuardiansApprovedFieldNumber = 4;
-    private static readonly pb::FieldCodec<global::CAVerifierServer.Application.GuardianAccountInfo> _repeated_guardiansApproved_codec
-        = pb::FieldCodec.ForMessage(34, global::CAVerifierServer.Application.GuardianAccountInfo.Parser);
-    private readonly pbc::RepeatedField<global::CAVerifierServer.Application.GuardianAccountInfo> guardiansApproved_ = new pbc::RepeatedField<global::CAVerifierServer.Application.GuardianAccountInfo>();
+    private static readonly pb::FieldCodec<global::CAVerifierServer.Application.GuardianInfo> _repeated_guardiansApproved_codec
+        = pb::FieldCodec.ForMessage(34, global::CAVerifierServer.Application.GuardianInfo.Parser);
+    private readonly pbc::RepeatedField<global::CAVerifierServer.Application.GuardianInfo> guardiansApproved_ = new pbc::RepeatedField<global::CAVerifierServer.Application.GuardianInfo>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::RepeatedField<global::CAVerifierServer.Application.GuardianAccountInfo> GuardiansApproved {
+    public pbc::RepeatedField<global::CAVerifierServer.Application.GuardianInfo> GuardiansApproved {
       get { return guardiansApproved_; }
     }
 
@@ -5507,13 +6703,13 @@ namespace CAVerifierServer.Application {
       }
       if (other.guardianToUpdatePre_ != null) {
         if (guardianToUpdatePre_ == null) {
-          GuardianToUpdatePre = new global::CAVerifierServer.Application.GuardianAccountInfo();
+          GuardianToUpdatePre = new global::CAVerifierServer.Application.GuardianInfo();
         }
         GuardianToUpdatePre.MergeFrom(other.GuardianToUpdatePre);
       }
       if (other.guardianToUpdateNew_ != null) {
         if (guardianToUpdateNew_ == null) {
-          GuardianToUpdateNew = new global::CAVerifierServer.Application.GuardianAccountInfo();
+          GuardianToUpdateNew = new global::CAVerifierServer.Application.GuardianInfo();
         }
         GuardianToUpdateNew.MergeFrom(other.GuardianToUpdateNew);
       }
@@ -5542,14 +6738,14 @@ namespace CAVerifierServer.Application {
           }
           case 18: {
             if (guardianToUpdatePre_ == null) {
-              GuardianToUpdatePre = new global::CAServer.Grains.Grain.ApplicationHandler.GuardianAccountInfo();
+              GuardianToUpdatePre = new global::CAVerifierServer.Application.GuardianInfo();
             }
             input.ReadMessage(GuardianToUpdatePre);
             break;
           }
           case 26: {
             if (guardianToUpdateNew_ == null) {
-              GuardianToUpdateNew = new global::CAServer.Grains.Grain.ApplicationHandler.GuardianAccountInfo();
+              GuardianToUpdateNew = new global::CAVerifierServer.Application.GuardianInfo();
             }
             input.ReadMessage(GuardianToUpdateNew);
             break;
@@ -5582,14 +6778,14 @@ namespace CAVerifierServer.Application {
           }
           case 18: {
             if (guardianToUpdatePre_ == null) {
-              GuardianToUpdatePre = new global::CAVerifierServer.Application.GuardianAccountInfo();
+              GuardianToUpdatePre = new global::CAVerifierServer.Application.GuardianInfo();
             }
             input.ReadMessage(GuardianToUpdatePre);
             break;
           }
           case 26: {
             if (guardianToUpdateNew_ == null) {
-              GuardianToUpdateNew = new global::CAVerifierServer.Application.GuardianAccountInfo();
+              GuardianToUpdateNew = new global::CAVerifierServer.Application.GuardianInfo();
             }
             input.ReadMessage(GuardianToUpdateNew);
             break;
@@ -5605,21 +6801,21 @@ namespace CAVerifierServer.Application {
 
   }
 
-  public sealed partial class SetGuardianAccountForLoginInput : pb::IMessage<SetGuardianAccountForLoginInput>
+  public sealed partial class SetGuardianForLoginInput : pb::IMessage<SetGuardianForLoginInput>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
   #endif
   {
-    private static readonly pb::MessageParser<SetGuardianAccountForLoginInput> _parser = new pb::MessageParser<SetGuardianAccountForLoginInput>(() => new SetGuardianAccountForLoginInput());
+    private static readonly pb::MessageParser<SetGuardianForLoginInput> _parser = new pb::MessageParser<SetGuardianForLoginInput>(() => new SetGuardianForLoginInput());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pb::MessageParser<SetGuardianAccountForLoginInput> Parser { get { return _parser; } }
+    public static pb::MessageParser<SetGuardianForLoginInput> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[22]; }
+      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[28]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -5630,7 +6826,7 @@ namespace CAVerifierServer.Application {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public SetGuardianAccountForLoginInput() {
+    public SetGuardianForLoginInput() {
       OnConstruction();
     }
 
@@ -5638,16 +6834,16 @@ namespace CAVerifierServer.Application {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public SetGuardianAccountForLoginInput(SetGuardianAccountForLoginInput other) : this() {
+    public SetGuardianForLoginInput(SetGuardianForLoginInput other) : this() {
       caHash_ = other.caHash_ != null ? other.caHash_.Clone() : null;
-      guardianAccount_ = other.guardianAccount_ != null ? other.guardianAccount_.Clone() : null;
+      guardian_ = other.guardian_ != null ? other.guardian_.Clone() : null;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public SetGuardianAccountForLoginInput Clone() {
-      return new SetGuardianAccountForLoginInput(this);
+    public SetGuardianForLoginInput Clone() {
+      return new SetGuardianForLoginInput(this);
     }
 
     /// <summary>Field number for the "ca_hash" field.</summary>
@@ -5662,27 +6858,27 @@ namespace CAVerifierServer.Application {
       }
     }
 
-    /// <summary>Field number for the "guardian_account" field.</summary>
-    public const int GuardianAccountFieldNumber = 2;
-    private global::CAVerifierServer.Application.GuardianAccount guardianAccount_;
+    /// <summary>Field number for the "guardian" field.</summary>
+    public const int GuardianFieldNumber = 2;
+    private global::CAVerifierServer.Application.Guardian guardian_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::CAVerifierServer.Application.GuardianAccount GuardianAccount {
-      get { return guardianAccount_; }
+    public global::CAVerifierServer.Application.Guardian Guardian {
+      get { return guardian_; }
       set {
-        guardianAccount_ = value;
+        guardian_ = value;
       }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
-      return Equals(other as SetGuardianAccountForLoginInput);
+      return Equals(other as SetGuardianForLoginInput);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool Equals(SetGuardianAccountForLoginInput other) {
+    public bool Equals(SetGuardianForLoginInput other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
@@ -5690,7 +6886,7 @@ namespace CAVerifierServer.Application {
         return true;
       }
       if (!object.Equals(CaHash, other.CaHash)) return false;
-      if (!object.Equals(GuardianAccount, other.GuardianAccount)) return false;
+      if (!object.Equals(Guardian, other.Guardian)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -5699,7 +6895,7 @@ namespace CAVerifierServer.Application {
     public override int GetHashCode() {
       int hash = 1;
       if (caHash_ != null) hash ^= CaHash.GetHashCode();
-      if (guardianAccount_ != null) hash ^= GuardianAccount.GetHashCode();
+      if (guardian_ != null) hash ^= Guardian.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -5722,9 +6918,9 @@ namespace CAVerifierServer.Application {
         output.WriteRawTag(10);
         output.WriteMessage(CaHash);
       }
-      if (guardianAccount_ != null) {
+      if (guardian_ != null) {
         output.WriteRawTag(18);
-        output.WriteMessage(GuardianAccount);
+        output.WriteMessage(Guardian);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -5740,9 +6936,9 @@ namespace CAVerifierServer.Application {
         output.WriteRawTag(10);
         output.WriteMessage(CaHash);
       }
-      if (guardianAccount_ != null) {
+      if (guardian_ != null) {
         output.WriteRawTag(18);
-        output.WriteMessage(GuardianAccount);
+        output.WriteMessage(Guardian);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
@@ -5757,8 +6953,8 @@ namespace CAVerifierServer.Application {
       if (caHash_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(CaHash);
       }
-      if (guardianAccount_ != null) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(GuardianAccount);
+      if (guardian_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Guardian);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -5768,7 +6964,7 @@ namespace CAVerifierServer.Application {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(SetGuardianAccountForLoginInput other) {
+    public void MergeFrom(SetGuardianForLoginInput other) {
       if (other == null) {
         return;
       }
@@ -5778,11 +6974,11 @@ namespace CAVerifierServer.Application {
         }
         CaHash.MergeFrom(other.CaHash);
       }
-      if (other.guardianAccount_ != null) {
-        if (guardianAccount_ == null) {
-          GuardianAccount = new global::CAVerifierServer.Application.GuardianAccount();
+      if (other.guardian_ != null) {
+        if (guardian_ == null) {
+          Guardian = new global::CAVerifierServer.Application.Guardian();
         }
-        GuardianAccount.MergeFrom(other.GuardianAccount);
+        Guardian.MergeFrom(other.Guardian);
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -5807,10 +7003,10 @@ namespace CAVerifierServer.Application {
             break;
           }
           case 18: {
-            if (guardianAccount_ == null) {
-              GuardianAccount = new global::CAServer.Grains.Grain.ApplicationHandler.GuardianAccount();
+            if (guardian_ == null) {
+              Guardian = new global::CAVerifierServer.Application.Guardian();
             }
-            input.ReadMessage(GuardianAccount);
+            input.ReadMessage(Guardian);
             break;
           }
         }
@@ -5836,10 +7032,10 @@ namespace CAVerifierServer.Application {
             break;
           }
           case 18: {
-            if (guardianAccount_ == null) {
-              GuardianAccount = new global::CAVerifierServer.Application.GuardianAccount();
+            if (guardian_ == null) {
+              Guardian = new global::CAVerifierServer.Application.Guardian();
             }
-            input.ReadMessage(GuardianAccount);
+            input.ReadMessage(Guardian);
             break;
           }
         }
@@ -5849,21 +7045,21 @@ namespace CAVerifierServer.Application {
 
   }
 
-  public sealed partial class UnsetGuardianAccountForLoginInput : pb::IMessage<UnsetGuardianAccountForLoginInput>
+  public sealed partial class UnsetGuardianForLoginInput : pb::IMessage<UnsetGuardianForLoginInput>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
   #endif
   {
-    private static readonly pb::MessageParser<UnsetGuardianAccountForLoginInput> _parser = new pb::MessageParser<UnsetGuardianAccountForLoginInput>(() => new UnsetGuardianAccountForLoginInput());
+    private static readonly pb::MessageParser<UnsetGuardianForLoginInput> _parser = new pb::MessageParser<UnsetGuardianForLoginInput>(() => new UnsetGuardianForLoginInput());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pb::MessageParser<UnsetGuardianAccountForLoginInput> Parser { get { return _parser; } }
+    public static pb::MessageParser<UnsetGuardianForLoginInput> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[23]; }
+      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[29]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -5874,7 +7070,7 @@ namespace CAVerifierServer.Application {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public UnsetGuardianAccountForLoginInput() {
+    public UnsetGuardianForLoginInput() {
       OnConstruction();
     }
 
@@ -5882,16 +7078,16 @@ namespace CAVerifierServer.Application {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public UnsetGuardianAccountForLoginInput(UnsetGuardianAccountForLoginInput other) : this() {
+    public UnsetGuardianForLoginInput(UnsetGuardianForLoginInput other) : this() {
       caHash_ = other.caHash_ != null ? other.caHash_.Clone() : null;
-      guardianAccount_ = other.guardianAccount_ != null ? other.guardianAccount_.Clone() : null;
+      guardian_ = other.guardian_ != null ? other.guardian_.Clone() : null;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public UnsetGuardianAccountForLoginInput Clone() {
-      return new UnsetGuardianAccountForLoginInput(this);
+    public UnsetGuardianForLoginInput Clone() {
+      return new UnsetGuardianForLoginInput(this);
     }
 
     /// <summary>Field number for the "ca_hash" field.</summary>
@@ -5906,27 +7102,27 @@ namespace CAVerifierServer.Application {
       }
     }
 
-    /// <summary>Field number for the "guardian_account" field.</summary>
-    public const int GuardianAccountFieldNumber = 2;
-    private global::CAVerifierServer.Application.GuardianAccount guardianAccount_;
+    /// <summary>Field number for the "guardian" field.</summary>
+    public const int GuardianFieldNumber = 2;
+    private global::CAVerifierServer.Application.Guardian guardian_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::CAVerifierServer.Application.GuardianAccount GuardianAccount {
-      get { return guardianAccount_; }
+    public global::CAVerifierServer.Application.Guardian Guardian {
+      get { return guardian_; }
       set {
-        guardianAccount_ = value;
+        guardian_ = value;
       }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
-      return Equals(other as UnsetGuardianAccountForLoginInput);
+      return Equals(other as UnsetGuardianForLoginInput);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool Equals(UnsetGuardianAccountForLoginInput other) {
+    public bool Equals(UnsetGuardianForLoginInput other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
@@ -5934,7 +7130,7 @@ namespace CAVerifierServer.Application {
         return true;
       }
       if (!object.Equals(CaHash, other.CaHash)) return false;
-      if (!object.Equals(GuardianAccount, other.GuardianAccount)) return false;
+      if (!object.Equals(Guardian, other.Guardian)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -5943,7 +7139,7 @@ namespace CAVerifierServer.Application {
     public override int GetHashCode() {
       int hash = 1;
       if (caHash_ != null) hash ^= CaHash.GetHashCode();
-      if (guardianAccount_ != null) hash ^= GuardianAccount.GetHashCode();
+      if (guardian_ != null) hash ^= Guardian.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -5966,9 +7162,9 @@ namespace CAVerifierServer.Application {
         output.WriteRawTag(10);
         output.WriteMessage(CaHash);
       }
-      if (guardianAccount_ != null) {
+      if (guardian_ != null) {
         output.WriteRawTag(18);
-        output.WriteMessage(GuardianAccount);
+        output.WriteMessage(Guardian);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -5984,9 +7180,9 @@ namespace CAVerifierServer.Application {
         output.WriteRawTag(10);
         output.WriteMessage(CaHash);
       }
-      if (guardianAccount_ != null) {
+      if (guardian_ != null) {
         output.WriteRawTag(18);
-        output.WriteMessage(GuardianAccount);
+        output.WriteMessage(Guardian);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
@@ -6001,8 +7197,8 @@ namespace CAVerifierServer.Application {
       if (caHash_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(CaHash);
       }
-      if (guardianAccount_ != null) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(GuardianAccount);
+      if (guardian_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Guardian);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -6012,7 +7208,7 @@ namespace CAVerifierServer.Application {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(UnsetGuardianAccountForLoginInput other) {
+    public void MergeFrom(UnsetGuardianForLoginInput other) {
       if (other == null) {
         return;
       }
@@ -6022,11 +7218,11 @@ namespace CAVerifierServer.Application {
         }
         CaHash.MergeFrom(other.CaHash);
       }
-      if (other.guardianAccount_ != null) {
-        if (guardianAccount_ == null) {
-          GuardianAccount = new global::CAVerifierServer.Application.GuardianAccount();
+      if (other.guardian_ != null) {
+        if (guardian_ == null) {
+          Guardian = new global::CAVerifierServer.Application.Guardian();
         }
-        GuardianAccount.MergeFrom(other.GuardianAccount);
+        Guardian.MergeFrom(other.Guardian);
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -6051,10 +7247,10 @@ namespace CAVerifierServer.Application {
             break;
           }
           case 18: {
-            if (guardianAccount_ == null) {
-              GuardianAccount = new global::CAServer.Grains.Grain.ApplicationHandler.GuardianAccount();
+            if (guardian_ == null) {
+              Guardian = new global::CAVerifierServer.Application.Guardian();
             }
-            input.ReadMessage(GuardianAccount);
+            input.ReadMessage(Guardian);
             break;
           }
         }
@@ -6080,10 +7276,10 @@ namespace CAVerifierServer.Application {
             break;
           }
           case 18: {
-            if (guardianAccount_ == null) {
-              GuardianAccount = new global::CAVerifierServer.Application.GuardianAccount();
+            if (guardian_ == null) {
+              Guardian = new global::CAVerifierServer.Application.Guardian();
             }
-            input.ReadMessage(GuardianAccount);
+            input.ReadMessage(Guardian);
             break;
           }
         }
@@ -6107,7 +7303,7 @@ namespace CAVerifierServer.Application {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[24]; }
+      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[30]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -6425,7 +7621,7 @@ namespace CAVerifierServer.Application {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[25]; }
+      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[31]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -6792,7 +7988,7 @@ namespace CAVerifierServer.Application {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[26]; }
+      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[32]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -7208,7 +8404,7 @@ namespace CAVerifierServer.Application {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[27]; }
+      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[33]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -7229,7 +8425,7 @@ namespace CAVerifierServer.Application {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public GetHolderInfoInput(GetHolderInfoInput other) : this() {
       caHash_ = other.caHash_ != null ? other.caHash_.Clone() : null;
-      loginGuardianAccount_ = other.loginGuardianAccount_;
+      loginGuardianIdentifierHash_ = other.loginGuardianIdentifierHash_ != null ? other.loginGuardianIdentifierHash_.Clone() : null;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -7251,15 +8447,15 @@ namespace CAVerifierServer.Application {
       }
     }
 
-    /// <summary>Field number for the "login_guardian_account" field.</summary>
-    public const int LoginGuardianAccountFieldNumber = 2;
-    private string loginGuardianAccount_ = "";
+    /// <summary>Field number for the "login_guardian_identifier_hash" field.</summary>
+    public const int LoginGuardianIdentifierHashFieldNumber = 2;
+    private global::AElf.Types.Hash loginGuardianIdentifierHash_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public string LoginGuardianAccount {
-      get { return loginGuardianAccount_; }
+    public global::AElf.Types.Hash LoginGuardianIdentifierHash {
+      get { return loginGuardianIdentifierHash_; }
       set {
-        loginGuardianAccount_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+        loginGuardianIdentifierHash_ = value;
       }
     }
 
@@ -7279,7 +8475,7 @@ namespace CAVerifierServer.Application {
         return true;
       }
       if (!object.Equals(CaHash, other.CaHash)) return false;
-      if (LoginGuardianAccount != other.LoginGuardianAccount) return false;
+      if (!object.Equals(LoginGuardianIdentifierHash, other.LoginGuardianIdentifierHash)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -7288,7 +8484,7 @@ namespace CAVerifierServer.Application {
     public override int GetHashCode() {
       int hash = 1;
       if (caHash_ != null) hash ^= CaHash.GetHashCode();
-      if (LoginGuardianAccount.Length != 0) hash ^= LoginGuardianAccount.GetHashCode();
+      if (loginGuardianIdentifierHash_ != null) hash ^= LoginGuardianIdentifierHash.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -7311,9 +8507,9 @@ namespace CAVerifierServer.Application {
         output.WriteRawTag(10);
         output.WriteMessage(CaHash);
       }
-      if (LoginGuardianAccount.Length != 0) {
+      if (loginGuardianIdentifierHash_ != null) {
         output.WriteRawTag(18);
-        output.WriteString(LoginGuardianAccount);
+        output.WriteMessage(LoginGuardianIdentifierHash);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -7329,9 +8525,9 @@ namespace CAVerifierServer.Application {
         output.WriteRawTag(10);
         output.WriteMessage(CaHash);
       }
-      if (LoginGuardianAccount.Length != 0) {
+      if (loginGuardianIdentifierHash_ != null) {
         output.WriteRawTag(18);
-        output.WriteString(LoginGuardianAccount);
+        output.WriteMessage(LoginGuardianIdentifierHash);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
@@ -7346,8 +8542,8 @@ namespace CAVerifierServer.Application {
       if (caHash_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(CaHash);
       }
-      if (LoginGuardianAccount.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(LoginGuardianAccount);
+      if (loginGuardianIdentifierHash_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(LoginGuardianIdentifierHash);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -7367,8 +8563,11 @@ namespace CAVerifierServer.Application {
         }
         CaHash.MergeFrom(other.CaHash);
       }
-      if (other.LoginGuardianAccount.Length != 0) {
-        LoginGuardianAccount = other.LoginGuardianAccount;
+      if (other.loginGuardianIdentifierHash_ != null) {
+        if (loginGuardianIdentifierHash_ == null) {
+          LoginGuardianIdentifierHash = new global::AElf.Types.Hash();
+        }
+        LoginGuardianIdentifierHash.MergeFrom(other.LoginGuardianIdentifierHash);
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -7393,7 +8592,10 @@ namespace CAVerifierServer.Application {
             break;
           }
           case 18: {
-            LoginGuardianAccount = input.ReadString();
+            if (loginGuardianIdentifierHash_ == null) {
+              LoginGuardianIdentifierHash = new global::AElf.Types.Hash();
+            }
+            input.ReadMessage(LoginGuardianIdentifierHash);
             break;
           }
         }
@@ -7419,7 +8621,10 @@ namespace CAVerifierServer.Application {
             break;
           }
           case 18: {
-            LoginGuardianAccount = input.ReadString();
+            if (loginGuardianIdentifierHash_ == null) {
+              LoginGuardianIdentifierHash = new global::AElf.Types.Hash();
+            }
+            input.ReadMessage(LoginGuardianIdentifierHash);
             break;
           }
         }
@@ -7443,7 +8648,7 @@ namespace CAVerifierServer.Application {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[28]; }
+      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[34]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -7465,8 +8670,8 @@ namespace CAVerifierServer.Application {
     public GetHolderInfoOutput(GetHolderInfoOutput other) : this() {
       caHash_ = other.caHash_ != null ? other.caHash_.Clone() : null;
       caAddress_ = other.caAddress_ != null ? other.caAddress_.Clone() : null;
-      guardiansInfo_ = other.guardiansInfo_ != null ? other.guardiansInfo_.Clone() : null;
-      managers_ = other.managers_.Clone();
+      guardianList_ = other.guardianList_ != null ? other.guardianList_.Clone() : null;
+      managerInfos_ = other.managerInfos_.Clone();
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -7500,27 +8705,27 @@ namespace CAVerifierServer.Application {
       }
     }
 
-    /// <summary>Field number for the "guardians_info" field.</summary>
-    public const int GuardiansInfoFieldNumber = 3;
-    private global::CAVerifierServer.Application.GuardiansInfo guardiansInfo_;
+    /// <summary>Field number for the "guardian_list" field.</summary>
+    public const int GuardianListFieldNumber = 3;
+    private global::CAVerifierServer.Application.GuardianList guardianList_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::CAVerifierServer.Application.GuardiansInfo GuardiansInfo {
-      get { return guardiansInfo_; }
+    public global::CAVerifierServer.Application.GuardianList GuardianList {
+      get { return guardianList_; }
       set {
-        guardiansInfo_ = value;
+        guardianList_ = value;
       }
     }
 
-    /// <summary>Field number for the "managers" field.</summary>
-    public const int ManagersFieldNumber = 4;
-    private static readonly pb::FieldCodec<global::CAVerifierServer.Application.Manager> _repeated_managers_codec
-        = pb::FieldCodec.ForMessage(34, global::CAVerifierServer.Application.Manager.Parser);
-    private readonly pbc::RepeatedField<global::CAVerifierServer.Application.Manager> managers_ = new pbc::RepeatedField<global::CAVerifierServer.Application.Manager>();
+    /// <summary>Field number for the "manager_infos" field.</summary>
+    public const int ManagerInfosFieldNumber = 4;
+    private static readonly pb::FieldCodec<global::CAVerifierServer.Application.ManagerInfo> _repeated_managerInfos_codec
+        = pb::FieldCodec.ForMessage(34, global::CAVerifierServer.Application.ManagerInfo.Parser);
+    private readonly pbc::RepeatedField<global::CAVerifierServer.Application.ManagerInfo> managerInfos_ = new pbc::RepeatedField<global::CAVerifierServer.Application.ManagerInfo>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::RepeatedField<global::CAVerifierServer.Application.Manager> Managers {
-      get { return managers_; }
+    public pbc::RepeatedField<global::CAVerifierServer.Application.ManagerInfo> ManagerInfos {
+      get { return managerInfos_; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -7540,8 +8745,8 @@ namespace CAVerifierServer.Application {
       }
       if (!object.Equals(CaHash, other.CaHash)) return false;
       if (!object.Equals(CaAddress, other.CaAddress)) return false;
-      if (!object.Equals(GuardiansInfo, other.GuardiansInfo)) return false;
-      if(!managers_.Equals(other.managers_)) return false;
+      if (!object.Equals(GuardianList, other.GuardianList)) return false;
+      if(!managerInfos_.Equals(other.managerInfos_)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -7551,8 +8756,8 @@ namespace CAVerifierServer.Application {
       int hash = 1;
       if (caHash_ != null) hash ^= CaHash.GetHashCode();
       if (caAddress_ != null) hash ^= CaAddress.GetHashCode();
-      if (guardiansInfo_ != null) hash ^= GuardiansInfo.GetHashCode();
-      hash ^= managers_.GetHashCode();
+      if (guardianList_ != null) hash ^= GuardianList.GetHashCode();
+      hash ^= managerInfos_.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -7579,11 +8784,11 @@ namespace CAVerifierServer.Application {
         output.WriteRawTag(18);
         output.WriteMessage(CaAddress);
       }
-      if (guardiansInfo_ != null) {
+      if (guardianList_ != null) {
         output.WriteRawTag(26);
-        output.WriteMessage(GuardiansInfo);
+        output.WriteMessage(GuardianList);
       }
-      managers_.WriteTo(output, _repeated_managers_codec);
+      managerInfos_.WriteTo(output, _repeated_managerInfos_codec);
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -7602,11 +8807,11 @@ namespace CAVerifierServer.Application {
         output.WriteRawTag(18);
         output.WriteMessage(CaAddress);
       }
-      if (guardiansInfo_ != null) {
+      if (guardianList_ != null) {
         output.WriteRawTag(26);
-        output.WriteMessage(GuardiansInfo);
+        output.WriteMessage(GuardianList);
       }
-      managers_.WriteTo(ref output, _repeated_managers_codec);
+      managerInfos_.WriteTo(ref output, _repeated_managerInfos_codec);
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -7623,10 +8828,10 @@ namespace CAVerifierServer.Application {
       if (caAddress_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(CaAddress);
       }
-      if (guardiansInfo_ != null) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(GuardiansInfo);
+      if (guardianList_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(GuardianList);
       }
-      size += managers_.CalculateSize(_repeated_managers_codec);
+      size += managerInfos_.CalculateSize(_repeated_managerInfos_codec);
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
       }
@@ -7651,13 +8856,13 @@ namespace CAVerifierServer.Application {
         }
         CaAddress.MergeFrom(other.CaAddress);
       }
-      if (other.guardiansInfo_ != null) {
-        if (guardiansInfo_ == null) {
-          GuardiansInfo = new global::CAVerifierServer.Application.GuardiansInfo();
+      if (other.guardianList_ != null) {
+        if (guardianList_ == null) {
+          GuardianList = new global::CAVerifierServer.Application.GuardianList();
         }
-        GuardiansInfo.MergeFrom(other.GuardiansInfo);
+        GuardianList.MergeFrom(other.GuardianList);
       }
-      managers_.Add(other.managers_);
+      managerInfos_.Add(other.managerInfos_);
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
 
@@ -7688,14 +8893,14 @@ namespace CAVerifierServer.Application {
             break;
           }
           case 26: {
-            if (guardiansInfo_ == null) {
-              GuardiansInfo = new global::CAServer.Grains.Grain.ApplicationHandler.GuardiansInfo();
+            if (guardianList_ == null) {
+              GuardianList = new global::CAVerifierServer.Application.GuardianList();
             }
-            input.ReadMessage(GuardiansInfo);
+            input.ReadMessage(GuardianList);
             break;
           }
           case 34: {
-            managers_.AddEntriesFrom(input, _repeated_managers_codec);
+            managerInfos_.AddEntriesFrom(input, _repeated_managerInfos_codec);
             break;
           }
         }
@@ -7728,14 +8933,14 @@ namespace CAVerifierServer.Application {
             break;
           }
           case 26: {
-            if (guardiansInfo_ == null) {
-              GuardiansInfo = new global::CAVerifierServer.Application.GuardiansInfo();
+            if (guardianList_ == null) {
+              GuardianList = new global::CAVerifierServer.Application.GuardianList();
             }
-            input.ReadMessage(GuardiansInfo);
+            input.ReadMessage(GuardianList);
             break;
           }
           case 34: {
-            managers_.AddEntriesFrom(ref input, _repeated_managers_codec);
+            managerInfos_.AddEntriesFrom(ref input, _repeated_managerInfos_codec);
             break;
           }
         }
@@ -7759,7 +8964,7 @@ namespace CAVerifierServer.Application {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[29]; }
+      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[35]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -7779,9 +8984,9 @@ namespace CAVerifierServer.Application {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public SocialRecoveryInput(SocialRecoveryInput other) : this() {
-      loginGuardianAccount_ = other.loginGuardianAccount_;
+      loginGuardianIdentifierHash_ = other.loginGuardianIdentifierHash_ != null ? other.loginGuardianIdentifierHash_.Clone() : null;
       guardiansApproved_ = other.guardiansApproved_.Clone();
-      manager_ = other.manager_ != null ? other.manager_.Clone() : null;
+      managerInfo_ = other.managerInfo_ != null ? other.managerInfo_.Clone() : null;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -7791,38 +8996,38 @@ namespace CAVerifierServer.Application {
       return new SocialRecoveryInput(this);
     }
 
-    /// <summary>Field number for the "login_guardian_account" field.</summary>
-    public const int LoginGuardianAccountFieldNumber = 1;
-    private string loginGuardianAccount_ = "";
+    /// <summary>Field number for the "login_guardian_identifier_hash" field.</summary>
+    public const int LoginGuardianIdentifierHashFieldNumber = 1;
+    private global::AElf.Types.Hash loginGuardianIdentifierHash_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public string LoginGuardianAccount {
-      get { return loginGuardianAccount_; }
+    public global::AElf.Types.Hash LoginGuardianIdentifierHash {
+      get { return loginGuardianIdentifierHash_; }
       set {
-        loginGuardianAccount_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+        loginGuardianIdentifierHash_ = value;
       }
     }
 
     /// <summary>Field number for the "guardians_approved" field.</summary>
     public const int GuardiansApprovedFieldNumber = 2;
-    private static readonly pb::FieldCodec<global::CAVerifierServer.Application.GuardianAccountInfo> _repeated_guardiansApproved_codec
-        = pb::FieldCodec.ForMessage(18, global::CAVerifierServer.Application.GuardianAccountInfo.Parser);
-    private readonly pbc::RepeatedField<global::CAVerifierServer.Application.GuardianAccountInfo> guardiansApproved_ = new pbc::RepeatedField<global::CAVerifierServer.Application.GuardianAccountInfo>();
+    private static readonly pb::FieldCodec<global::CAVerifierServer.Application.GuardianInfo> _repeated_guardiansApproved_codec
+        = pb::FieldCodec.ForMessage(18, global::CAVerifierServer.Application.GuardianInfo.Parser);
+    private readonly pbc::RepeatedField<global::CAVerifierServer.Application.GuardianInfo> guardiansApproved_ = new pbc::RepeatedField<global::CAVerifierServer.Application.GuardianInfo>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::RepeatedField<global::CAVerifierServer.Application.GuardianAccountInfo> GuardiansApproved {
+    public pbc::RepeatedField<global::CAVerifierServer.Application.GuardianInfo> GuardiansApproved {
       get { return guardiansApproved_; }
     }
 
-    /// <summary>Field number for the "manager" field.</summary>
-    public const int ManagerFieldNumber = 3;
-    private global::CAVerifierServer.Application.Manager manager_;
+    /// <summary>Field number for the "manager_info" field.</summary>
+    public const int ManagerInfoFieldNumber = 3;
+    private global::CAVerifierServer.Application.ManagerInfo managerInfo_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::CAVerifierServer.Application.Manager Manager {
-      get { return manager_; }
+    public global::CAVerifierServer.Application.ManagerInfo ManagerInfo {
+      get { return managerInfo_; }
       set {
-        manager_ = value;
+        managerInfo_ = value;
       }
     }
 
@@ -7841,9 +9046,9 @@ namespace CAVerifierServer.Application {
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if (LoginGuardianAccount != other.LoginGuardianAccount) return false;
+      if (!object.Equals(LoginGuardianIdentifierHash, other.LoginGuardianIdentifierHash)) return false;
       if(!guardiansApproved_.Equals(other.guardiansApproved_)) return false;
-      if (!object.Equals(Manager, other.Manager)) return false;
+      if (!object.Equals(ManagerInfo, other.ManagerInfo)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -7851,9 +9056,9 @@ namespace CAVerifierServer.Application {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
-      if (LoginGuardianAccount.Length != 0) hash ^= LoginGuardianAccount.GetHashCode();
+      if (loginGuardianIdentifierHash_ != null) hash ^= LoginGuardianIdentifierHash.GetHashCode();
       hash ^= guardiansApproved_.GetHashCode();
-      if (manager_ != null) hash ^= Manager.GetHashCode();
+      if (managerInfo_ != null) hash ^= ManagerInfo.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -7872,14 +9077,14 @@ namespace CAVerifierServer.Application {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
     #else
-      if (LoginGuardianAccount.Length != 0) {
+      if (loginGuardianIdentifierHash_ != null) {
         output.WriteRawTag(10);
-        output.WriteString(LoginGuardianAccount);
+        output.WriteMessage(LoginGuardianIdentifierHash);
       }
       guardiansApproved_.WriteTo(output, _repeated_guardiansApproved_codec);
-      if (manager_ != null) {
+      if (managerInfo_ != null) {
         output.WriteRawTag(26);
-        output.WriteMessage(Manager);
+        output.WriteMessage(ManagerInfo);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -7891,14 +9096,14 @@ namespace CAVerifierServer.Application {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (LoginGuardianAccount.Length != 0) {
+      if (loginGuardianIdentifierHash_ != null) {
         output.WriteRawTag(10);
-        output.WriteString(LoginGuardianAccount);
+        output.WriteMessage(LoginGuardianIdentifierHash);
       }
       guardiansApproved_.WriteTo(ref output, _repeated_guardiansApproved_codec);
-      if (manager_ != null) {
+      if (managerInfo_ != null) {
         output.WriteRawTag(26);
-        output.WriteMessage(Manager);
+        output.WriteMessage(ManagerInfo);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
@@ -7910,12 +9115,12 @@ namespace CAVerifierServer.Application {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
-      if (LoginGuardianAccount.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(LoginGuardianAccount);
+      if (loginGuardianIdentifierHash_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(LoginGuardianIdentifierHash);
       }
       size += guardiansApproved_.CalculateSize(_repeated_guardiansApproved_codec);
-      if (manager_ != null) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Manager);
+      if (managerInfo_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(ManagerInfo);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -7929,15 +9134,18 @@ namespace CAVerifierServer.Application {
       if (other == null) {
         return;
       }
-      if (other.LoginGuardianAccount.Length != 0) {
-        LoginGuardianAccount = other.LoginGuardianAccount;
+      if (other.loginGuardianIdentifierHash_ != null) {
+        if (loginGuardianIdentifierHash_ == null) {
+          LoginGuardianIdentifierHash = new global::AElf.Types.Hash();
+        }
+        LoginGuardianIdentifierHash.MergeFrom(other.LoginGuardianIdentifierHash);
       }
       guardiansApproved_.Add(other.guardiansApproved_);
-      if (other.manager_ != null) {
-        if (manager_ == null) {
-          Manager = new global::CAVerifierServer.Application.Manager();
+      if (other.managerInfo_ != null) {
+        if (managerInfo_ == null) {
+          ManagerInfo = new global::CAVerifierServer.Application.ManagerInfo();
         }
-        Manager.MergeFrom(other.Manager);
+        ManagerInfo.MergeFrom(other.ManagerInfo);
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -7955,7 +9163,10 @@ namespace CAVerifierServer.Application {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 10: {
-            LoginGuardianAccount = input.ReadString();
+            if (loginGuardianIdentifierHash_ == null) {
+              LoginGuardianIdentifierHash = new global::AElf.Types.Hash();
+            }
+            input.ReadMessage(LoginGuardianIdentifierHash);
             break;
           }
           case 18: {
@@ -7963,10 +9174,10 @@ namespace CAVerifierServer.Application {
             break;
           }
           case 26: {
-            if (manager_ == null) {
-              Manager = new global::CAServer.Grains.Grain.ApplicationHandler.Manager();
+            if (managerInfo_ == null) {
+              ManagerInfo = new global::CAVerifierServer.Application.ManagerInfo();
             }
-            input.ReadMessage(Manager);
+            input.ReadMessage(ManagerInfo);
             break;
           }
         }
@@ -7985,7 +9196,10 @@ namespace CAVerifierServer.Application {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
           case 10: {
-            LoginGuardianAccount = input.ReadString();
+            if (loginGuardianIdentifierHash_ == null) {
+              LoginGuardianIdentifierHash = new global::AElf.Types.Hash();
+            }
+            input.ReadMessage(LoginGuardianIdentifierHash);
             break;
           }
           case 18: {
@@ -7993,10 +9207,10 @@ namespace CAVerifierServer.Application {
             break;
           }
           case 26: {
-            if (manager_ == null) {
-              Manager = new global::CAVerifierServer.Application.Manager();
+            if (managerInfo_ == null) {
+              ManagerInfo = new global::CAVerifierServer.Application.ManagerInfo();
             }
-            input.ReadMessage(Manager);
+            input.ReadMessage(ManagerInfo);
             break;
           }
         }
@@ -8006,21 +9220,21 @@ namespace CAVerifierServer.Application {
 
   }
 
-  public sealed partial class AddManagerInput : pb::IMessage<AddManagerInput>
+  public sealed partial class AddManagerInfoInput : pb::IMessage<AddManagerInfoInput>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
   #endif
   {
-    private static readonly pb::MessageParser<AddManagerInput> _parser = new pb::MessageParser<AddManagerInput>(() => new AddManagerInput());
+    private static readonly pb::MessageParser<AddManagerInfoInput> _parser = new pb::MessageParser<AddManagerInfoInput>(() => new AddManagerInfoInput());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pb::MessageParser<AddManagerInput> Parser { get { return _parser; } }
+    public static pb::MessageParser<AddManagerInfoInput> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[30]; }
+      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[36]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -8031,7 +9245,7 @@ namespace CAVerifierServer.Application {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public AddManagerInput() {
+    public AddManagerInfoInput() {
       OnConstruction();
     }
 
@@ -8039,16 +9253,16 @@ namespace CAVerifierServer.Application {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public AddManagerInput(AddManagerInput other) : this() {
+    public AddManagerInfoInput(AddManagerInfoInput other) : this() {
       caHash_ = other.caHash_ != null ? other.caHash_.Clone() : null;
-      manager_ = other.manager_ != null ? other.manager_.Clone() : null;
+      managerInfo_ = other.managerInfo_ != null ? other.managerInfo_.Clone() : null;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public AddManagerInput Clone() {
-      return new AddManagerInput(this);
+    public AddManagerInfoInput Clone() {
+      return new AddManagerInfoInput(this);
     }
 
     /// <summary>Field number for the "ca_hash" field.</summary>
@@ -8063,27 +9277,27 @@ namespace CAVerifierServer.Application {
       }
     }
 
-    /// <summary>Field number for the "manager" field.</summary>
-    public const int ManagerFieldNumber = 2;
-    private global::CAVerifierServer.Application.Manager manager_;
+    /// <summary>Field number for the "manager_info" field.</summary>
+    public const int ManagerInfoFieldNumber = 2;
+    private global::CAVerifierServer.Application.ManagerInfo managerInfo_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::CAVerifierServer.Application.Manager Manager {
-      get { return manager_; }
+    public global::CAVerifierServer.Application.ManagerInfo ManagerInfo {
+      get { return managerInfo_; }
       set {
-        manager_ = value;
+        managerInfo_ = value;
       }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
-      return Equals(other as AddManagerInput);
+      return Equals(other as AddManagerInfoInput);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool Equals(AddManagerInput other) {
+    public bool Equals(AddManagerInfoInput other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
@@ -8091,7 +9305,7 @@ namespace CAVerifierServer.Application {
         return true;
       }
       if (!object.Equals(CaHash, other.CaHash)) return false;
-      if (!object.Equals(Manager, other.Manager)) return false;
+      if (!object.Equals(ManagerInfo, other.ManagerInfo)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -8100,7 +9314,7 @@ namespace CAVerifierServer.Application {
     public override int GetHashCode() {
       int hash = 1;
       if (caHash_ != null) hash ^= CaHash.GetHashCode();
-      if (manager_ != null) hash ^= Manager.GetHashCode();
+      if (managerInfo_ != null) hash ^= ManagerInfo.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -8123,9 +9337,9 @@ namespace CAVerifierServer.Application {
         output.WriteRawTag(10);
         output.WriteMessage(CaHash);
       }
-      if (manager_ != null) {
+      if (managerInfo_ != null) {
         output.WriteRawTag(18);
-        output.WriteMessage(Manager);
+        output.WriteMessage(ManagerInfo);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -8141,9 +9355,9 @@ namespace CAVerifierServer.Application {
         output.WriteRawTag(10);
         output.WriteMessage(CaHash);
       }
-      if (manager_ != null) {
+      if (managerInfo_ != null) {
         output.WriteRawTag(18);
-        output.WriteMessage(Manager);
+        output.WriteMessage(ManagerInfo);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
@@ -8158,8 +9372,8 @@ namespace CAVerifierServer.Application {
       if (caHash_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(CaHash);
       }
-      if (manager_ != null) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Manager);
+      if (managerInfo_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(ManagerInfo);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -8169,7 +9383,7 @@ namespace CAVerifierServer.Application {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(AddManagerInput other) {
+    public void MergeFrom(AddManagerInfoInput other) {
       if (other == null) {
         return;
       }
@@ -8179,11 +9393,11 @@ namespace CAVerifierServer.Application {
         }
         CaHash.MergeFrom(other.CaHash);
       }
-      if (other.manager_ != null) {
-        if (manager_ == null) {
-          Manager = new global::CAVerifierServer.Application.Manager();
+      if (other.managerInfo_ != null) {
+        if (managerInfo_ == null) {
+          ManagerInfo = new global::CAVerifierServer.Application.ManagerInfo();
         }
-        Manager.MergeFrom(other.Manager);
+        ManagerInfo.MergeFrom(other.ManagerInfo);
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -8208,10 +9422,10 @@ namespace CAVerifierServer.Application {
             break;
           }
           case 18: {
-            if (manager_ == null) {
-              Manager = new global::CAServer.Grains.Grain.ApplicationHandler.Manager();
+            if (managerInfo_ == null) {
+              ManagerInfo = new global::CAVerifierServer.Application.ManagerInfo();
             }
-            input.ReadMessage(Manager);
+            input.ReadMessage(ManagerInfo);
             break;
           }
         }
@@ -8237,10 +9451,10 @@ namespace CAVerifierServer.Application {
             break;
           }
           case 18: {
-            if (manager_ == null) {
-              Manager = new global::CAVerifierServer.Application.Manager();
+            if (managerInfo_ == null) {
+              ManagerInfo = new global::CAVerifierServer.Application.ManagerInfo();
             }
-            input.ReadMessage(Manager);
+            input.ReadMessage(ManagerInfo);
             break;
           }
         }
@@ -8250,21 +9464,21 @@ namespace CAVerifierServer.Application {
 
   }
 
-  public sealed partial class RemoveManagerInput : pb::IMessage<RemoveManagerInput>
+  public sealed partial class RemoveManagerInfoInput : pb::IMessage<RemoveManagerInfoInput>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
   #endif
   {
-    private static readonly pb::MessageParser<RemoveManagerInput> _parser = new pb::MessageParser<RemoveManagerInput>(() => new RemoveManagerInput());
+    private static readonly pb::MessageParser<RemoveManagerInfoInput> _parser = new pb::MessageParser<RemoveManagerInfoInput>(() => new RemoveManagerInfoInput());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pb::MessageParser<RemoveManagerInput> Parser { get { return _parser; } }
+    public static pb::MessageParser<RemoveManagerInfoInput> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[31]; }
+      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[37]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -8275,7 +9489,7 @@ namespace CAVerifierServer.Application {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public RemoveManagerInput() {
+    public RemoveManagerInfoInput() {
       OnConstruction();
     }
 
@@ -8283,16 +9497,15 @@ namespace CAVerifierServer.Application {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public RemoveManagerInput(RemoveManagerInput other) : this() {
+    public RemoveManagerInfoInput(RemoveManagerInfoInput other) : this() {
       caHash_ = other.caHash_ != null ? other.caHash_.Clone() : null;
-      manager_ = other.manager_ != null ? other.manager_.Clone() : null;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public RemoveManagerInput Clone() {
-      return new RemoveManagerInput(this);
+    public RemoveManagerInfoInput Clone() {
+      return new RemoveManagerInfoInput(this);
     }
 
     /// <summary>Field number for the "ca_hash" field.</summary>
@@ -8307,27 +9520,15 @@ namespace CAVerifierServer.Application {
       }
     }
 
-    /// <summary>Field number for the "manager" field.</summary>
-    public const int ManagerFieldNumber = 2;
-    private global::CAVerifierServer.Application.Manager manager_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::CAVerifierServer.Application.Manager Manager {
-      get { return manager_; }
-      set {
-        manager_ = value;
-      }
-    }
-
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
-      return Equals(other as RemoveManagerInput);
+      return Equals(other as RemoveManagerInfoInput);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool Equals(RemoveManagerInput other) {
+    public bool Equals(RemoveManagerInfoInput other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
@@ -8335,7 +9536,6 @@ namespace CAVerifierServer.Application {
         return true;
       }
       if (!object.Equals(CaHash, other.CaHash)) return false;
-      if (!object.Equals(Manager, other.Manager)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -8344,7 +9544,6 @@ namespace CAVerifierServer.Application {
     public override int GetHashCode() {
       int hash = 1;
       if (caHash_ != null) hash ^= CaHash.GetHashCode();
-      if (manager_ != null) hash ^= Manager.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -8367,10 +9566,6 @@ namespace CAVerifierServer.Application {
         output.WriteRawTag(10);
         output.WriteMessage(CaHash);
       }
-      if (manager_ != null) {
-        output.WriteRawTag(18);
-        output.WriteMessage(Manager);
-      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -8385,10 +9580,6 @@ namespace CAVerifierServer.Application {
         output.WriteRawTag(10);
         output.WriteMessage(CaHash);
       }
-      if (manager_ != null) {
-        output.WriteRawTag(18);
-        output.WriteMessage(Manager);
-      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -8402,9 +9593,6 @@ namespace CAVerifierServer.Application {
       if (caHash_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(CaHash);
       }
-      if (manager_ != null) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Manager);
-      }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
       }
@@ -8413,7 +9601,7 @@ namespace CAVerifierServer.Application {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(RemoveManagerInput other) {
+    public void MergeFrom(RemoveManagerInfoInput other) {
       if (other == null) {
         return;
       }
@@ -8422,12 +9610,6 @@ namespace CAVerifierServer.Application {
           CaHash = new global::AElf.Types.Hash();
         }
         CaHash.MergeFrom(other.CaHash);
-      }
-      if (other.manager_ != null) {
-        if (manager_ == null) {
-          Manager = new global::CAVerifierServer.Application.Manager();
-        }
-        Manager.MergeFrom(other.Manager);
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -8451,11 +9633,263 @@ namespace CAVerifierServer.Application {
             input.ReadMessage(CaHash);
             break;
           }
-          case 18: {
-            if (manager_ == null) {
-              Manager = new global::CAServer.Grains.Grain.ApplicationHandler.Manager();
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            if (caHash_ == null) {
+              CaHash = new global::AElf.Types.Hash();
             }
-            input.ReadMessage(Manager);
+            input.ReadMessage(CaHash);
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  public sealed partial class RemoveOtherManagerInfoInput : pb::IMessage<RemoveOtherManagerInfoInput>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<RemoveOtherManagerInfoInput> _parser = new pb::MessageParser<RemoveOtherManagerInfoInput>(() => new RemoveOtherManagerInfoInput());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<RemoveOtherManagerInfoInput> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[38]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public RemoveOtherManagerInfoInput() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public RemoveOtherManagerInfoInput(RemoveOtherManagerInfoInput other) : this() {
+      caHash_ = other.caHash_ != null ? other.caHash_.Clone() : null;
+      managerInfo_ = other.managerInfo_ != null ? other.managerInfo_.Clone() : null;
+      guardiansApproved_ = other.guardiansApproved_.Clone();
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public RemoveOtherManagerInfoInput Clone() {
+      return new RemoveOtherManagerInfoInput(this);
+    }
+
+    /// <summary>Field number for the "ca_hash" field.</summary>
+    public const int CaHashFieldNumber = 1;
+    private global::AElf.Types.Hash caHash_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::AElf.Types.Hash CaHash {
+      get { return caHash_; }
+      set {
+        caHash_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "manager_info" field.</summary>
+    public const int ManagerInfoFieldNumber = 2;
+    private global::CAVerifierServer.Application.ManagerInfo managerInfo_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::CAVerifierServer.Application.ManagerInfo ManagerInfo {
+      get { return managerInfo_; }
+      set {
+        managerInfo_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "guardians_approved" field.</summary>
+    public const int GuardiansApprovedFieldNumber = 3;
+    private static readonly pb::FieldCodec<global::CAVerifierServer.Application.GuardianInfo> _repeated_guardiansApproved_codec
+        = pb::FieldCodec.ForMessage(26, global::CAVerifierServer.Application.GuardianInfo.Parser);
+    private readonly pbc::RepeatedField<global::CAVerifierServer.Application.GuardianInfo> guardiansApproved_ = new pbc::RepeatedField<global::CAVerifierServer.Application.GuardianInfo>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public pbc::RepeatedField<global::CAVerifierServer.Application.GuardianInfo> GuardiansApproved {
+      get { return guardiansApproved_; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as RemoveOtherManagerInfoInput);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(RemoveOtherManagerInfoInput other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (!object.Equals(CaHash, other.CaHash)) return false;
+      if (!object.Equals(ManagerInfo, other.ManagerInfo)) return false;
+      if(!guardiansApproved_.Equals(other.guardiansApproved_)) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (caHash_ != null) hash ^= CaHash.GetHashCode();
+      if (managerInfo_ != null) hash ^= ManagerInfo.GetHashCode();
+      hash ^= guardiansApproved_.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (caHash_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(CaHash);
+      }
+      if (managerInfo_ != null) {
+        output.WriteRawTag(18);
+        output.WriteMessage(ManagerInfo);
+      }
+      guardiansApproved_.WriteTo(output, _repeated_guardiansApproved_codec);
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (caHash_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(CaHash);
+      }
+      if (managerInfo_ != null) {
+        output.WriteRawTag(18);
+        output.WriteMessage(ManagerInfo);
+      }
+      guardiansApproved_.WriteTo(ref output, _repeated_guardiansApproved_codec);
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (caHash_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(CaHash);
+      }
+      if (managerInfo_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(ManagerInfo);
+      }
+      size += guardiansApproved_.CalculateSize(_repeated_guardiansApproved_codec);
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(RemoveOtherManagerInfoInput other) {
+      if (other == null) {
+        return;
+      }
+      if (other.caHash_ != null) {
+        if (caHash_ == null) {
+          CaHash = new global::AElf.Types.Hash();
+        }
+        CaHash.MergeFrom(other.CaHash);
+      }
+      if (other.managerInfo_ != null) {
+        if (managerInfo_ == null) {
+          ManagerInfo = new global::CAVerifierServer.Application.ManagerInfo();
+        }
+        ManagerInfo.MergeFrom(other.ManagerInfo);
+      }
+      guardiansApproved_.Add(other.guardiansApproved_);
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            if (caHash_ == null) {
+              CaHash = new global::AElf.Types.Hash();
+            }
+            input.ReadMessage(CaHash);
+            break;
+          }
+          case 18: {
+            if (managerInfo_ == null) {
+              ManagerInfo = new global::CAVerifierServer.Application.ManagerInfo();
+            }
+            input.ReadMessage(ManagerInfo);
+            break;
+          }
+          case 26: {
+            guardiansApproved_.AddEntriesFrom(input, _repeated_guardiansApproved_codec);
             break;
           }
         }
@@ -8481,10 +9915,238 @@ namespace CAVerifierServer.Application {
             break;
           }
           case 18: {
-            if (manager_ == null) {
-              Manager = new global::CAVerifierServer.Application.Manager();
+            if (managerInfo_ == null) {
+              ManagerInfo = new global::CAVerifierServer.Application.ManagerInfo();
             }
-            input.ReadMessage(Manager);
+            input.ReadMessage(ManagerInfo);
+            break;
+          }
+          case 26: {
+            guardiansApproved_.AddEntriesFrom(ref input, _repeated_guardiansApproved_codec);
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  public sealed partial class UpdateManagerInfosInput : pb::IMessage<UpdateManagerInfosInput>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<UpdateManagerInfosInput> _parser = new pb::MessageParser<UpdateManagerInfosInput>(() => new UpdateManagerInfosInput());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<UpdateManagerInfosInput> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[39]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public UpdateManagerInfosInput() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public UpdateManagerInfosInput(UpdateManagerInfosInput other) : this() {
+      caHash_ = other.caHash_ != null ? other.caHash_.Clone() : null;
+      managerInfos_ = other.managerInfos_.Clone();
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public UpdateManagerInfosInput Clone() {
+      return new UpdateManagerInfosInput(this);
+    }
+
+    /// <summary>Field number for the "ca_hash" field.</summary>
+    public const int CaHashFieldNumber = 1;
+    private global::AElf.Types.Hash caHash_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::AElf.Types.Hash CaHash {
+      get { return caHash_; }
+      set {
+        caHash_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "manager_infos" field.</summary>
+    public const int ManagerInfosFieldNumber = 2;
+    private static readonly pb::FieldCodec<global::CAVerifierServer.Application.ManagerInfo> _repeated_managerInfos_codec
+        = pb::FieldCodec.ForMessage(18, global::CAVerifierServer.Application.ManagerInfo.Parser);
+    private readonly pbc::RepeatedField<global::CAVerifierServer.Application.ManagerInfo> managerInfos_ = new pbc::RepeatedField<global::CAVerifierServer.Application.ManagerInfo>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public pbc::RepeatedField<global::CAVerifierServer.Application.ManagerInfo> ManagerInfos {
+      get { return managerInfos_; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as UpdateManagerInfosInput);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(UpdateManagerInfosInput other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (!object.Equals(CaHash, other.CaHash)) return false;
+      if(!managerInfos_.Equals(other.managerInfos_)) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (caHash_ != null) hash ^= CaHash.GetHashCode();
+      hash ^= managerInfos_.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (caHash_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(CaHash);
+      }
+      managerInfos_.WriteTo(output, _repeated_managerInfos_codec);
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (caHash_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(CaHash);
+      }
+      managerInfos_.WriteTo(ref output, _repeated_managerInfos_codec);
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (caHash_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(CaHash);
+      }
+      size += managerInfos_.CalculateSize(_repeated_managerInfos_codec);
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(UpdateManagerInfosInput other) {
+      if (other == null) {
+        return;
+      }
+      if (other.caHash_ != null) {
+        if (caHash_ == null) {
+          CaHash = new global::AElf.Types.Hash();
+        }
+        CaHash.MergeFrom(other.CaHash);
+      }
+      managerInfos_.Add(other.managerInfos_);
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            if (caHash_ == null) {
+              CaHash = new global::AElf.Types.Hash();
+            }
+            input.ReadMessage(CaHash);
+            break;
+          }
+          case 18: {
+            managerInfos_.AddEntriesFrom(input, _repeated_managerInfos_codec);
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            if (caHash_ == null) {
+              CaHash = new global::AElf.Types.Hash();
+            }
+            input.ReadMessage(CaHash);
+            break;
+          }
+          case 18: {
+            managerInfos_.AddEntriesFrom(ref input, _repeated_managerInfos_codec);
             break;
           }
         }
@@ -8508,7 +10170,7 @@ namespace CAVerifierServer.Application {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[32]; }
+      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[40]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -8792,7 +10454,7 @@ namespace CAVerifierServer.Application {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[33]; }
+      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[41]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -8993,7 +10655,7 @@ namespace CAVerifierServer.Application {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[34]; }
+      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[42]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -9223,7 +10885,7 @@ namespace CAVerifierServer.Application {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[35]; }
+      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[43]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -9244,7 +10906,7 @@ namespace CAVerifierServer.Application {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public AddCAServerInput(AddCAServerInput other) : this() {
       name_ = other.name_;
-      endPoints_ = other.endPoints_;
+      pubkey_ = other.pubkey_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -9266,15 +10928,18 @@ namespace CAVerifierServer.Application {
       }
     }
 
-    /// <summary>Field number for the "end_points" field.</summary>
-    public const int EndPointsFieldNumber = 2;
-    private string endPoints_ = "";
+    /// <summary>Field number for the "pubkey" field.</summary>
+    public const int PubkeyFieldNumber = 3;
+    private string pubkey_ = "";
+    /// <summary>
+    /// string end_points = 2;
+    /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public string EndPoints {
-      get { return endPoints_; }
+    public string Pubkey {
+      get { return pubkey_; }
       set {
-        endPoints_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+        pubkey_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
@@ -9294,7 +10959,7 @@ namespace CAVerifierServer.Application {
         return true;
       }
       if (Name != other.Name) return false;
-      if (EndPoints != other.EndPoints) return false;
+      if (Pubkey != other.Pubkey) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -9303,7 +10968,7 @@ namespace CAVerifierServer.Application {
     public override int GetHashCode() {
       int hash = 1;
       if (Name.Length != 0) hash ^= Name.GetHashCode();
-      if (EndPoints.Length != 0) hash ^= EndPoints.GetHashCode();
+      if (Pubkey.Length != 0) hash ^= Pubkey.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -9326,9 +10991,9 @@ namespace CAVerifierServer.Application {
         output.WriteRawTag(10);
         output.WriteString(Name);
       }
-      if (EndPoints.Length != 0) {
-        output.WriteRawTag(18);
-        output.WriteString(EndPoints);
+      if (Pubkey.Length != 0) {
+        output.WriteRawTag(26);
+        output.WriteString(Pubkey);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -9344,9 +11009,9 @@ namespace CAVerifierServer.Application {
         output.WriteRawTag(10);
         output.WriteString(Name);
       }
-      if (EndPoints.Length != 0) {
-        output.WriteRawTag(18);
-        output.WriteString(EndPoints);
+      if (Pubkey.Length != 0) {
+        output.WriteRawTag(26);
+        output.WriteString(Pubkey);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
@@ -9361,8 +11026,8 @@ namespace CAVerifierServer.Application {
       if (Name.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(Name);
       }
-      if (EndPoints.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(EndPoints);
+      if (Pubkey.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Pubkey);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -9379,8 +11044,8 @@ namespace CAVerifierServer.Application {
       if (other.Name.Length != 0) {
         Name = other.Name;
       }
-      if (other.EndPoints.Length != 0) {
-        EndPoints = other.EndPoints;
+      if (other.Pubkey.Length != 0) {
+        Pubkey = other.Pubkey;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -9401,8 +11066,8 @@ namespace CAVerifierServer.Application {
             Name = input.ReadString();
             break;
           }
-          case 18: {
-            EndPoints = input.ReadString();
+          case 26: {
+            Pubkey = input.ReadString();
             break;
           }
         }
@@ -9424,8 +11089,8 @@ namespace CAVerifierServer.Application {
             Name = input.ReadString();
             break;
           }
-          case 18: {
-            EndPoints = input.ReadString();
+          case 26: {
+            Pubkey = input.ReadString();
             break;
           }
         }
@@ -9449,7 +11114,7 @@ namespace CAVerifierServer.Application {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[36]; }
+      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[44]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -9638,7 +11303,7 @@ namespace CAVerifierServer.Application {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[37]; }
+      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[45]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -9816,7 +11481,7 @@ namespace CAVerifierServer.Application {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[38]; }
+      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[46]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -9980,21 +11645,21 @@ namespace CAVerifierServer.Application {
 
   }
 
-  public sealed partial class ValidateCAHolderInfoWithManagersExistsInput : pb::IMessage<ValidateCAHolderInfoWithManagersExistsInput>
+  public sealed partial class ValidateCAHolderInfoWithManagerInfosExistsInput : pb::IMessage<ValidateCAHolderInfoWithManagerInfosExistsInput>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
   #endif
   {
-    private static readonly pb::MessageParser<ValidateCAHolderInfoWithManagersExistsInput> _parser = new pb::MessageParser<ValidateCAHolderInfoWithManagersExistsInput>(() => new ValidateCAHolderInfoWithManagersExistsInput());
+    private static readonly pb::MessageParser<ValidateCAHolderInfoWithManagerInfosExistsInput> _parser = new pb::MessageParser<ValidateCAHolderInfoWithManagerInfosExistsInput>(() => new ValidateCAHolderInfoWithManagerInfosExistsInput());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pb::MessageParser<ValidateCAHolderInfoWithManagersExistsInput> Parser { get { return _parser; } }
+    public static pb::MessageParser<ValidateCAHolderInfoWithManagerInfosExistsInput> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[39]; }
+      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[47]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -10005,7 +11670,7 @@ namespace CAVerifierServer.Application {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public ValidateCAHolderInfoWithManagersExistsInput() {
+    public ValidateCAHolderInfoWithManagerInfosExistsInput() {
       OnConstruction();
     }
 
@@ -10013,18 +11678,18 @@ namespace CAVerifierServer.Application {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public ValidateCAHolderInfoWithManagersExistsInput(ValidateCAHolderInfoWithManagersExistsInput other) : this() {
+    public ValidateCAHolderInfoWithManagerInfosExistsInput(ValidateCAHolderInfoWithManagerInfosExistsInput other) : this() {
       caHash_ = other.caHash_ != null ? other.caHash_.Clone() : null;
-      managers_ = other.managers_.Clone();
-      loginGuardianAccounts_ = other.loginGuardianAccounts_.Clone();
-      notLoginGuardianAccounts_ = other.notLoginGuardianAccounts_.Clone();
+      managerInfos_ = other.managerInfos_.Clone();
+      loginGuardians_ = other.loginGuardians_.Clone();
+      notLoginGuardians_ = other.notLoginGuardians_.Clone();
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public ValidateCAHolderInfoWithManagersExistsInput Clone() {
-      return new ValidateCAHolderInfoWithManagersExistsInput(this);
+    public ValidateCAHolderInfoWithManagerInfosExistsInput Clone() {
+      return new ValidateCAHolderInfoWithManagerInfosExistsInput(this);
     }
 
     /// <summary>Field number for the "ca_hash" field.</summary>
@@ -10039,48 +11704,48 @@ namespace CAVerifierServer.Application {
       }
     }
 
-    /// <summary>Field number for the "managers" field.</summary>
-    public const int ManagersFieldNumber = 2;
-    private static readonly pb::FieldCodec<global::CAVerifierServer.Application.Manager> _repeated_managers_codec
-        = pb::FieldCodec.ForMessage(18, global::CAVerifierServer.Application.Manager.Parser);
-    private readonly pbc::RepeatedField<global::CAVerifierServer.Application.Manager> managers_ = new pbc::RepeatedField<global::CAVerifierServer.Application.Manager>();
+    /// <summary>Field number for the "manager_infos" field.</summary>
+    public const int ManagerInfosFieldNumber = 2;
+    private static readonly pb::FieldCodec<global::CAVerifierServer.Application.ManagerInfo> _repeated_managerInfos_codec
+        = pb::FieldCodec.ForMessage(18, global::CAVerifierServer.Application.ManagerInfo.Parser);
+    private readonly pbc::RepeatedField<global::CAVerifierServer.Application.ManagerInfo> managerInfos_ = new pbc::RepeatedField<global::CAVerifierServer.Application.ManagerInfo>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::RepeatedField<global::CAVerifierServer.Application.Manager> Managers {
-      get { return managers_; }
+    public pbc::RepeatedField<global::CAVerifierServer.Application.ManagerInfo> ManagerInfos {
+      get { return managerInfos_; }
     }
 
-    /// <summary>Field number for the "login_guardian_accounts" field.</summary>
-    public const int LoginGuardianAccountsFieldNumber = 3;
-    private static readonly pb::FieldCodec<string> _repeated_loginGuardianAccounts_codec
-        = pb::FieldCodec.ForString(26);
-    private readonly pbc::RepeatedField<string> loginGuardianAccounts_ = new pbc::RepeatedField<string>();
+    /// <summary>Field number for the "login_guardians" field.</summary>
+    public const int LoginGuardiansFieldNumber = 3;
+    private static readonly pb::FieldCodec<global::AElf.Types.Hash> _repeated_loginGuardians_codec
+        = pb::FieldCodec.ForMessage(26, global::AElf.Types.Hash.Parser);
+    private readonly pbc::RepeatedField<global::AElf.Types.Hash> loginGuardians_ = new pbc::RepeatedField<global::AElf.Types.Hash>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::RepeatedField<string> LoginGuardianAccounts {
-      get { return loginGuardianAccounts_; }
+    public pbc::RepeatedField<global::AElf.Types.Hash> LoginGuardians {
+      get { return loginGuardians_; }
     }
 
-    /// <summary>Field number for the "not_login_guardian_accounts" field.</summary>
-    public const int NotLoginGuardianAccountsFieldNumber = 4;
-    private static readonly pb::FieldCodec<string> _repeated_notLoginGuardianAccounts_codec
-        = pb::FieldCodec.ForString(34);
-    private readonly pbc::RepeatedField<string> notLoginGuardianAccounts_ = new pbc::RepeatedField<string>();
+    /// <summary>Field number for the "not_login_guardians" field.</summary>
+    public const int NotLoginGuardiansFieldNumber = 4;
+    private static readonly pb::FieldCodec<global::AElf.Types.Hash> _repeated_notLoginGuardians_codec
+        = pb::FieldCodec.ForMessage(34, global::AElf.Types.Hash.Parser);
+    private readonly pbc::RepeatedField<global::AElf.Types.Hash> notLoginGuardians_ = new pbc::RepeatedField<global::AElf.Types.Hash>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::RepeatedField<string> NotLoginGuardianAccounts {
-      get { return notLoginGuardianAccounts_; }
+    public pbc::RepeatedField<global::AElf.Types.Hash> NotLoginGuardians {
+      get { return notLoginGuardians_; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
-      return Equals(other as ValidateCAHolderInfoWithManagersExistsInput);
+      return Equals(other as ValidateCAHolderInfoWithManagerInfosExistsInput);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool Equals(ValidateCAHolderInfoWithManagersExistsInput other) {
+    public bool Equals(ValidateCAHolderInfoWithManagerInfosExistsInput other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
@@ -10088,9 +11753,9 @@ namespace CAVerifierServer.Application {
         return true;
       }
       if (!object.Equals(CaHash, other.CaHash)) return false;
-      if(!managers_.Equals(other.managers_)) return false;
-      if(!loginGuardianAccounts_.Equals(other.loginGuardianAccounts_)) return false;
-      if(!notLoginGuardianAccounts_.Equals(other.notLoginGuardianAccounts_)) return false;
+      if(!managerInfos_.Equals(other.managerInfos_)) return false;
+      if(!loginGuardians_.Equals(other.loginGuardians_)) return false;
+      if(!notLoginGuardians_.Equals(other.notLoginGuardians_)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -10099,9 +11764,9 @@ namespace CAVerifierServer.Application {
     public override int GetHashCode() {
       int hash = 1;
       if (caHash_ != null) hash ^= CaHash.GetHashCode();
-      hash ^= managers_.GetHashCode();
-      hash ^= loginGuardianAccounts_.GetHashCode();
-      hash ^= notLoginGuardianAccounts_.GetHashCode();
+      hash ^= managerInfos_.GetHashCode();
+      hash ^= loginGuardians_.GetHashCode();
+      hash ^= notLoginGuardians_.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -10124,9 +11789,9 @@ namespace CAVerifierServer.Application {
         output.WriteRawTag(10);
         output.WriteMessage(CaHash);
       }
-      managers_.WriteTo(output, _repeated_managers_codec);
-      loginGuardianAccounts_.WriteTo(output, _repeated_loginGuardianAccounts_codec);
-      notLoginGuardianAccounts_.WriteTo(output, _repeated_notLoginGuardianAccounts_codec);
+      managerInfos_.WriteTo(output, _repeated_managerInfos_codec);
+      loginGuardians_.WriteTo(output, _repeated_loginGuardians_codec);
+      notLoginGuardians_.WriteTo(output, _repeated_notLoginGuardians_codec);
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -10141,9 +11806,9 @@ namespace CAVerifierServer.Application {
         output.WriteRawTag(10);
         output.WriteMessage(CaHash);
       }
-      managers_.WriteTo(ref output, _repeated_managers_codec);
-      loginGuardianAccounts_.WriteTo(ref output, _repeated_loginGuardianAccounts_codec);
-      notLoginGuardianAccounts_.WriteTo(ref output, _repeated_notLoginGuardianAccounts_codec);
+      managerInfos_.WriteTo(ref output, _repeated_managerInfos_codec);
+      loginGuardians_.WriteTo(ref output, _repeated_loginGuardians_codec);
+      notLoginGuardians_.WriteTo(ref output, _repeated_notLoginGuardians_codec);
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -10157,9 +11822,9 @@ namespace CAVerifierServer.Application {
       if (caHash_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(CaHash);
       }
-      size += managers_.CalculateSize(_repeated_managers_codec);
-      size += loginGuardianAccounts_.CalculateSize(_repeated_loginGuardianAccounts_codec);
-      size += notLoginGuardianAccounts_.CalculateSize(_repeated_notLoginGuardianAccounts_codec);
+      size += managerInfos_.CalculateSize(_repeated_managerInfos_codec);
+      size += loginGuardians_.CalculateSize(_repeated_loginGuardians_codec);
+      size += notLoginGuardians_.CalculateSize(_repeated_notLoginGuardians_codec);
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
       }
@@ -10168,7 +11833,7 @@ namespace CAVerifierServer.Application {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(ValidateCAHolderInfoWithManagersExistsInput other) {
+    public void MergeFrom(ValidateCAHolderInfoWithManagerInfosExistsInput other) {
       if (other == null) {
         return;
       }
@@ -10178,9 +11843,9 @@ namespace CAVerifierServer.Application {
         }
         CaHash.MergeFrom(other.CaHash);
       }
-      managers_.Add(other.managers_);
-      loginGuardianAccounts_.Add(other.loginGuardianAccounts_);
-      notLoginGuardianAccounts_.Add(other.notLoginGuardianAccounts_);
+      managerInfos_.Add(other.managerInfos_);
+      loginGuardians_.Add(other.loginGuardians_);
+      notLoginGuardians_.Add(other.notLoginGuardians_);
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
 
@@ -10204,15 +11869,15 @@ namespace CAVerifierServer.Application {
             break;
           }
           case 18: {
-            managers_.AddEntriesFrom(input, _repeated_managers_codec);
+            managerInfos_.AddEntriesFrom(input, _repeated_managerInfos_codec);
             break;
           }
           case 26: {
-            loginGuardianAccounts_.AddEntriesFrom(input, _repeated_loginGuardianAccounts_codec);
+            loginGuardians_.AddEntriesFrom(input, _repeated_loginGuardians_codec);
             break;
           }
           case 34: {
-            notLoginGuardianAccounts_.AddEntriesFrom(input, _repeated_notLoginGuardianAccounts_codec);
+            notLoginGuardians_.AddEntriesFrom(input, _repeated_notLoginGuardians_codec);
             break;
           }
         }
@@ -10238,15 +11903,15 @@ namespace CAVerifierServer.Application {
             break;
           }
           case 18: {
-            managers_.AddEntriesFrom(ref input, _repeated_managers_codec);
+            managerInfos_.AddEntriesFrom(ref input, _repeated_managerInfos_codec);
             break;
           }
           case 26: {
-            loginGuardianAccounts_.AddEntriesFrom(ref input, _repeated_loginGuardianAccounts_codec);
+            loginGuardians_.AddEntriesFrom(ref input, _repeated_loginGuardians_codec);
             break;
           }
           case 34: {
-            notLoginGuardianAccounts_.AddEntriesFrom(ref input, _repeated_notLoginGuardianAccounts_codec);
+            notLoginGuardians_.AddEntriesFrom(ref input, _repeated_notLoginGuardians_codec);
             break;
           }
         }
@@ -10270,7 +11935,7 @@ namespace CAVerifierServer.Application {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[40]; }
+      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[48]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -10579,7 +12244,7 @@ namespace CAVerifierServer.Application {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[41]; }
+      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[49]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -10729,7 +12394,7 @@ namespace CAVerifierServer.Application {
             break;
           case 10: {
             if (verificationTransactionInfo_ == null) {
-              VerificationTransactionInfo = new global::CAServer.Grains.Grain.ApplicationHandler.VerificationTransactionInfo();
+              VerificationTransactionInfo = new global::CAVerifierServer.Application.VerificationTransactionInfo();
             }
             input.ReadMessage(VerificationTransactionInfo);
             break;
@@ -10777,7 +12442,7 @@ namespace CAVerifierServer.Application {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[42]; }
+      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[50]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -10945,7 +12610,7 @@ namespace CAVerifierServer.Application {
             break;
           case 10: {
             if (strategyNode_ == null) {
-              StrategyNode = new global::CAServer.Grains.Grain.ApplicationHandler.StrategyNode();
+              StrategyNode = new global::CAVerifierServer.Application.StrategyNode();
             }
             input.ReadMessage(StrategyNode);
             break;
@@ -11001,7 +12666,7 @@ namespace CAVerifierServer.Application {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[43]; }
+      get { return global::CAVerifierServer.Application.CaContractReflection.Descriptor.MessageTypes[51]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -11217,7 +12882,7 @@ namespace CAVerifierServer.Application {
           }
           case 26: {
             if (strategyOutput_ == null) {
-              StrategyOutput = new global::CAServer.Grains.Grain.ApplicationHandler.StrategyNode();
+              StrategyOutput = new global::CAVerifierServer.Application.StrategyNode();
             }
             input.ReadMessage(StrategyOutput);
             break;

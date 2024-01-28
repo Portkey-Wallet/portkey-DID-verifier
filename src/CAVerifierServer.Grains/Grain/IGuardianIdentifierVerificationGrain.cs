@@ -6,6 +6,6 @@ namespace CAVerifierServer.Grains.Grain;
 
 public interface IGuardianIdentifierVerificationGrain : IGrainWithStringKey
 {
-    Task<GrainResultDto<VerifyCodeDto>> GetVerifyCodeAsync(SendVerificationRequestInput input);
+    Task<GrainResultDto<VerifyCodeDto>> GetVerifyCodeAsync(VerificationRequest input);
     Task<GrainResultDto<UpdateVerifierSignatureDto>> VerifyAndCreateSignatureAsync(VerifyCodeInput input);
 }

@@ -5,13 +5,9 @@ namespace CAVerifierServer.Account;
 
 public class SendVerificationRequestInput
 {
-    [JsonPropertyName("type")]
-    public string Type { get; set; }
+    [JsonPropertyName("signature")]
+    public string Signature { get; set; }
     
-    [JsonPropertyName("guardianIdentifier")]
-    public string GuardianIdentifier { get; set; }
-
-    [JsonPropertyName("VerifierSessionId")]
-    public Guid VerifierSessionId{ get; set; }
-
+    [JsonPropertyName("verificationRequest")]
+    public string VerificationRequest { get; set; }
 }

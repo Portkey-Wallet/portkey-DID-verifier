@@ -230,7 +230,8 @@ public class CAVerifierServerHttpApiHostModule : AbpModule
     public override void OnApplicationInitialization(ApplicationInitializationContext context)
     {
         var app = context.GetApplicationBuilder();
-        app.UseMiddleware<RealIpMiddleware>();
+        // Handle ip verification in firewall.
+        // app.UseMiddleware<RealIpMiddleware>();
         var env = context.GetEnvironment();
 
         if (env.IsDevelopment())
