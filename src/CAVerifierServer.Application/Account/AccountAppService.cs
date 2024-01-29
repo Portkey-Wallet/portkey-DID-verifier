@@ -247,7 +247,7 @@ public class AccountAppService : CAVerifierServerAppService, IAccountAppService
         }
     }
     
-    public async Task<ResponseResultDto<VerifierCodeDto>> VerifyFacebookToken(VerifyTokenRequestDto input)
+    public async Task<ResponseResultDto<VerifierCodeDto>> VerifyFacebookTokenAsync(VerifyTokenRequestDto input)
     {
         try
         {

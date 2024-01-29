@@ -17,5 +17,5 @@ public interface IAccountAppService : IApplicationService
      Task<ResponseResultDto<VerifyGoogleTokenDto>> VerifyGoogleTokenAsync(VerifyTokenRequestDto tokenRequestDto);
      Task<ResponseResultDto<VerifyAppleTokenDto>> VerifyAppleTokenAsync(VerifyTokenRequestDto tokenRequestDto);
      
-     Task<ResponseResultDto<VerifierCodeDto>> VerifyFacebookToken(VerifyTokenRequestDto input);
+     Task<ResponseResultDto<VerifierCodeDto>> VerifyFacebookTokenAsync(VerifyTokenRequestDto tokenRequestDto);
 }
