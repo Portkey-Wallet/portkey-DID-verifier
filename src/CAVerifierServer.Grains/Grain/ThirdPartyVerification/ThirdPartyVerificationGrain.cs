@@ -83,9 +83,8 @@ public class ThirdPartyVerificationGrain : Grain<ThirdPartyVerificationState>, I
             tokenDto.GoogleUserExtraInfo.AuthTime = DateTime.UtcNow;
 
             var signatureOutput = CryptographyHelper.GenerateSignature(Convert.ToInt16(GuardianIdentifierType.Google),
-                grainDto.Salt,
-                grainDto.IdentifierHash, _verifierAccountOptions.PrivateKey, grainDto.OperationType,
-                grainDto.ChainId);
+                grainDto.Salt, grainDto.IdentifierHash, _verifierAccountOptions.PrivateKey, grainDto.OperationType,
+                grainDto.ChainId, grainDto.OperationDetails);
 
             tokenDto.Signature = signatureOutput.Signature;
             tokenDto.VerificationDoc = signatureOutput.Data;
@@ -117,8 +116,8 @@ public class ThirdPartyVerificationGrain : Grain<ThirdPartyVerificationState>, I
 
             var signatureOutput =
                 CryptographyHelper.GenerateSignature(Convert.ToInt16(GuardianIdentifierType.Apple), grainDto.Salt,
-                    grainDto.IdentifierHash,
-                    _verifierAccountOptions.PrivateKey, grainDto.OperationType, grainDto.ChainId);
+                    grainDto.IdentifierHash, _verifierAccountOptions.PrivateKey, grainDto.OperationType,
+                    grainDto.ChainId, grainDto.OperationDetails);
 
             return new GrainResultDto<VerifyAppleTokenGrainDto>
             {
@@ -165,9 +164,9 @@ public class ThirdPartyVerificationGrain : Grain<ThirdPartyVerificationState>, I
 
             var signatureOutput =
                 CryptographyHelper.GenerateSignature(Convert.ToInt16(GuardianIdentifierType.Telegram),
-                    tokenGrainDto.Salt,
-                    tokenGrainDto.IdentifierHash,
-                    _verifierAccountOptions.PrivateKey, tokenGrainDto.OperationType, tokenGrainDto.ChainId);
+                    tokenGrainDto.Salt, tokenGrainDto.IdentifierHash,
+                    _verifierAccountOptions.PrivateKey, tokenGrainDto.OperationType, tokenGrainDto.ChainId,
+                    tokenGrainDto.OperationDetails);
 
             return new GrainResultDto<VerifyTelegramTokenGrainDto>
             {

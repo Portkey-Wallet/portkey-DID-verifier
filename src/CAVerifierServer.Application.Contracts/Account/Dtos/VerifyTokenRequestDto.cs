@@ -10,4 +10,6 @@ public class VerifyTokenRequestDto
     [Required] public string OperationType { get; set; }
 
     public string ChainId { get; set; }
+    
+    public string OperationDetails { get; set; }
 }
