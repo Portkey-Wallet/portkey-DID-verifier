@@ -50,4 +50,13 @@ public class CAVerificationController : CAVerifierServerController
     {
         return await _accountAppService.VerifyFacebookTokenAsync(input);
     }
+    
+    [HttpPost]
+    [Route("verifyFacebookAccessTokenAndGetUserId")]
+    public async Task<ResponseResultDto<VerifyFacebookTokenResponseDto>> VerifyFacebookAccessTokenAndGetUserId(VerifyFacebookAccessTokenRequestDto request)
+    {
+        return await _accountAppService.VerifyFacebookAccessTokenAsync(request.AccessToken);
+    }
+    
+    
 }
