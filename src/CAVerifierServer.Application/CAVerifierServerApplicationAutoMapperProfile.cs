@@ -13,5 +13,6 @@ public class CAVerifierServerApplicationAutoMapperProfile : Profile
         CreateMap<VerifyGoogleTokenGrainDto, VerifyGoogleTokenDto>();
         CreateMap<VerifyAppleTokenGrainDto, VerifyAppleTokenDto>();
         CreateMap<VerifyTokenRequestDto, VerifyTokenGrainDto>();
+        CreateMap<VerifyTwitterTokenGrainDto, VerifyTwitterTokenDto>();
     }
 }

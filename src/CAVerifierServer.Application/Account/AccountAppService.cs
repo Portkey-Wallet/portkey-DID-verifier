@@ -247,6 +247,45 @@ public class AccountAppService : CAVerifierServerAppService, IAccountAppService
         }
     }
 
+    public async Task<ResponseResultDto<VerifyTwitterTokenDto>> VerifyTwitterTokenAsync(
+        VerifyTokenRequestDto tokenRequestDto)
+    {
+        try
+        {
+            var grain = _clusterClient.GetGrain<IThirdPartyVerificationGrain>(tokenRequestDto.AccessToken);
+            var resultDto =
+                await grain.VerifyTwitterTokenAsync(
+                    ObjectMapper.Map<VerifyTokenRequestDto, VerifyTokenGrainDto>(tokenRequestDto));
+
+            if (!resultDto.Success)
+            {
+                return new ResponseResultDto<VerifyTwitterTokenDto>
+                {
+                    Success = false,
+                    Message = resultDto.Message
+                };
+            }
+
+            return new ResponseResultDto<VerifyTwitterTokenDto>
+            {
+                Success = true,
+                Data = _objectMapper.Map<VerifyTwitterTokenGrainDto, VerifyTwitterTokenDto>(resultDto.Data)
+            };
+        }
+        catch (Exception e)
+        {
+            Logger.LogError(e,
+                "verify twitter token error, accessToken:{accessToken}, identifierHash:{identifierHash}, salt:{salt}, operationType:{operationType}",
+                tokenRequestDto.AccessToken, tokenRequestDto.IdentifierHash, tokenRequestDto.Salt,
+                tokenRequestDto.OperationType);
+            
+            return new ResponseResultDto<VerifyTwitterTokenDto>
+            {
+                Message = Error.VerifyCodeErrorLogPrefix + e.Message
+            };
+        }
+    }
+
 
     private async Task<DidServerList> GetDidServerListAsync()
     {
