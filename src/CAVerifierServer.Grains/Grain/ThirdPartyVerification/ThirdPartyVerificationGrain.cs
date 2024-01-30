@@ -139,7 +139,7 @@ public class ThirdPartyVerificationGrain : Grain<ThirdPartyVerificationState>, I
             };
         }
     }
-    
+
     public async Task<GrainResultDto<VerifierCodeDto>> VerifyFacebookTokenAsync(VerifyTokenGrainDto grainDto)
     {
         try
@@ -147,7 +147,8 @@ public class ThirdPartyVerificationGrain : Grain<ThirdPartyVerificationState>, I
             var signatureOutput =
                 CryptographyHelper.GenerateSignature(Convert.ToInt16(GuardianIdentifierType.Facebook), grainDto.Salt,
                     grainDto.IdentifierHash,
-                    _verifierAccountOptions.PrivateKey, grainDto.OperationType, grainDto.ChainId);
+                    _verifierAccountOptions.PrivateKey, grainDto.OperationType, grainDto.ChainId,
+                    grainDto.OperationDetails);
 
             return new GrainResultDto<VerifierCodeDto>
             {
