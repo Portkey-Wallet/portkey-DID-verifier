@@ -235,7 +235,7 @@ public class ThirdPartyVerificationGrain : Grain<ThirdPartyVerificationState>, I
             var signatureOutput = CryptographyHelper.GenerateSignature(Convert.ToInt16(GuardianIdentifierType.Twitter),
                 grainDto.Salt,
                 grainDto.IdentifierHash, _verifierAccountOptions.PrivateKey, grainDto.OperationType,
-                grainDto.ChainId);
+                grainDto.ChainId,grainDto.OperationDetails);
 
             tokenDto.Signature = signatureOutput.Signature;
             tokenDto.VerificationDoc = signatureOutput.Data;
