@@ -70,4 +70,10 @@ public class CAVerificationController : CAVerifierServerController
     {
         return await _accountAppService.VerifyTelegramTokenAsync(tokenRequestDto);
     }
+    
+    [HttpPost("verifyTwitterToken")]
+    public async Task<ResponseResultDto<VerifyTwitterTokenDto>> VerifyAppleTwitterAsync(VerifyTokenRequestDto tokenRequestDto)
+    {
+        return await _accountAppService.VerifyTwitterTokenAsync(tokenRequestDto);
+    }
 }

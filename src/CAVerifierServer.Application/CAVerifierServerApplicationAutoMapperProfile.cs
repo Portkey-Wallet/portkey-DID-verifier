@@ -16,5 +16,6 @@ public class CAVerifierServerApplicationAutoMapperProfile : Profile
         CreateMap<VerifyTelegramTokenGrainDto, VerifyTokenDto<TelegramUserExtraInfo>>()
             .ForMember(t => t.UserExtraInfo, m => m.MapFrom(f => f.TelegramUserExtraInfo));
         CreateMap<VerifyTokenRequestDto, VerifyTokenGrainDto>();
+        CreateMap<VerifyTwitterTokenGrainDto, VerifyTwitterTokenDto>();
     }
 }
