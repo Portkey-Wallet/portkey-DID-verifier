@@ -150,6 +150,7 @@ public class ThirdPartyVerificationGrain : Grain<ThirdPartyVerificationState>, I
                     _verifierAccountOptions.PrivateKey, grainDto.OperationType, grainDto.ChainId,
                     grainDto.OperationDetails);
 
+            
             return new GrainResultDto<VerifierCodeDto>
             {
                 Success = true,
