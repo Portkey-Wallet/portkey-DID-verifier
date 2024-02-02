@@ -1,4 +1,5 @@
-﻿using CAVerifierServer.Grains.Options;
+﻿using CAVerifierServer.Telegram.Options;
+using CAVerifierServer.Grains.Options;
 using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.AutoMapper;
 using Volo.Abp.Modularity;
@@ -20,5 +21,7 @@ public class CAVerifierServerGrainsModule : AbpModule
             options.Kind = DateTimeKind.Utc;
         });
         Configure<AppleAuthOptions>(configuration.GetSection("AppleAuth"));
+        Configure<TelegramAuthOptions>(configuration.GetSection("TelegramAuth"));
+        Configure<JwtTokenOptions>(configuration.GetSection("JwtToken"));
     }
 }

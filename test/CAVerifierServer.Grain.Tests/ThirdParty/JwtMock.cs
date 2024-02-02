@@ -2,7 +2,11 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Security.Principal;
+using CAVerifierServer.Grains.Grain.ThirdPartyVerification;
 using CAVerifierServer.Grains.Options;
+using CAVerifierServer.Telegram.Options;
+using CAVerifierServer.Verifier.Dtos;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Moq;
 
@@ -56,5 +60,35 @@ public static class MockJwtTokens
     {
         return s_tokenHandler.WriteToken(new JwtSecurityToken(Issuer, null, claims, null,
             DateTime.UtcNow.AddMinutes(20), SigningCredentials));
+    }
+}
+
+public partial class ThirdPartyVerificationGrainTest
+{
+    private IOptionsSnapshot<TelegramAuthOptions> MockTelegramAuthOptionsSnapshot()
+    {
+        var mockOptionsSnapshot = new Mock<IOptionsSnapshot<TelegramAuthOptions>>();
+
+        mockOptionsSnapshot.Setup(o => o.Value).Returns(
+            new TelegramAuthOptions
+            {
+                BaseUrl = "",
+                Timeout = 10
+            });
+        return mockOptionsSnapshot.Object;
+    }
+
+    private IOptionsSnapshot<JwtTokenOptions> MockJwtTokenOptionsSnapshot()
+    {
+        var mockOptionsSnapshot = new Mock<IOptionsSnapshot<JwtTokenOptions>>();
+
+        mockOptionsSnapshot.Setup(o => o.Value).Returns(
+            new JwtTokenOptions
+            {
+                Issuer = "Issuer",
+                Audiences = new List<string>() { "Audience" },
+                // Expire = 3600 * 24 * 365 * 5
+            });
+        return mockOptionsSnapshot.Object;
     }
 }

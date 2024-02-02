@@ -1,6 +1,6 @@
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using CAVerifierServer.Verifier.Dtos;
 using Volo.Abp.Application.Services;
 
 namespace CAVerifierServer.Account;
@@ -16,4 +16,5 @@ public interface IAccountAppService : IApplicationService
      
      Task<ResponseResultDto<VerifyGoogleTokenDto>> VerifyGoogleTokenAsync(VerifyTokenRequestDto tokenRequestDto);
      Task<ResponseResultDto<VerifyAppleTokenDto>> VerifyAppleTokenAsync(VerifyTokenRequestDto tokenRequestDto);
+     Task<ResponseResultDto<VerifyTokenDto<TelegramUserExtraInfo>>> VerifyTelegramTokenAsync(VerifyTokenRequestDto tokenRequestDto);
 }
