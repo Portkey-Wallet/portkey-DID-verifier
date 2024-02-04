@@ -69,5 +69,6 @@ public class CAVerificationController : CAVerifierServerController
         return await _accountAppService.VerifyFacebookAccessTokenAsync(request.AccessToken);
     }
     
-    
+
+
 }

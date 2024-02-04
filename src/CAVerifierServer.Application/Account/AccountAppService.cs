@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using CAVerifierServer.Verifier.Dtos;
 using Amazon.SimpleNotificationService.Util;
+using CAVerifierServer.Verifier.Dtos;
 using CAVerifierServer.Application;
 using CAVerifierServer.Contracts;
 using CAVerifierServer.Grains.Grain;
@@ -257,6 +258,7 @@ public class AccountAppService : CAVerifierServerAppService, IAccountAppService
         }
     }
 
+
     public async Task<ResponseResultDto<VerifyTokenDto<TelegramUserExtraInfo>>> VerifyTelegramTokenAsync(
         VerifyTokenRequestDto tokenRequestDto)
     {
@@ -401,6 +403,7 @@ public class AccountAppService : CAVerifierServerAppService, IAccountAppService
             Message = "Verify AccessToken failed."
         };
     }
+
 
 
     private async Task<DidServerList> GetDidServerListAsync()
