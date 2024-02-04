@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using CAVerifierServer.Verifier.Dtos;
 using CAVerifierServer.Account;
 using Microsoft.AspNetCore.Mvc;
 using Volo.Abp;
@@ -20,11 +21,12 @@ public class CAVerificationController : CAVerifierServerController
 
     [HttpPost]
     [Route("sendVerificationRequest")]
-    public async Task<ResponseResultDto<SendVerificationRequestDto>> SendVerificationRequestAsync(SendVerificationRequestInput input)
+    public async Task<ResponseResultDto<SendVerificationRequestDto>> SendVerificationRequestAsync(
+        SendVerificationRequestInput input)
     {
         return await _accountAppService.SendVerificationRequestAsync(input);
     }
-    
+
     [HttpPost]
     [Route("verifyCode")]
     public async Task<ResponseResultDto<VerifierCodeDto>> VerifyCodeAsync(VerifyCodeInput input)
@@ -33,15 +35,24 @@ public class CAVerificationController : CAVerifierServerController
     }
 
     [HttpPost("verifyGoogleToken")]
-    public async Task<ResponseResultDto<VerifyGoogleTokenDto>> VerifyGoogleTokenAsync(VerifyTokenRequestDto tokenRequestDto)
+    public async Task<ResponseResultDto<VerifyGoogleTokenDto>> VerifyGoogleTokenAsync(
+        VerifyTokenRequestDto tokenRequestDto)
     {
         return await _accountAppService.VerifyGoogleTokenAsync(tokenRequestDto);
     }
 
     [HttpPost("verifyAppleToken")]
-    public async Task<ResponseResultDto<VerifyAppleTokenDto>> VerifyAppleTokenAsync(VerifyTokenRequestDto tokenRequestDto)
+    public async Task<ResponseResultDto<VerifyAppleTokenDto>> VerifyAppleTokenAsync(
+        VerifyTokenRequestDto tokenRequestDto)
     {
         return await _accountAppService.VerifyAppleTokenAsync(tokenRequestDto);
+    }
+
+    [HttpPost("verifyTelegramToken")]
+    public async Task<ResponseResultDto<VerifyTokenDto<TelegramUserExtraInfo>>> VerifyTelegramTokenAsync(
+        VerifyTokenRequestDto tokenRequestDto)
+    {
+        return await _accountAppService.VerifyTelegramTokenAsync(tokenRequestDto);
     }
     
     [HttpPost]

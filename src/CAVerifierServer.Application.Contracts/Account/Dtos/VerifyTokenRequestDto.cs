@@ -8,8 +8,6 @@ public class VerifyTokenRequestDto
     [Required] public string IdentifierHash { get; set; }
     [Required] public string Salt { get; set; }
     [Required] public string OperationType { get; set; }
-    
+
     public string ChainId { get; set; }
-    
-    
 }
