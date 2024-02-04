@@ -26,5 +26,7 @@ public enum GuardianIdentifierType
     Phone = 1,
     Google = 2,
     Apple = 3,
-    Facebook = 4
+    Telegram = 4,
+    Facebook = 5
+
 }

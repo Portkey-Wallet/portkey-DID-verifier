@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Amazon.SimpleNotificationService.Util;
+using CAVerifierServer.Verifier.Dtos;
 using CAVerifierServer.Application;
 using CAVerifierServer.Contracts;
 using CAVerifierServer.Grains.Grain;
@@ -256,34 +257,40 @@ public class AccountAppService : CAVerifierServerAppService, IAccountAppService
         }
     }
 
-    public async Task<ResponseResultDto<VerifierCodeDto>> VerifyFacebookTokenAsync(VerifyTokenRequestDto input)
+
+    public async Task<ResponseResultDto<VerifyTokenDto<TelegramUserExtraInfo>>> VerifyTelegramTokenAsync(
+        VerifyTokenRequestDto tokenRequestDto)
     {
         try
         {
-            var grain = _clusterClient.GetGrain<IThirdPartyVerificationGrain>(input.AccessToken);
+            var grain = _clusterClient.GetGrain<IThirdPartyVerificationGrain>(tokenRequestDto.AccessToken);
             var resultDto =
-                await grain.VerifyFacebookTokenAsync(
-                    ObjectMapper.Map<VerifyTokenRequestDto, VerifyTokenGrainDto>(input));
+                await grain.VerifyTelegramTokenAsync(
+                    ObjectMapper.Map<VerifyTokenRequestDto, VerifyTokenGrainDto>(tokenRequestDto));
 
             if (!resultDto.Success)
             {
-                return new ResponseResultDto<VerifierCodeDto>
+                return new ResponseResultDto<VerifyTokenDto<TelegramUserExtraInfo>>
+
                 {
                     Success = false,
                     Message = resultDto.Message
                 };
             }
 
-            return new ResponseResultDto<VerifierCodeDto>
+            return new ResponseResultDto<VerifyTokenDto<TelegramUserExtraInfo>>
             {
                 Success = true,
-                Data = resultDto.Data
+                Data = _objectMapper.Map<VerifyTelegramTokenGrainDto, VerifyTokenDto<TelegramUserExtraInfo>>(resultDto.Data)
+
             };
         }
         catch (Exception e)
         {
             Logger.LogError(e, Error.VerifyCodeErrorLogPrefix + e.Message);
-            return new ResponseResultDto<VerifierCodeDto>
+
+            return new ResponseResultDto<VerifyTokenDto<TelegramUserExtraInfo>>
+
             {
                 Message = Error.VerifyCodeErrorLogPrefix + e.Message
             };
@@ -365,6 +372,7 @@ public class AccountAppService : CAVerifierServerAppService, IAccountAppService
             Message = "Verify AccessToken failed."
         };
     }
+
 
 
     private async Task<DidServerList> GetDidServerListAsync()

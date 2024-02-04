@@ -236,6 +236,11 @@
         "MobileRegular": "^(\\+?30)?(69\\d{8})$",
         "CountryCode": "+30",
         "Country": "GR"
+      },
+      {
+        "MobileRegular": "^(\\+?39)?\\s?3\\d{2}?\\d{6,7}$",
+        "CountryCode": "+39",
+        "Country": "IT"
       }
     ]
   }

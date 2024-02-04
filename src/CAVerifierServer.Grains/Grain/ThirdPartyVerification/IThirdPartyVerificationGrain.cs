@@ -8,5 +8,9 @@ public interface IThirdPartyVerificationGrain : IGrainWithStringKey
 {
     Task<GrainResultDto<VerifyGoogleTokenGrainDto>> VerifyGoogleTokenAsync(VerifyTokenGrainDto tokenGrainDto);
     Task<GrainResultDto<VerifyAppleTokenGrainDto>> VerifyAppleTokenAsync(VerifyTokenGrainDto tokenGrainDto);
+
     Task<GrainResultDto<VerifierCodeDto>> VerifyFacebookTokenAsync(VerifyTokenGrainDto tokenGrainDto);
+
+    Task<GrainResultDto<VerifyTelegramTokenGrainDto>> VerifyTelegramTokenAsync(VerifyTokenGrainDto tokenGrainDto);
+
 }
