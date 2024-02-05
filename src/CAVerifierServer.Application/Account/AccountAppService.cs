@@ -279,7 +279,8 @@ public class AccountAppService : CAVerifierServerAppService, IAccountAppService
             return new ResponseResultDto<VerifyTokenDto<TelegramUserExtraInfo>>
             {
                 Success = true,
-                Data = _objectMapper.Map<VerifyTelegramTokenGrainDto, VerifyTokenDto<TelegramUserExtraInfo>>(resultDto.Data)
+                Data = _objectMapper.Map<VerifyTelegramTokenGrainDto, VerifyTokenDto<TelegramUserExtraInfo>>(
+                    resultDto.Data)
             };
         }
         catch (Exception e)
@@ -387,18 +388,18 @@ public class AccountAppService : CAVerifierServerAppService, IAccountAppService
         }
         catch (Exception e)
         {
-            _logger.LogError("Verify AccessToken failed,{error}", e.Message);
+            _logger.LogError(e, "Verify AccessToken failed,AccessToken is {accessToken}", accessToken);
             return new ResponseResultDto<VerifyFacebookTokenResponseDto>
             {
                 Success = false,
-                Message = e.Message
+                Message = "Verify Facebook accessToken failed."
             };
         }
 
         return new ResponseResultDto<VerifyFacebookTokenResponseDto>
         {
             Success = false,
-            Message = "Verify AccessToken failed."
+            Message = "Verify Facebook accessToken failed."
         };
     }
 
@@ -433,7 +434,7 @@ public class AccountAppService : CAVerifierServerAppService, IAccountAppService
                 "verify twitter token error, accessToken:{accessToken}, identifierHash:{identifierHash}, salt:{salt}, operationType:{operationType}",
                 tokenRequestDto.AccessToken, tokenRequestDto.IdentifierHash, tokenRequestDto.Salt,
                 tokenRequestDto.OperationType);
-            
+
             return new ResponseResultDto<VerifyTwitterTokenDto>
             {
                 Message = Error.VerifyCodeErrorLogPrefix + e.Message
