@@ -12,7 +12,7 @@ public interface IAccountAppService : IApplicationService
      
      Task<ResponseResultDto<VerifierCodeDto>> VerifyCodeAsync(VerifyCodeInput input);
 
-     Task<string> WhiteListCheckAsync(List<string> ipList);
+     Task<string> WhiteListCheckAsync(List<string> pubkeyList);
      
      Task<ResponseResultDto<VerifyGoogleTokenDto>> VerifyGoogleTokenAsync(VerifyTokenRequestDto tokenRequestDto);
      Task<ResponseResultDto<VerifyAppleTokenDto>> VerifyAppleTokenAsync(VerifyTokenRequestDto tokenRequestDto);

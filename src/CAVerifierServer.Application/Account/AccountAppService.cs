@@ -2,12 +2,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AElf;
+using AElf.Cryptography;
 using CAVerifierServer.Application;
 using CAVerifierServer.Contracts;
 using CAVerifierServer.Grains.Grain;
 using CAVerifierServer.Grains.Grain.ThirdPartyVerification;
+using CAVerifierServer.Infrastructure;
 using CAVerifierServer.Options;
 using CAVerifierServer.VerifyCodeSender;
+using Google.Protobuf;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -32,6 +36,7 @@ public class AccountAppService : CAVerifierServerAppService, IAccountAppService
     private readonly IObjectMapper _objectMapper;
     private readonly ILogger<AccountAppService> _logger;
     private readonly IContractsProvider _contractsProvider;
+    private readonly IVerifiedRequestTimestampCacheProvider _timestampCacheProvider;
 
     private const string CaServerListKey = "CAServerListKey";
 
@@ -40,7 +45,7 @@ public class AccountAppService : CAVerifierServerAppService, IAccountAppService
         IDistributedCache<DidServerList> distributedCache,
         IEnumerable<IVerifyCodeSender> verifyCodeSenders, IObjectMapper objectMapper,
         IOptions<WhiteListExpireTimeOptions> whiteListExpireTimeOption, ILogger<AccountAppService> logger,
-        IContractsProvider contractsProvider)
+        IContractsProvider contractsProvider, IVerifiedRequestTimestampCacheProvider timestampCacheProvider)
     {
         _clusterClient = clusterClient;
         _distributedCache = distributedCache;
@@ -48,6 +53,7 @@ public class AccountAppService : CAVerifierServerAppService, IAccountAppService
         _objectMapper = objectMapper;
         _logger = logger;
         _contractsProvider = contractsProvider;
+        _timestampCacheProvider = timestampCacheProvider;
         _whiteListExpireTimeOptions = whiteListExpireTimeOption.Value;
         _chainOptions = chainOptions.Value;
     }
@@ -55,7 +61,32 @@ public class AccountAppService : CAVerifierServerAppService, IAccountAppService
     public async Task<ResponseResultDto<SendVerificationRequestDto>> SendVerificationRequestAsync(
         SendVerificationRequestInput input)
     {
-        var verifyCodeSender = _verifyCodeSenders.FirstOrDefault(v => v.Type == input.Type);
+        var verificationRequest = new VerificationRequest();
+        verificationRequest.MergeFrom(ByteArrayHelper.HexStringToByteArray(input.VerificationRequest));
+        var hash = HashHelper.ComputeFrom(verificationRequest);
+
+        // Validate timestamp
+        if (_timestampCacheProvider.IsVerificationRequestExpiredOrHandledBefore(hash, verificationRequest.Timestamp))
+        {
+            return new ResponseResultDto<SendVerificationRequestDto>
+            {
+                Success = false,
+                Message = Error.Message[Error.RequestExpiredOrHandledBefore]
+            };
+        }
+        
+        // Validate signature
+        CryptoHelper.RecoverPublicKey(ByteArrayHelper.HexStringToByteArray(input.Signature), hash.ToByteArray(), out var pubkey);
+        if (!await ValidatePubkeyAsync(pubkey.ToHex()))
+        {
+            return new ResponseResultDto<SendVerificationRequestDto>
+            {
+                Success = false,
+                Message = Error.Message[Error.CAServerNotExist]
+            };
+        }
+
+        var verifyCodeSender = _verifyCodeSenders.FirstOrDefault(v => v.Type == verificationRequest.Type);
         if (verifyCodeSender == null)
         {
             return new ResponseResultDto<SendVerificationRequestDto>
@@ -65,7 +96,7 @@ public class AccountAppService : CAVerifierServerAppService, IAccountAppService
             };
         }
 
-        if (!verifyCodeSender.ValidateGuardianIdentifier(input.GuardianIdentifier))
+        if (!verifyCodeSender.ValidateGuardianIdentifier(verificationRequest.GuardianIdentifier))
         {
             return new ResponseResultDto<SendVerificationRequestDto>
             {
@@ -76,8 +107,8 @@ public class AccountAppService : CAVerifierServerAppService, IAccountAppService
 
         try
         {
-            var grain = _clusterClient.GetGrain<IGuardianIdentifierVerificationGrain>(input.GuardianIdentifier);
-            var dto = await grain.GetVerifyCodeAsync(input);
+            var grain = _clusterClient.GetGrain<IGuardianIdentifierVerificationGrain>(verificationRequest.GuardianIdentifier);
+            var dto = await grain.GetVerifyCodeAsync(verificationRequest);
             if (!dto.Success)
             {
                 return new ResponseResultDto<SendVerificationRequestDto>
@@ -87,13 +118,13 @@ public class AccountAppService : CAVerifierServerAppService, IAccountAppService
                 };
             }
 
-            await verifyCodeSender.SendCodeByGuardianIdentifierAsync(input.GuardianIdentifier, dto.Data.VerifierCode);
+            await verifyCodeSender.SendCodeByGuardianIdentifierAsync(verificationRequest.GuardianIdentifier, dto.Data.VerifierCode);
             return new ResponseResultDto<SendVerificationRequestDto>
             {
                 Success = true,
                 Data = new SendVerificationRequestDto
                 {
-                    VerifierSessionId = input.VerifierSessionId
+                    VerifierSessionId = Guid.Parse(verificationRequest.VerifierSessionId)
                 }
             };
         }
@@ -158,6 +189,18 @@ public class AccountAppService : CAVerifierServerAppService, IAccountAppService
             };
         }
     }
+    
+    private async Task<bool> ValidatePubkeyAsync(string pubkey)
+    {
+        var didServerList = await GetDidServerListAsync();
+        if (didServerList == null)
+        {
+            throw new UserFriendlyException("No CAServer is Found");
+        }
+
+        var servers = didServerList.DidServers.Distinct().ToList();
+        return servers.Select(s => s.Pubkey).Contains(pubkey);
+    }
 
     public async Task<string> WhiteListCheckAsync(List<string> ipList)
     {
@@ -175,6 +218,15 @@ public class AccountAppService : CAVerifierServerAppService, IAccountAppService
         _logger.LogDebug("Formatter ipList is {caIpList}", string.Join(",", caIpList));
         var result = ipList.Intersect(caIpList).ToList();
         return result.Count == 0 ? null : result[0];
+        
+        // var servers = didServerList.DidServers.Distinct().ToList();
+        // var pubkeys = new List<string>();
+        // servers.ForEach(t => { pubkeys.Add(t.Pubkey); });
+        // _logger.LogDebug("CaServerPubkeyList id {pubkeyList} :", string.Join(",", pubkeys));
+        // var caPubkeyList = pubkeys.Select(pubkey => pubkey.Split("//")[1]).Select(formatter => formatter.Split(":")[0]).ToList();
+        // _logger.LogDebug("Formatter pubkeyList is {caPubkeyList}", string.Join(",", caPubkeyList));
+        // var result = pubkeyList.Intersect(caPubkeyList).ToList();
+        // return result.Count == 0 ? null : result[0];
     }
 
     public async Task<ResponseResultDto<VerifyGoogleTokenDto>> VerifyGoogleTokenAsync(

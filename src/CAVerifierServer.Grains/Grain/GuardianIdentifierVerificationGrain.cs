@@ -57,7 +57,7 @@ public class GuardianIdentifierVerificationGrain : Grain<GuardianIdentifierVerif
         await base.OnDeactivateAsync();
     }
 
-    public async Task<GrainResultDto<VerifyCodeDto>> GetVerifyCodeAsync(SendVerificationRequestInput input)
+    public async Task<GrainResultDto<VerifyCodeDto>> GetVerifyCodeAsync(VerificationRequest input)
     {
         //clean expireCode And Validate
         var grainDto = new GrainResultDto<VerifyCodeDto>();
@@ -79,12 +79,12 @@ public class GuardianIdentifierVerificationGrain : Grain<GuardianIdentifierVerif
                 return grainDto;
             }
 
-            if (verifications.Any(p => p.VerifierSessionId == input.VerifierSessionId))
+            if (verifications.Any(p => p.VerifierSessionId == Guid.Parse(input.VerifierSessionId)))
             {
                 grainDto.Success = true;
                 grainDto.Data = new VerifyCodeDto
                 {
-                    VerifierCode = verifications.FirstOrDefault(p => p.VerifierSessionId == input.VerifierSessionId)
+                    VerifierCode = verifications.FirstOrDefault(p => p.VerifierSessionId == Guid.Parse(input.VerifierSessionId))
                         ?.VerificationCode
                 };
                 await WriteStateAsync();
@@ -96,7 +96,7 @@ public class GuardianIdentifierVerificationGrain : Grain<GuardianIdentifierVerif
         {
             GuardianIdentifier = input.GuardianIdentifier,
             GuardianType = input.Type,
-            VerifierSessionId = input.VerifierSessionId
+            VerifierSessionId = Guid.Parse(input.VerifierSessionId)
         };
         //create code
         var randomCode = await GetCodeAsync(6);
