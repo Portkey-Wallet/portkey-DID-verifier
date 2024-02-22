@@ -8,6 +8,7 @@ using CAVerifierServer.Application;
 using CAVerifierServer.Contracts;
 using CAVerifierServer.Grains.Grain;
 using CAVerifierServer.Grains.Grain.ThirdPartyVerification;
+using CAVerifierServer.Infrastructure;
 using CAVerifierServer.Options;
 using CAVerifierServer.VerifyCodeSender;
 using Google.Protobuf;
@@ -35,6 +36,7 @@ public class AccountAppService : CAVerifierServerAppService, IAccountAppService
     private readonly IObjectMapper _objectMapper;
     private readonly ILogger<AccountAppService> _logger;
     private readonly IContractsProvider _contractsProvider;
+    private readonly IVerifiedRequestTimestampCacheProvider _timestampCacheProvider;
 
     private const string CaServerListKey = "CAServerListKey";
 
@@ -43,7 +45,7 @@ public class AccountAppService : CAVerifierServerAppService, IAccountAppService
         IDistributedCache<DidServerList> distributedCache,
         IEnumerable<IVerifyCodeSender> verifyCodeSenders, IObjectMapper objectMapper,
         IOptions<WhiteListExpireTimeOptions> whiteListExpireTimeOption, ILogger<AccountAppService> logger,
-        IContractsProvider contractsProvider)
+        IContractsProvider contractsProvider, IVerifiedRequestTimestampCacheProvider timestampCacheProvider)
     {
         _clusterClient = clusterClient;
         _distributedCache = distributedCache;
@@ -51,18 +53,30 @@ public class AccountAppService : CAVerifierServerAppService, IAccountAppService
         _objectMapper = objectMapper;
         _logger = logger;
         _contractsProvider = contractsProvider;
+        _timestampCacheProvider = timestampCacheProvider;
         _whiteListExpireTimeOptions = whiteListExpireTimeOption.Value;
         _chainOptions = chainOptions.Value;
     }
 
     public async Task<ResponseResultDto<SendVerificationRequestDto>> SendVerificationRequestAsync(
-        SendVerificationRequestInput inputV2)
+        SendVerificationRequestInput input)
     {
-        var input = new VerificationRequest();
-        input.MergeFrom(ByteArrayHelper.HexStringToByteArray(inputV2.VerificationRequest));
-        var hash = HashHelper.ComputeFrom(input);
+        var verificationRequest = new VerificationRequest();
+        verificationRequest.MergeFrom(ByteArrayHelper.HexStringToByteArray(input.VerificationRequest));
+        var hash = HashHelper.ComputeFrom(verificationRequest);
+
+        // Validate timestamp
+        if (_timestampCacheProvider.IsVerificationRequestExpiredOrHandledBefore(hash, verificationRequest.Timestamp))
+        {
+            return new ResponseResultDto<SendVerificationRequestDto>
+            {
+                Success = false,
+                Message = Error.Message[Error.RequestExpiredOrHandledBefore]
+            };
+        }
+        
         // Validate signature
-        CryptoHelper.RecoverPublicKey(ByteArrayHelper.HexStringToByteArray(inputV2.Signature), hash.ToByteArray(), out var pubkey);
+        CryptoHelper.RecoverPublicKey(ByteArrayHelper.HexStringToByteArray(input.Signature), hash.ToByteArray(), out var pubkey);
         if (!await ValidatePubkeyAsync(pubkey.ToHex()))
         {
             return new ResponseResultDto<SendVerificationRequestDto>
@@ -72,7 +86,7 @@ public class AccountAppService : CAVerifierServerAppService, IAccountAppService
             };
         }
 
-        var verifyCodeSender = _verifyCodeSenders.FirstOrDefault(v => v.Type == input.Type);
+        var verifyCodeSender = _verifyCodeSenders.FirstOrDefault(v => v.Type == verificationRequest.Type);
         if (verifyCodeSender == null)
         {
             return new ResponseResultDto<SendVerificationRequestDto>
@@ -82,7 +96,7 @@ public class AccountAppService : CAVerifierServerAppService, IAccountAppService
             };
         }
 
-        if (!verifyCodeSender.ValidateGuardianIdentifier(input.GuardianIdentifier))
+        if (!verifyCodeSender.ValidateGuardianIdentifier(verificationRequest.GuardianIdentifier))
         {
             return new ResponseResultDto<SendVerificationRequestDto>
             {
@@ -93,8 +107,8 @@ public class AccountAppService : CAVerifierServerAppService, IAccountAppService
 
         try
         {
-            var grain = _clusterClient.GetGrain<IGuardianIdentifierVerificationGrain>(input.GuardianIdentifier);
-            var dto = await grain.GetVerifyCodeAsync(input);
+            var grain = _clusterClient.GetGrain<IGuardianIdentifierVerificationGrain>(verificationRequest.GuardianIdentifier);
+            var dto = await grain.GetVerifyCodeAsync(verificationRequest);
             if (!dto.Success)
             {
                 return new ResponseResultDto<SendVerificationRequestDto>
@@ -104,13 +118,13 @@ public class AccountAppService : CAVerifierServerAppService, IAccountAppService
                 };
             }
 
-            await verifyCodeSender.SendCodeByGuardianIdentifierAsync(input.GuardianIdentifier, dto.Data.VerifierCode);
+            await verifyCodeSender.SendCodeByGuardianIdentifierAsync(verificationRequest.GuardianIdentifier, dto.Data.VerifierCode);
             return new ResponseResultDto<SendVerificationRequestDto>
             {
                 Success = true,
                 Data = new SendVerificationRequestDto
                 {
-                    VerifierSessionId = Guid.Parse(input.VerifierSessionId)
+                    VerifierSessionId = Guid.Parse(verificationRequest.VerifierSessionId)
                 }
             };
         }

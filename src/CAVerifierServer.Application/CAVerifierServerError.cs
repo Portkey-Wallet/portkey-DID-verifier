@@ -14,6 +14,7 @@ public static class Error
     public const int Verified = 20008;
     public const int IdNotExist = 20009;
     public const int CAServerNotExist = 20010;
+    public const int RequestExpiredOrHandledBefore = 20011;
     public const string VerifyCodeErrorLogPrefix = "Verify code falied.Error:";
     public const string SendVerificationRequestErrorLogPrefix = "SendVerificationRequest falied. Error:";
     public const string VerifyAppleErrorLogPrefix = "Verify apple identity token falied.Error:";
@@ -28,6 +29,7 @@ public static class Error
         { Timeout, "Timeout" },
         { Verified, "Already Verified" },
         { IdNotExist,"There is no such entity" },
-        { CAServerNotExist, "CA Server not found" }
+        { CAServerNotExist, "CA Server not found" },
+        { RequestExpiredOrHandledBefore, "Verification Request expired or handled before" }
     };
 }

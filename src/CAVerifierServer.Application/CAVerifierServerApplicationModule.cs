@@ -1,6 +1,7 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using CAVerifierServer.Email;
 using CAVerifierServer.Grains;
+using CAVerifierServer.Infrastructure;
 using CAVerifierServer.Options;
 using CAVerifierServer.Phone;
 using CAVerifierServer.VerifyCodeSender;
@@ -51,6 +52,7 @@ public class CAVerifierServerApplicationModule : AbpModule
         context.Services.AddSingleton<ISMSServiceSender, TwilioSmsMessageSender>();
         context.Services.AddSingleton<IVerifyCodeSender, EmailVerifyCodeSender>();
         context.Services.AddSingleton<IVerifyCodeSender, PhoneVerifyCodeSender>();
+        context.Services.AddSingleton<IVerifiedRequestTimestampCacheProvider, VerifiedRequestTimestampCacheProvider>();
         context.Services.AddHttpClient();
     }
 }
