@@ -236,7 +236,7 @@ public class ThirdPartyVerificationGrain : Grain<ThirdPartyVerificationState>, I
             var signatureOutput = CryptographyHelper.GenerateSignature(Convert.ToInt16(GuardianIdentifierType.Twitter),
                 grainDto.Salt,
                 grainDto.IdentifierHash, _verifierAccountOptions.PrivateKey, grainDto.OperationType,
-                grainDto.ChainId,grainDto.OperationDetails);
+                grainDto.ChainId, grainDto.OperationDetails);
 
             tokenDto.Signature = signatureOutput.Signature;
             tokenDto.VerificationDoc = signatureOutput.Data;
@@ -261,8 +261,10 @@ public class ThirdPartyVerificationGrain : Grain<ThirdPartyVerificationState>, I
     {
         var requestUrl = "https://api.twitter.com/2/users/me";
 
+        var authPrefix = accessToken.Contains("oauth_signature") ? "OAuth" : "Bearer";
+
         var client = _httpClientFactory.CreateClient();
-        client.DefaultRequestHeaders.Add("Authorization", $"Bearer {accessToken}");
+        client.DefaultRequestHeaders.Add("Authorization", $"{authPrefix} {accessToken}");
         var response = await client.SendAsync(new HttpRequestMessage(HttpMethod.Get, requestUrl));
 
         var result = await response.Content.ReadAsStringAsync();
