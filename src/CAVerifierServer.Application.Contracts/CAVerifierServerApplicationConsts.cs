@@ -14,4 +14,8 @@ public class CAVerifierServerApplicationConsts
     public const string Subject = "Email Verification Code";
     public const string ChinaPhoneRegex = "^(\\+?0?86\\-?)?1[3456789]\\d{9}$";
     public const string PhoneNumReplacement = "$1****$2";
+    public const string AuthSignature = "oauth_signature";
+    public const string AuthPrefix = "OAuth";
+    public const string JwtTokenPrefix = "Bearer";
+    public const string Authorization = "Authorization";
 }

@@ -150,7 +150,7 @@ public class ThirdPartyVerificationGrain : Grain<ThirdPartyVerificationState>, I
                     _verifierAccountOptions.PrivateKey, grainDto.OperationType, grainDto.ChainId,
                     grainDto.OperationDetails);
 
-            
+
             return new GrainResultDto<VerifierCodeDto>
             {
                 Success = true,
@@ -260,11 +260,13 @@ public class ThirdPartyVerificationGrain : Grain<ThirdPartyVerificationState>, I
     private async Task<TwitterUserInfo> GetTwitterUserInfoAsync(string accessToken)
     {
         var requestUrl = "https://api.twitter.com/2/users/me";
-
-        var authPrefix = accessToken.Contains("oauth_signature") ? "OAuth" : "Bearer";
+        var authPrefix = accessToken.Contains(CAVerifierServerApplicationConsts.AuthSignature)
+            ? CAVerifierServerApplicationConsts.AuthPrefix
+            : CAVerifierServerApplicationConsts.JwtTokenPrefix;
 
         var client = _httpClientFactory.CreateClient();
-        client.DefaultRequestHeaders.Add("Authorization", $"{authPrefix} {accessToken}");
+        client.DefaultRequestHeaders.Add(CAVerifierServerApplicationConsts.Authorization,
+            $"{authPrefix} {accessToken}");
         var response = await client.SendAsync(new HttpRequestMessage(HttpMethod.Get, requestUrl));
 
         var result = await response.Content.ReadAsStringAsync();
