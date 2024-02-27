@@ -20,15 +20,13 @@ public class SampleAppServiceTests : CAVerifierServerApplicationTestBase
         _userAppService = GetRequiredService<IIdentityUserAppService>();
     }
 
-    [Fact]
-    public async Task Initial_Data_Should_Contain_Admin_User()
-    {
-        //Act
-        // var result = await _userAppService.GetListAsync(new GetIdentityUsersInput());
-        //
-        // //Assert
-        // result.TotalCount.ShouldBeGreaterThan(0);
-        // result.Items.ShouldContain(u => u.UserName == "admin");
-    }
-
+    // [Fact]
+    // public async Task Initial_Data_Should_Contain_Admin_User()
+    // {
+    //     var result = await _userAppService.GetListAsync(new GetIdentityUsersInput());
+    //
+    //     //Assert
+    //     result.TotalCount.ShouldBeGreaterThan(0);
+    //     result.Items.ShouldContain(u => u.UserName == "admin");
+    // }
 }
