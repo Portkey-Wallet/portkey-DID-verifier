@@ -6,8 +6,8 @@ public class VerifyTokenGrainDto
     public string IdentifierHash { get; set; }
     public string Salt { get; set; }
     public string OperationType { get; set; }
-    
-    public string MerklePath { get; set; }
-    
-    
+
+    public string ChainId { get; set; }
+
+    public string OperationDetails { get; set; }
 }

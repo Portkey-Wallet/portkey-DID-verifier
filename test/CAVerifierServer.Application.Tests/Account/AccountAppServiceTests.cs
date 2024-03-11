@@ -333,4 +333,31 @@ public partial class AccountAppServiceTests : CAVerifierServerApplicationTestBas
         responseResult.Success.ShouldBe(false);
         responseResult.Message.ShouldBe("MockFalseMessage");
     }
+
+    [Fact]
+    public async Task VerifyTelegramTokenAsync_Test()
+    {
+        var request = new VerifyTokenRequestDto
+        {
+            IdentifierHash = HashHelper.ComputeFrom("salt" + HashHelper.ComputeFrom(DefaultEmailAddress).ToHex())
+                .ToHex(),
+            AccessToken = DefaultToken,
+            Salt = "salt",
+            OperationType = "1"
+        };
+        var response = await _accountAppService.VerifyAppleTokenAsync(request);
+        response.Success.ShouldBe(true);
+
+        var input = new VerifyTokenRequestDto
+        {
+            IdentifierHash = HashHelper.ComputeFrom("salt" + HashHelper.ComputeFrom(DefaultEmailAddress).ToHex())
+                .ToHex(),
+            AccessToken = "ErrorToken",
+            Salt = "salt",
+            OperationType = "1"
+        };
+        var responseResult = await _accountAppService.VerifyAppleTokenAsync(input);
+        responseResult.Success.ShouldBe(false);
+        responseResult.Message.ShouldBe("MockFalseMessage");
+    }
 }

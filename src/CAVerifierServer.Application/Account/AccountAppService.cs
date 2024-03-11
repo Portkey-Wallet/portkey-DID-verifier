@@ -2,7 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
+using Amazon.SimpleNotificationService.Util;
+using CAVerifierServer.Verifier.Dtos;
 using CAVerifierServer.Application;
 using CAVerifierServer.Contracts;
 using CAVerifierServer.Grains.Grain;
@@ -13,6 +17,7 @@ using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using MongoDB.Bson;
+using Newtonsoft.Json;
 using NUglify.Helpers;
 using Orleans;
 using Volo.Abp;
@@ -34,6 +39,8 @@ public class AccountAppService : CAVerifierServerAppService, IAccountAppService
     private readonly IObjectMapper _objectMapper;
     private readonly ILogger<AccountAppService> _logger;
     private readonly IContractsProvider _contractsProvider;
+    private readonly FacebookOptions _facebookOptions;
+    private readonly IHttpClientFactory _httpClientFactory;
 
     private const string CaServerListKey = "CAServerListKey";
 
@@ -42,7 +49,8 @@ public class AccountAppService : CAVerifierServerAppService, IAccountAppService
         IDistributedCache<DidServerList> distributedCache,
         IEnumerable<IVerifyCodeSender> verifyCodeSenders, IObjectMapper objectMapper,
         IOptions<WhiteListExpireTimeOptions> whiteListExpireTimeOption, ILogger<AccountAppService> logger,
-        IContractsProvider contractsProvider)
+        IContractsProvider contractsProvider, IOptionsSnapshot<FacebookOptions> facebookOptions,
+        IHttpClientFactory httpClientFactory)
     {
         _clusterClient = clusterClient;
         _distributedCache = distributedCache;
@@ -50,6 +58,8 @@ public class AccountAppService : CAVerifierServerAppService, IAccountAppService
         _objectMapper = objectMapper;
         _logger = logger;
         _contractsProvider = contractsProvider;
+        _httpClientFactory = httpClientFactory;
+        _facebookOptions = facebookOptions.Value;
         _whiteListExpireTimeOptions = whiteListExpireTimeOption.Value;
         _chainOptions = chainOptions.Value;
     }
@@ -361,6 +371,191 @@ public class AccountAppService : CAVerifierServerAppService, IAccountAppService
         {
             Logger.LogError(e, Error.VerifyCodeErrorLogPrefix + e.Message);
             return new ResponseResultDto<VerifyAppleTokenDto>
+            {
+                Message = Error.VerifyCodeErrorLogPrefix + e.Message
+            };
+        }
+    }
+
+    public async Task<ResponseResultDto<VerifyTokenDto<TelegramUserExtraInfo>>> VerifyTelegramTokenAsync(
+        VerifyTokenRequestDto tokenRequestDto)
+    {
+        try
+        {
+            var grain = _clusterClient.GetGrain<IThirdPartyVerificationGrain>(tokenRequestDto.AccessToken);
+            var resultDto =
+                await grain.VerifyTelegramTokenAsync(
+                    ObjectMapper.Map<VerifyTokenRequestDto, VerifyTokenGrainDto>(tokenRequestDto));
+
+            if (!resultDto.Success)
+            {
+                return new ResponseResultDto<VerifyTokenDto<TelegramUserExtraInfo>>
+                {
+                    Success = false,
+                    Message = resultDto.Message
+                };
+            }
+
+            return new ResponseResultDto<VerifyTokenDto<TelegramUserExtraInfo>>
+            {
+                Success = true,
+                Data = _objectMapper.Map<VerifyTelegramTokenGrainDto, VerifyTokenDto<TelegramUserExtraInfo>>(
+                    resultDto.Data)
+            };
+        }
+        catch (Exception e)
+        {
+            Logger.LogError(e, Error.VerifyCodeErrorLogPrefix + e.Message);
+            return new ResponseResultDto<VerifyTokenDto<TelegramUserExtraInfo>>
+            {
+                Message = Error.VerifyCodeErrorLogPrefix + e.Message
+            };
+        }
+    }
+
+    public async Task<ResponseResultDto<VerifierCodeDto>> VerifyFacebookTokenAsync(VerifyTokenRequestDto input)
+    {
+        try
+        {
+            var grain = _clusterClient.GetGrain<IThirdPartyVerificationGrain>(input.AccessToken);
+            var resultDto =
+                await grain.VerifyFacebookTokenAsync(
+                    ObjectMapper.Map<VerifyTokenRequestDto, VerifyTokenGrainDto>(input));
+
+            if (!resultDto.Success)
+            {
+                return new ResponseResultDto<VerifierCodeDto>
+                {
+                    Success = false,
+                    Message = resultDto.Message
+                };
+            }
+
+            return new ResponseResultDto<VerifierCodeDto>
+            {
+                Success = true,
+                Data = resultDto.Data
+            };
+        }
+        catch (Exception e)
+        {
+            Logger.LogError(e, Error.VerifyCodeErrorLogPrefix + e.Message);
+            return new ResponseResultDto<VerifierCodeDto>
+            {
+                Message = Error.VerifyCodeErrorLogPrefix + e.Message
+            };
+        }
+    }
+
+    public async Task<ResponseResultDto<VerifyFacebookTokenResponseDto>> VerifyFacebookAccessTokenAsync(
+        string accessToken)
+    {
+        var app_token = _facebookOptions.AppId + "%7C" + _facebookOptions.AppSecret;
+        var requestUrl =
+            "https://graph.facebook.com/debug_token?access_token=" + app_token + "&input_token=" + accessToken;
+        try
+        {
+            var client = _httpClientFactory.CreateClient();
+            var response = await client.SendAsync(new HttpRequestMessage(HttpMethod.Get, requestUrl));
+
+            var result = await response.Content.ReadAsStringAsync();
+            if (response.StatusCode == HttpStatusCode.Unauthorized)
+            {
+                _logger.LogError("{Message}", response.ToString());
+                return new ResponseResultDto<VerifyFacebookTokenResponseDto>
+                {
+                    Success = false,
+                    Message = "Invalid token"
+                };
+            }
+
+            if (response.IsSuccessStatusCode)
+            {
+                var verifyUserInfo = JsonConvert.DeserializeObject<VerifyFacebookResultResponse>(result);
+                if (verifyUserInfo == null)
+                {
+                    return new ResponseResultDto<VerifyFacebookTokenResponseDto>
+                    {
+                        Success = false,
+                        Message = "Verify Facebook userInfo fail."
+                    };
+                }
+
+                if (!verifyUserInfo.Data.IsValid)
+                {
+                    return new ResponseResultDto<VerifyFacebookTokenResponseDto>
+                    {
+                        Success = false,
+                        Message = "Verify accessToken from Facebook fail."
+                    };
+                }
+
+                if (verifyUserInfo.Data.ExpiresAt < DateTimeOffset.UtcNow.ToUnixTimeSeconds())
+                {
+                    return new ResponseResultDto<VerifyFacebookTokenResponseDto>
+                    {
+                        Success = false,
+                        Message = "Token Expired"
+                    };
+                }
+
+                return new ResponseResultDto<VerifyFacebookTokenResponseDto>
+                {
+                    Success = true,
+                    Data = verifyUserInfo.Data
+                };
+            }
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "Verify AccessToken failed,AccessToken is {accessToken}", accessToken);
+            return new ResponseResultDto<VerifyFacebookTokenResponseDto>
+            {
+                Success = false,
+                Message = "Verify Facebook accessToken failed."
+            };
+        }
+
+        return new ResponseResultDto<VerifyFacebookTokenResponseDto>
+        {
+            Success = false,
+            Message = "Verify Facebook accessToken failed."
+        };
+    }
+
+    public async Task<ResponseResultDto<VerifyTwitterTokenDto>> VerifyTwitterTokenAsync(
+        VerifyTokenRequestDto tokenRequestDto)
+    {
+        try
+        {
+            var grain = _clusterClient.GetGrain<IThirdPartyVerificationGrain>(tokenRequestDto.AccessToken);
+            var resultDto =
+                await grain.VerifyTwitterTokenAsync(
+                    ObjectMapper.Map<VerifyTokenRequestDto, VerifyTokenGrainDto>(tokenRequestDto));
+
+            if (!resultDto.Success)
+            {
+                return new ResponseResultDto<VerifyTwitterTokenDto>
+                {
+                    Success = false,
+                    Message = resultDto.Message
+                };
+            }
+
+            return new ResponseResultDto<VerifyTwitterTokenDto>
+            {
+                Success = true,
+                Data = _objectMapper.Map<VerifyTwitterTokenGrainDto, VerifyTwitterTokenDto>(resultDto.Data)
+            };
+        }
+        catch (Exception e)
+        {
+            Logger.LogError(e,
+                "verify twitter token error, accessToken:{accessToken}, identifierHash:{identifierHash}, salt:{salt}, operationType:{operationType}",
+                tokenRequestDto.AccessToken, tokenRequestDto.IdentifierHash, tokenRequestDto.Salt,
+                tokenRequestDto.OperationType);
+
+            return new ResponseResultDto<VerifyTwitterTokenDto>
             {
                 Message = Error.VerifyCodeErrorLogPrefix + e.Message
             };

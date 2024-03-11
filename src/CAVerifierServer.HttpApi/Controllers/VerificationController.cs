@@ -1,11 +1,7 @@
-using System;
-using System.Diagnostics;
 using System.Threading.Tasks;
-using CAVerifier.Monitor;
-using CAVerifier.Monitor.Logger;
+using CAVerifierServer.Verifier.Dtos;
 using CAVerifierServer.Account;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Volo.Abp;
 
 namespace CAVerifierServer.Controllers;
@@ -17,15 +13,10 @@ namespace CAVerifierServer.Controllers;
 public class CAVerificationController : CAVerifierServerController
 {
     private readonly IAccountAppService _accountAppService;
-    private readonly IIndicatorLogger _indicatorLogger;
-    private readonly ILogger<CAVerificationController> _logger;
 
-    public CAVerificationController(IAccountAppService accountAppService, IIndicatorLogger indicatorLogger,
-        ILogger<CAVerificationController> logger)
+    public CAVerificationController(IAccountAppService accountAppService)
     {
         _accountAppService = accountAppService;
-        _indicatorLogger = indicatorLogger;
-        _logger = logger;
     }
 
     [HttpPost]
@@ -33,99 +24,56 @@ public class CAVerificationController : CAVerifierServerController
     public async Task<ResponseResultDto<SendVerificationRequestDto>> SendVerificationRequestAsync(
         SendVerificationRequestInput input)
     {
-        Stopwatch watcher = Stopwatch.StartNew();
-        try
-        {
-            _logger.LogInformation("send verification request:guardianIdentifier={0}；VerifierSessionId={1}",
-                input.GuardianIdentifier, input.VerifierSessionId);
-            return await _accountAppService.SendVerificationRequestAsync(input);
-        }
-        catch (Exception e)
-        {
-            watcher.Stop();
-            _indicatorLogger.LogInformation(MonitorTag.Verifier, MonitorTarget.sendVerificationRequestFail.ToString(),
-                (int)watcher.ElapsedMilliseconds);
-            throw e;
-        }
-        finally
-        {
-            watcher.Stop();
-            _logger.LogInformation("send verification request:VerifierSessionId={1}, {2}", 
-                input.VerifierSessionId.ToString(), watcher.ElapsedMilliseconds.ToString());
-            _indicatorLogger.LogInformation(MonitorTag.Verifier, MonitorTarget.sendVerificationRequest.ToString(),
-                (int)watcher.ElapsedMilliseconds);
-        }
+        return await _accountAppService.SendVerificationRequestAsync(input);
     }
 
     [HttpPost]
     [Route("verifyCode")]
     public async Task<ResponseResultDto<VerifierCodeDto>> VerifyCodeAsync(VerifyCodeInput input)
     {
-        Stopwatch watcher = Stopwatch.StartNew();
-        try
-        {
-            return await _accountAppService.VerifyCodeAsync(input);
-        }
-        catch (Exception e)
-        {
-            watcher.Stop();
-            _indicatorLogger.LogInformation(MonitorTag.Verifier, MonitorTarget.verifyCodeFail.ToString(),
-                (int)watcher.ElapsedMilliseconds);
-            throw e;
-        }
-        finally
-        {
-            watcher.Stop();
-            _indicatorLogger.LogInformation(MonitorTag.Verifier, MonitorTarget.verifyCode.ToString(),
-                (int)watcher.ElapsedMilliseconds);
-        }
+        return await _accountAppService.VerifyCodeAsync(input);
     }
 
     [HttpPost("verifyGoogleToken")]
     public async Task<ResponseResultDto<VerifyGoogleTokenDto>> VerifyGoogleTokenAsync(
         VerifyTokenRequestDto tokenRequestDto)
     {
-        Stopwatch watcher = Stopwatch.StartNew();
-        try
-        {
-            return await _accountAppService.VerifyGoogleTokenAsync(tokenRequestDto);
-        }
-        catch (Exception e)
-        {
-            watcher.Stop();
-            _indicatorLogger.LogInformation(MonitorTag.Verifier, MonitorTarget.verifyGoogleTokenFail.ToString(),
-                (int)watcher.ElapsedMilliseconds);
-            throw e;
-        }
-        finally
-        {
-            watcher.Stop();
-            _indicatorLogger.LogInformation(MonitorTag.Verifier, MonitorTarget.verifyGoogleToken.ToString(),
-                (int)watcher.ElapsedMilliseconds);
-        }
+        return await _accountAppService.VerifyGoogleTokenAsync(tokenRequestDto);
     }
 
     [HttpPost("verifyAppleToken")]
     public async Task<ResponseResultDto<VerifyAppleTokenDto>> VerifyAppleTokenAsync(
         VerifyTokenRequestDto tokenRequestDto)
     {
-        Stopwatch watcher = Stopwatch.StartNew();
-        try
-        {
-            return await _accountAppService.VerifyAppleTokenAsync(tokenRequestDto);
-        }
-        catch (Exception e)
-        {
-            watcher.Stop();
-            _indicatorLogger.LogInformation(MonitorTag.Verifier, MonitorTarget.verifyAppleTokenFail.ToString(),
-                (int)watcher.ElapsedMilliseconds);
-            throw e;
-        }
-        finally
-        {
-            watcher.Stop();
-            _indicatorLogger.LogInformation(MonitorTag.Verifier, MonitorTarget.verifyAppleToken.ToString(),
-                (int)watcher.ElapsedMilliseconds);
-        }
+        return await _accountAppService.VerifyAppleTokenAsync(tokenRequestDto);
+    }
+    
+    [HttpPost]
+    [Route("verifyFacebookToken")]
+    public async Task<ResponseResultDto<VerifierCodeDto>> VerifyFacebookTokenAsync(VerifyTokenRequestDto input)
+    {
+        return await _accountAppService.VerifyFacebookTokenAsync(input);
+    }
+    
+    [HttpPost]
+    [Route("verifyFacebookAccessTokenAndGetUserId")]
+    public async Task<ResponseResultDto<VerifyFacebookTokenResponseDto>> VerifyFacebookAccessTokenAndGetUserId(VerifyFacebookAccessTokenRequestDto request)
+    {
+        return await _accountAppService.VerifyFacebookAccessTokenAsync(request.AccessToken);
+    }
+    
+    
+
+    [HttpPost("verifyTelegramToken")]
+    public async Task<ResponseResultDto<VerifyTokenDto<TelegramUserExtraInfo>>> VerifyTelegramTokenAsync(
+        VerifyTokenRequestDto tokenRequestDto)
+    {
+        return await _accountAppService.VerifyTelegramTokenAsync(tokenRequestDto);
+    }
+    
+    [HttpPost("verifyTwitterToken")]
+    public async Task<ResponseResultDto<VerifyTwitterTokenDto>> VerifyAppleTwitterAsync(VerifyTokenRequestDto tokenRequestDto)
+    {
+        return await _accountAppService.VerifyTwitterTokenAsync(tokenRequestDto);
     }
 }
