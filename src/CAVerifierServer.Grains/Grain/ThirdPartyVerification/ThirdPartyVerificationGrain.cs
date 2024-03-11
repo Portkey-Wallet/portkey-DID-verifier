@@ -5,7 +5,7 @@ using CAVerifierServer.Telegram;
 using CAVerifierServer.Telegram.Options;
 using CAVerifierServer.Verifier.Dtos;
 using CAVerifierServer.Account;
-using CAVerifierServer.Common;
+using CAVerifierServer.Grains.Common;
 using CAVerifierServer.Grains.Dto;
 using CAVerifierServer.Grains.Options;
 using CAVerifierServer.Grains.State;
