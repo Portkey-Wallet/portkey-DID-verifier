@@ -36,8 +36,7 @@ public partial class AccountAppServiceTests
             ChainId = "MockChain",
             BaseUrl = "http://localhost:8000",
             ContractAddress = "",
-            IsMainChain = false,
-            PrivateKey = ""
+            IsMainChain = false
         });
         return new OptionsWrapper<ChainOptions>(
             new ChainOptions

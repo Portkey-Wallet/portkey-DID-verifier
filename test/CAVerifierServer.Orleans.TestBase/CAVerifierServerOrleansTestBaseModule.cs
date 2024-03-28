@@ -27,8 +27,8 @@ public class CAVerifierServerOrleansTestBaseModule:AbpModule
         context.Services.AddSingleton<IClusterClient>(sp => sp.GetService<ClusterFixture>().Cluster.Client);
         context.Services.Configure<VerifierAccountOptions>(o =>
         {
-            o.PrivateKey = "XXXXXXXX";
-            o.Address = "XXXXXXX";
+            o.KeyStorePath = "";
+            o.KeyStorePassword = "";
         });
         context.Services.Configure<VerifierCodeOptions>(o =>
         {

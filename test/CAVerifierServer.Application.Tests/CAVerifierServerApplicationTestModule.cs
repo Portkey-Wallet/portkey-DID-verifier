@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using CAVerifierServer.Grain.Tests;
-using CAVerifierServer.Grains.Options;
 using CAVerifierServer.Options;
 using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.Modularity;
@@ -17,12 +16,6 @@ public class CAVerifierServerApplicationTestModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
-        context.Services.Configure<VerifierAccountOptions>(o =>
-        {
-            o.PrivateKey = "XXXXXXXX";
-            o.Address = "XXXXXXXXX";
-        });
-
         //context.Services.AddSingleton<IEmailSender, NullEmailSender>();
         context.Services.AddSingleton<ISmsSender, NullSmsSender>();
 
@@ -52,8 +45,7 @@ public class CAVerifierServerApplicationTestModule : AbpModule
             ChainId = "AELF",
             BaseUrl = "http://127.0.0.1:8000",
             ContractAddress = "XXXXXX",
-            IsMainChain = true,
-            PrivateKey = "XXXXXXX"
+            IsMainChain = true
         };
         var dic = new Dictionary<string, ChainInfo>();
         dic.Add("MockChainId", chainInfo);

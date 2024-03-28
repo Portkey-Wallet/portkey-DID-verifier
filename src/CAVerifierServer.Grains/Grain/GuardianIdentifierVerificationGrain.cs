@@ -1,4 +1,5 @@
 using System.Text;
+using AElf;
 using CAVerifierServer.Account;
 using CAVerifierServer.Grains.Common;
 using CAVerifierServer.Grains.Dto;
@@ -23,17 +24,20 @@ public class GuardianIdentifierVerificationGrain : Grain<GuardianIdentifierVerif
     private readonly VerifierAccountOptions _verifierAccountOptions;
     private readonly GuardianTypeOptions _guardianTypeOptions;
     private readonly IClock _clock;
+    private readonly ISigner _signer;
+    
     private ILogger<GuardianIdentifierVerificationGrain> _logger;
 
     public GuardianIdentifierVerificationGrain(IOptions<VerifierCodeOptions> verifierCodeOptions,
         IOptions<VerifierAccountOptions> verifierAccountOptions, IOptions<GuardianTypeOptions> guardianTypeOptions,
-        IClock clock, ILogger<GuardianIdentifierVerificationGrain> logger)
+        IClock clock, ISigner signer, ILogger<GuardianIdentifierVerificationGrain> logger)
     {
         _clock = clock;
         _logger = logger;
         _guardianTypeOptions = guardianTypeOptions.Value;
         _verifierCodeOptions = verifierCodeOptions.Value;
         _verifierAccountOptions = verifierAccountOptions.Value;
+        _signer = signer;
     }
 
     private Task<string> GetCodeAsync(int length)
@@ -147,17 +151,20 @@ public class GuardianIdentifierVerificationGrain : Grain<GuardianIdentifierVerif
         guardianTypeVerification.Verified = true;
         guardianTypeVerification.Salt = input.Salt;
         guardianTypeVerification.GuardianIdentifierHash = input.GuardianIdentifierHash;
-        _logger.LogDebug("guardianTypeVerification.GuardianType is {guardianType}",guardianTypeVerification.GuardianType);
+        _logger.LogDebug("guardianTypeVerification.GuardianType is {guardianType}",
+            guardianTypeVerification.GuardianType);
         var guardianTypeCode = _guardianTypeOptions.GuardianTypeDic[guardianTypeVerification.GuardianType];
-        var signature = CryptographyHelper.GenerateSignature(guardianTypeCode, guardianTypeVerification.Salt,
-            guardianTypeVerification.GuardianIdentifierHash, _verifierAccountOptions.PrivateKey, input.OperationType,input.ChainId);
-        guardianTypeVerification.VerificationDoc = signature.Data;
-        guardianTypeVerification.Signature = signature.Signature;
+        var verificationDoc = VerificationDocFactory.Create(_signer.GetAddress(),
+            guardianTypeCode, guardianTypeVerification.Salt, guardianTypeVerification.GuardianIdentifierHash,
+            input.OperationType, input.ChainId).GetStringRepresentation();
+        var signature = _signer.Sign(HashHelper.ComputeFrom(verificationDoc));
+        guardianTypeVerification.VerificationDoc = verificationDoc;
+        guardianTypeVerification.Signature = signature.ToHex();
         dto.Success = true;
         dto.Data = new UpdateVerifierSignatureDto
         {
-            Data = signature.Data,
-            Signature = signature.Signature
+            Data = verificationDoc,
+            Signature = signature.ToHex()
         };
         await WriteStateAsync();
         return dto;
@@ -193,5 +200,4 @@ public class GuardianIdentifierVerificationGrain : Grain<GuardianIdentifierVerif
         guardianIdentifierVerification.ErrorCodeTimes++;
         return Error.WrongCode;
     }
-
 }

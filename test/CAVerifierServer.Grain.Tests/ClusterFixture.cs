@@ -3,6 +3,7 @@ using AutoMapper;
 using CAVerifierServer.Grain.Tests.GuardianIdentifier;
 using CAVerifierServer.Grain.Tests.ThirdParty;
 using CAVerifierServer.Grains;
+using CAVerifierServer.Grains.Common;
 using CAVerifierServer.Grains.Grain;
 using CAVerifierServer.Grains.Grain.ThirdPartyVerification;
 using CAVerifierServer.Grains.Options;
@@ -66,8 +67,8 @@ public class ClusterFixture : IDisposable, ISingletonDependency
 
                     services.Configure<VerifierAccountOptions>(o =>
                     {
-                        o.Address = "XXXXX";
-                        o.PrivateKey = "XXXXX";
+                        o.KeyStorePath = "";
+                        o.KeyStorePassword = "";
                     });
 
                     var dic = new Dictionary<string, int>
@@ -143,6 +144,7 @@ public class ClusterFixture : IDisposable, ISingletonDependency
                         Mapper = sp.GetRequiredService<IMapper>()
                     });
                     services.AddTransient<IMapperAccessor>(provider => provider.GetRequiredService<MapperAccessor>());
+                    services.AddSingleton<ISigner, KeyStoreSigner>();
                 })
                 .AddSimpleMessageStreamProvider(CAVerifierServerApplicationConsts.MessageStreamName)
                 .AddMemoryGrainStorage("PubSubStore")

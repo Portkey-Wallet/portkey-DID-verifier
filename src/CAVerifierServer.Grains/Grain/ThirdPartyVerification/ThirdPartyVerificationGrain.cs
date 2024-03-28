@@ -1,5 +1,6 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Net;
+using AElf;
 using CAVerifierServer.Account;
 using CAVerifierServer.Grains.Common;
 using CAVerifierServer.Grains.Dto;
@@ -25,6 +26,7 @@ public class ThirdPartyVerificationGrain : Grain<ThirdPartyVerificationState>, I
     private readonly ILogger<ThirdPartyVerificationGrain> _logger;
     private readonly IDistributedCache<AppleKeys> _distributedCache;
     private readonly JwtSecurityTokenHandler _jwtSecurityTokenHandler;
+    private readonly ISigner _signer;
 
     public ThirdPartyVerificationGrain(IHttpClientFactory httpClientFactory,
         IOptions<VerifierAccountOptions> verifierAccountOptions,
@@ -32,7 +34,8 @@ public class ThirdPartyVerificationGrain : Grain<ThirdPartyVerificationState>, I
         IObjectMapper objectMapper,
         ILogger<ThirdPartyVerificationGrain> logger,
         IDistributedCache<AppleKeys> distributedCache,
-        JwtSecurityTokenHandler jwtSecurityTokenHandler)
+        JwtSecurityTokenHandler jwtSecurityTokenHandler,
+        ISigner signer)
     {
         _httpClientFactory = httpClientFactory;
         _verifierAccountOptions = verifierAccountOptions.Value;
@@ -41,6 +44,7 @@ public class ThirdPartyVerificationGrain : Grain<ThirdPartyVerificationState>, I
         _logger = logger;
         _distributedCache = distributedCache;
         _jwtSecurityTokenHandler = jwtSecurityTokenHandler;
+        _signer = signer;
     }
 
     public override async Task OnActivateAsync()
@@ -69,13 +73,13 @@ public class ThirdPartyVerificationGrain : Grain<ThirdPartyVerificationState>, I
             tokenDto.GoogleUserExtraInfo.GuardianType = GuardianIdentifierType.Google.ToString();
             tokenDto.GoogleUserExtraInfo.AuthTime = DateTime.UtcNow;
 
-            var signatureOutput = CryptographyHelper.GenerateSignature(Convert.ToInt16(GuardianIdentifierType.Google),
-                grainDto.Salt,
-                grainDto.IdentifierHash, _verifierAccountOptions.PrivateKey, grainDto.OperationType,
-                grainDto.ChainId);
+            var verificationDoc = VerificationDocFactory.Create(_signer.GetAddress(),
+                Convert.ToInt16(GuardianIdentifierType.Google), grainDto.Salt,
+                grainDto.IdentifierHash, grainDto.OperationType, grainDto.ChainId).GetStringRepresentation();
+            var signature = _signer.Sign(HashHelper.ComputeFrom(verificationDoc));
 
-            tokenDto.Signature = signatureOutput.Signature;
-            tokenDto.VerificationDoc = signatureOutput.Data;
+            tokenDto.Signature = signature.ToHex();
+            tokenDto.VerificationDoc = verificationDoc;
 
             return new GrainResultDto<VerifyGoogleTokenGrainDto>
             {
@@ -102,10 +106,10 @@ public class ThirdPartyVerificationGrain : Grain<ThirdPartyVerificationState>, I
             userInfo.GuardianType = GuardianIdentifierType.Apple.ToString();
             userInfo.AuthTime = DateTime.UtcNow;
 
-            var signatureOutput =
-                CryptographyHelper.GenerateSignature(Convert.ToInt16(GuardianIdentifierType.Apple), grainDto.Salt,
-                    grainDto.IdentifierHash,
-                    _verifierAccountOptions.PrivateKey, grainDto.OperationType, grainDto.ChainId);
+            var verificationDoc = VerificationDocFactory.Create(_signer.GetAddress(),
+                Convert.ToInt16(GuardianIdentifierType.Apple), grainDto.Salt,
+                grainDto.IdentifierHash, grainDto.OperationType, grainDto.ChainId).GetStringRepresentation();
+            var signature = _signer.Sign(HashHelper.ComputeFrom(verificationDoc));
 
             return new GrainResultDto<VerifyAppleTokenGrainDto>
             {
@@ -113,8 +117,8 @@ public class ThirdPartyVerificationGrain : Grain<ThirdPartyVerificationState>, I
                 Data = new VerifyAppleTokenGrainDto
                 {
                     AppleUserExtraInfo = userInfo,
-                    Signature = signatureOutput.Signature,
-                    VerificationDoc = signatureOutput.Data
+                    Signature = signature.ToHex(),
+                    VerificationDoc = verificationDoc
                 }
             };
         }
