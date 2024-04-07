@@ -26,20 +26,6 @@ public class CAVerifierServerApplicationTestModule : AbpModule
         //context.Services.AddSingleton<IEmailSender, NullEmailSender>();
         context.Services.AddSingleton<ISmsSender, NullSmsSender>();
 
-
-        context.Services.Configure<AwssmsMessageOptions>(o =>
-        {
-            o.SystemName = "abc";
-            o.AwsAccessKeyId = "abc";
-            o.AwsSecretAccessKeyId = "abc";
-        });
-        context.Services.Configure<TelesignSMSMessageOptions>(o =>
-        {
-            o.Type = "qbc";
-            o.ApiKey = "qbc";
-            o.CustomerId = "qbc";
-        });
-
         context.Services.Configure<VerifierInfoOptions>(o =>
         {
             o.Name = "Verifier-001";

@@ -68,14 +68,13 @@ public partial class AccountAppServiceTests : CAVerifierServerApplicationTestBas
         //success
         var result = await _accountAppService.SendVerificationRequestAsync(new SendVerificationRequestInput
         {
-            Type = "Phone",
+            Type = "Email",
             GuardianIdentifier = DefaultEmailAddress,
             VerifierSessionId = verifierSessionId
         });
         var randomCode = RandomNumProvider.GetCode(6);
         randomCode.Length.ShouldBe(6);
-        result.Success.ShouldBe(false);
-        result.Message.ShouldBe("MockFalseMessage");
+        result.Success.ShouldBe(true);
     }
 
     [Fact]
@@ -132,7 +131,7 @@ public partial class AccountAppServiceTests : CAVerifierServerApplicationTestBas
             Type = "Phone"
         });
         result.Success.ShouldBe(false);
-        result.Message.ShouldBe(Error.Message[Error.InvalidGuardianIdentifierInput]);
+        result.Message.ShouldBe(Error.Message[Error.Unsupported]);
     }
 
 

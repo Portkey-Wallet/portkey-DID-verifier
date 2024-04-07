@@ -35,7 +35,6 @@ public class Program
         {
             Log.Information("Starting CAVerifierServer.HttpApi.Host.");
             var builder = WebApplication.CreateBuilder(args);
-            builder.Configuration.AddJsonFile("mobileCountryRegularCategory.json");
             builder.Host.AddAppSettingsSecretsJson()
                 .UseAutofac()
                 .UseSerilog();
