@@ -1,5 +1,6 @@
 using AElf;
 using CAVerifierServer.Account;
+using CAVerifierServer.Account.Dtos;
 using CAVerifierServer.Grains;
 using CAVerifierServer.Grains.Grain;
 using CAVerifierServer.VerifyCodeSender;
@@ -154,6 +155,37 @@ public class GuardianIdentifierVerificationGrainTest : CAVerifierServerGrainTest
             e.Message.ShouldNotBeNull();
         }
 
+
+    }
+    
+    
+
+    [Fact]
+    public async Task VerifyRevokeCode_Success_Test()
+    {
+        var verifierSessionId = Guid.NewGuid();
+        var grain = Cluster.Client.GetGrain<IGuardianIdentifierVerificationGrain>(DefaultType);
+        var result = await grain.GetVerifyCodeAsync(new SendVerificationRequestInput
+        {
+            Type = DefaultType,
+            GuardianIdentifier = DefaultEmailAddress,
+            VerifierSessionId = verifierSessionId
+        });
+
+        try
+        {
+            await grain.VerifyRevokeCodeAsync(new VerifyRevokeCodeDto
+            {
+                GuardianIdentifier = DefaultEmailAddress,
+                VerifyCode = result.Data.VerifierCode,
+                VerifierSessionId = verifierSessionId,
+                Type = DefaultType
+            });
+        }
+        catch (Exception e)
+        {
+            e.Message.ShouldNotBeNull();
+        }
 
     }
 

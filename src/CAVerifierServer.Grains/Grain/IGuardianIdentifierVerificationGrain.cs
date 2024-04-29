@@ -1,4 +1,5 @@
 using CAVerifierServer.Account;
+using CAVerifierServer.Account.Dtos;
 using CAVerifierServer.Grains.Dto;
 using Orleans;
 
@@ -8,4 +9,5 @@ public interface IGuardianIdentifierVerificationGrain : IGrainWithStringKey
 {
     Task<GrainResultDto<VerifyCodeDto>> GetVerifyCodeAsync(SendVerificationRequestInput input);
     Task<GrainResultDto<UpdateVerifierSignatureDto>> VerifyAndCreateSignatureAsync(VerifyCodeInput input);
+    Task<GrainResultDto<VerifyRevokeCodeResponseDto>> VerifyRevokeCodeAsync(VerifyRevokeCodeDto revokeCodeDto);
 }

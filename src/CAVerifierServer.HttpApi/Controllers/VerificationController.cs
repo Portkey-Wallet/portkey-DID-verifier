@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using CAVerifierServer.Verifier.Dtos;
 using CAVerifierServer.Account;
+using CAVerifierServer.Account.Dtos;
 using Microsoft.AspNetCore.Mvc;
 using Volo.Abp;
 
@@ -24,7 +25,8 @@ public class CAVerificationController : CAVerifierServerController
     public async Task<ResponseResultDto<SendVerificationRequestDto>> SendVerificationRequestAsync(
         SendVerificationRequestInput input)
     {
-        return await _accountAppService.SendVerificationRequestAsync(input);
+        var sendVerificationRequestAsync = await _accountAppService.SendVerificationRequestAsync(input);
+        return sendVerificationRequestAsync;
     }
 
     [HttpPost]
@@ -75,5 +77,11 @@ public class CAVerificationController : CAVerifierServerController
     public async Task<ResponseResultDto<VerifyTwitterTokenDto>> VerifyAppleTwitterAsync(VerifyTokenRequestDto tokenRequestDto)
     {
         return await _accountAppService.VerifyTwitterTokenAsync(tokenRequestDto);
+    }
+    
+    [HttpPost("verifyRevokeCode")]
+    public async Task<VerifyRevokeCodeResponseDto> VerifyRevokeCodeAsync(VerifyRevokeCodeDto revokeCodeDto)
+    {
+        return await _accountAppService.VerifyRevokeCodeAsync(revokeCodeDto);
     }
 }

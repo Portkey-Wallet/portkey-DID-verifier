@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using CAVerifierServer.Account.Dtos;
 using CAVerifierServer.Verifier.Dtos;
 using Volo.Abp.Application.Services;
 
@@ -21,4 +22,5 @@ public interface IAccountAppService : IApplicationService
      Task<ResponseResultDto<VerifierCodeDto>> VerifyFacebookTokenAsync(VerifyTokenRequestDto tokenRequestDto);
      Task<ResponseResultDto<VerifyFacebookTokenResponseDto>> VerifyFacebookAccessTokenAsync(string accessToken);
      Task<ResponseResultDto<VerifyTwitterTokenDto>> VerifyTwitterTokenAsync(VerifyTokenRequestDto tokenRequestDto);
+     Task<VerifyRevokeCodeResponseDto> VerifyRevokeCodeAsync(VerifyRevokeCodeDto revokeCodeDto);
 }

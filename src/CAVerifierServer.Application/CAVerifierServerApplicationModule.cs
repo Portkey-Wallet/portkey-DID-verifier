@@ -3,6 +3,7 @@ using CAVerifierServer.Grains;
 using CAVerifierServer.Options;
 using CAVerifierServer.Phone;
 using CAVerifierServer.VerifyCodeSender;
+using CAVerifierServer.VerifyRevokeCode;
 using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.AutoMapper;
 using Volo.Abp.Emailing;
@@ -43,6 +44,14 @@ public class CAVerifierServerApplicationModule : AbpModule
         context.Services.AddSingleton<ISMSServiceSender, TwilioSmsMessageSender>();
         context.Services.AddSingleton<IVerifyCodeSender, EmailVerifyCodeSender>();
         context.Services.AddSingleton<IVerifyCodeSender, PhoneVerifyCodeSender>();
+        
+        context.Services.AddSingleton<IVerifyRevokeCodeValidator, EmailRevokeCodeValidator>();
+        context.Services.AddSingleton<IVerifyRevokeCodeValidator, FaceBookRevokeCodeValidator>();
+        context.Services.AddSingleton<IVerifyRevokeCodeValidator, TwitterRevokeCodeValidator>();
+        context.Services.AddSingleton<IVerifyRevokeCodeValidator, TelegramRevokeCodeValidator>();
+        context.Services.AddSingleton<IVerifyRevokeCodeValidator, AppleRevokeCodeValidator>();
+        context.Services.AddSingleton<IVerifyRevokeCodeValidator, GoogleRevokeCodeValidator>();
+    
         context.Services.AddHttpClient();
     }
 }

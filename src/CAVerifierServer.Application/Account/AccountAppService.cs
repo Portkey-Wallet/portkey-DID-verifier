@@ -4,7 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Amazon.SimpleNotificationService.Util;
+using CAVerifierServer.Account.Dtos;
 using CAVerifierServer.Verifier.Dtos;
 using CAVerifierServer.Application;
 using CAVerifierServer.Contracts;
@@ -12,6 +12,7 @@ using CAVerifierServer.Grains.Grain;
 using CAVerifierServer.Grains.Grain.ThirdPartyVerification;
 using CAVerifierServer.Options;
 using CAVerifierServer.VerifyCodeSender;
+using CAVerifierServer.VerifyRevokeCode;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -39,6 +40,7 @@ public class AccountAppService : CAVerifierServerAppService, IAccountAppService
     private readonly IContractsProvider _contractsProvider;
     private readonly FacebookOptions _facebookOptions;
     private readonly IHttpClientFactory _httpClientFactory;
+    private readonly IEnumerable<IVerifyRevokeCodeValidator> _revokeCodeValidators;
 
     private const string CaServerListKey = "CAServerListKey";
 
@@ -48,7 +50,7 @@ public class AccountAppService : CAVerifierServerAppService, IAccountAppService
         IEnumerable<IVerifyCodeSender> verifyCodeSenders, IObjectMapper objectMapper,
         IOptions<WhiteListExpireTimeOptions> whiteListExpireTimeOption, ILogger<AccountAppService> logger,
         IContractsProvider contractsProvider, IOptionsSnapshot<FacebookOptions> facebookOptions,
-        IHttpClientFactory httpClientFactory)
+        IHttpClientFactory httpClientFactory, IEnumerable<IVerifyRevokeCodeValidator> revokeCodeValidators)
     {
         _clusterClient = clusterClient;
         _distributedCache = distributedCache;
@@ -57,6 +59,7 @@ public class AccountAppService : CAVerifierServerAppService, IAccountAppService
         _logger = logger;
         _contractsProvider = contractsProvider;
         _httpClientFactory = httpClientFactory;
+        _revokeCodeValidators = revokeCodeValidators;
         _facebookOptions = facebookOptions.Value;
         _whiteListExpireTimeOptions = whiteListExpireTimeOption.Value;
         _chainOptions = chainOptions.Value;
@@ -440,6 +443,34 @@ public class AccountAppService : CAVerifierServerAppService, IAccountAppService
                 Message = Error.VerifyCodeErrorLogPrefix + e.Message
             };
         }
+    }
+
+    public async Task<VerifyRevokeCodeResponseDto> VerifyRevokeCodeAsync(
+        VerifyRevokeCodeDto revokeCodeDto)
+    {
+        var revokeValidator = _revokeCodeValidators.FirstOrDefault(t => t.Type == revokeCodeDto.Type);
+        if (null == revokeValidator)
+        {
+            return new VerifyRevokeCodeResponseDto
+            {
+                Success = false
+            };
+        }
+
+        var result = await revokeValidator.VerifyRevokeCodeAsync(revokeCodeDto);
+
+        if (result)
+        {
+            return new VerifyRevokeCodeResponseDto
+            {
+                Success = true
+            };
+        }
+
+        return new VerifyRevokeCodeResponseDto
+        {
+            Success = false
+        };
     }
 
 

@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AElf;
+using Amazon.Runtime;
+using CAVerifierServer.Account.Dtos;
 using Microsoft.Extensions.DependencyInjection;
 using Shouldly;
 using Xunit;
@@ -360,4 +362,112 @@ public partial class AccountAppServiceTests : CAVerifierServerApplicationTestBas
         responseResult.Success.ShouldBe(false);
         responseResult.Message.ShouldBe("MockFalseMessage");
     }
+    
+    [Fact]
+    public async Task VerifyRevokeEmailTokenAsync_Test()
+    {
+        var id = await SendVerificationRequest();
+        var request = new VerifyRevokeCodeDto
+        {
+            GuardianIdentifier = DefaultEmailAddress,
+            VerifierSessionId = id,
+            Type = "Email",
+            VerifyCode = DefaultToken
+        };
+        var response = await _accountAppService.VerifyRevokeCodeAsync(request);
+        response.Success.ShouldBe(true);
+        
+        var request1 = new VerifyRevokeCodeDto
+        {
+            GuardianIdentifier = DefaultEmailAddress,
+            VerifierSessionId = id,
+            Type = InvalidType,
+            VerifyCode = DefaultToken
+        };
+        var response1 = await _accountAppService.VerifyRevokeCodeAsync(request1);
+        response1.Success.ShouldBe(false);
+        
+        var request3 = new VerifyRevokeCodeDto
+        {
+            GuardianIdentifier = DefaultEmailAddress,
+            VerifierSessionId = id,
+            Type = DefaultType,
+            VerifyCode = "111111"
+        };
+        var response3 = await _accountAppService.VerifyRevokeCodeAsync(request3);
+        response3.Success.ShouldBe(false);
+    }
+    
+    [Fact]
+    public async Task VerifyRevokeGoogleTokenAsync_Test()
+    {
+        var request = new VerifyRevokeCodeDto
+        {
+            GuardianIdentifier = DefaultEmailAddress,
+            Type = "Google",
+            VerifyCode = DefaultToken
+        };
+        var response = await _accountAppService.VerifyRevokeCodeAsync(request);
+        response.Success.ShouldBe(true);
+    }
+    
+    [Fact]
+    public async Task VerifyRevokeTwitterTokenAsync_Test()
+    {
+        var request = new VerifyRevokeCodeDto
+        {
+            GuardianIdentifier = DefaultEmailAddress,
+            Type = "Twitter",
+            VerifyCode = DefaultToken
+        };
+        var response = await _accountAppService.VerifyRevokeCodeAsync(request);
+        response.Success.ShouldBe(true);
+    }
+    
+    [Fact]
+    public async Task VerifyRevokeFaceBookTokenAsync_Test()
+    {
+        var request = new VerifyRevokeCodeDto
+        {
+            Type = "FaceBook",
+            VerifyCode = DefaultToken
+        };
+        var response = await _accountAppService.VerifyRevokeCodeAsync(request);
+        response.Success.ShouldBe(false);
+        
+        var request1 = new VerifyRevokeCodeDto
+        {
+            Type = "FaceBook",
+            VerifyCode = "111111"
+        };
+        var response1 = await _accountAppService.VerifyRevokeCodeAsync(request1);
+        response.Success.ShouldBe(false);
+    }
+    
+    [Fact]
+    public async Task VerifyRevokeAppleTokenAsync_Test()
+    {
+        var request = new VerifyRevokeCodeDto
+        {
+            Type = "Apple",
+            VerifyCode = DefaultToken
+        };
+        var response = await _accountAppService.VerifyRevokeCodeAsync(request);
+        response.Success.ShouldBe(true);
+    }
+    
+    [Fact]
+    public async Task VerifyRevokeTelegramTokenAsync_Test()
+    {
+        var request = new VerifyRevokeCodeDto
+        {
+            Type = "Telegram",
+            VerifyCode = DefaultToken
+        };
+        var response = await _accountAppService.VerifyRevokeCodeAsync(request);
+        response.Success.ShouldBe(true);
+    }
+    
+    
+    
 }

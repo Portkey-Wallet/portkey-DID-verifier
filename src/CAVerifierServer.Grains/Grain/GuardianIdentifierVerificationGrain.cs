@@ -1,5 +1,6 @@
 using System.Text;
 using CAVerifierServer.Account;
+using CAVerifierServer.Account.Dtos;
 using CAVerifierServer.Grains.Common;
 using CAVerifierServer.Grains.Dto;
 using CAVerifierServer.Grains.Options;
@@ -161,6 +162,40 @@ public class GuardianIdentifierVerificationGrain : Grain<GuardianIdentifierVerif
             Data = signature.Data,
             Signature = signature.Signature
         };
+        await WriteStateAsync();
+        return dto;
+    }
+
+    public async Task<GrainResultDto<VerifyRevokeCodeResponseDto>> VerifyRevokeCodeAsync(VerifyRevokeCodeDto revokeCodeDto)
+    {
+        var dto = new GrainResultDto<VerifyRevokeCodeResponseDto>();
+        var verifications = State.GuardianTypeVerifications;
+        if (verifications == null)
+        {
+            dto.Message = Error.Message[Error.InvalidLoginGuardianIdentifier];
+            return dto;
+        }
+
+        verifications = verifications.Where(p => p.VerifierSessionId == revokeCodeDto.VerifierSessionId).ToList();
+        if (verifications.Count == 0)
+        {
+            dto.Message = Error.Message[Error.InvalidVerifierSessionId];
+            return dto;
+        }
+
+        var guardianTypeVerification = verifications[0];
+        var errorCode = VerifyCodeAsync(guardianTypeVerification, revokeCodeDto.VerifyCode);
+        if (errorCode > 0)
+        {
+            dto.Message = Error.Message[errorCode];
+            return dto;
+        }
+
+        guardianTypeVerification.VerifiedTime = _clock.Now;
+        guardianTypeVerification.Verified = true;
+        _logger.LogDebug("guardianTypeVerification.GuardianType is {guardianType}",
+            guardianTypeVerification.GuardianType);
+        dto.Success = true;
         await WriteStateAsync();
         return dto;
     }

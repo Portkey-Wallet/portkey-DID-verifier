@@ -257,7 +257,7 @@ public class ThirdPartyVerificationGrain : Grain<ThirdPartyVerificationState>, I
         }
     }
 
-    private async Task<TwitterUserInfo> GetTwitterUserInfoAsync(string accessToken)
+    public async Task<TwitterUserInfo> GetTwitterUserInfoAsync(string accessToken)
     {
         var requestUrl = "https://api.twitter.com/2/users/me";
 
@@ -288,7 +288,7 @@ public class ThirdPartyVerificationGrain : Grain<ThirdPartyVerificationState>, I
         return userInfo.Data;
     }
 
-    private async Task<GoogleUserInfoDto> GetUserInfoFromGoogleAsync(string accessToken)
+    public async Task<GoogleUserInfoDto> GetUserInfoFromGoogleAsync(string accessToken)
     {
         var requestUrl = $"https://www.googleapis.com/oauth2/v2/userinfo?access_token={accessToken}";
 
@@ -318,7 +318,7 @@ public class ThirdPartyVerificationGrain : Grain<ThirdPartyVerificationState>, I
         return googleUserInfo;
     }
 
-    private async Task<SecurityToken> ValidateTokenAsync(string identityToken)
+    public async Task<SecurityToken> ValidateTokenAsync(string identityToken)
     {
         try
         {
@@ -360,7 +360,7 @@ public class ThirdPartyVerificationGrain : Grain<ThirdPartyVerificationState>, I
         }
     }
 
-    private async Task<SecurityToken> ValidateTelegramTokenAsync(string identityToken)
+    public async Task<SecurityToken> ValidateTelegramTokenAsync(string identityToken)
     {
         try
         {
