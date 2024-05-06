@@ -33,8 +33,8 @@ public class EmailVerifyCodeSender : IVerifyCodeSender
                 From = _awsEmailOptions.From,
                 To = guardianIdentifier,
                 Body = showOperationDetails.IsNullOrWhiteSpace() ?
-                    EmailBodyBuilder.BuildBodyTemplateWithOperationDetails(_verifierInfoOptions.Name, _awsEmailOptions.Image, CAVerifierServerApplicationConsts.PORTKEY, code, showOperationDetails) :
-                    EmailBodyBuilder.BuildBodyTemplate(_verifierInfoOptions.Name, _awsEmailOptions.Image, CAVerifierServerApplicationConsts.PORTKEY, code),
+                    EmailBodyBuilder.BuildBodyTemplate(_verifierInfoOptions.Name, _awsEmailOptions.Image, CAVerifierServerApplicationConsts.PORTKEY, code) :
+                    EmailBodyBuilder.BuildBodyTemplateWithOperationDetails(_verifierInfoOptions.Name, _awsEmailOptions.Image, CAVerifierServerApplicationConsts.PORTKEY, code, showOperationDetails),
                 Subject = CAVerifierServerApplicationConsts.Subject
             });
         
