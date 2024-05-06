@@ -101,7 +101,7 @@ public class GuardianIdentifierVerificationGrain : Grain<GuardianIdentifierVerif
             GuardianIdentifier = input.GuardianIdentifier,
             GuardianType = input.Type,
             VerifierSessionId = input.VerifierSessionId,
-            OperateDetails = input.OperateDetails
+            OperationDetails = input.OperationDetails
         };
         //create code
         var randomCode = await GetCodeAsync(6);
@@ -154,7 +154,7 @@ public class GuardianIdentifierVerificationGrain : Grain<GuardianIdentifierVerif
         var guardianTypeCode = _guardianTypeOptions.GuardianTypeDic[guardianTypeVerification.GuardianType];
         var signature = CryptographyHelper.GenerateSignature(guardianTypeCode, guardianTypeVerification.Salt,
             guardianTypeVerification.GuardianIdentifierHash, _verifierAccountOptions.PrivateKey, input.OperationType,
-            input.ChainId, guardianTypeVerification.OperateDetails.IsNullOrWhiteSpace() ? input.OperationDetails : guardianTypeVerification.OperateDetails);
+            input.ChainId, guardianTypeVerification.OperationDetails.IsNullOrWhiteSpace() ? input.OperationDetails : guardianTypeVerification.OperationDetails);
         guardianTypeVerification.VerificationDoc = signature.Data;
         guardianTypeVerification.Signature = signature.Signature;
         dto.Success = true;

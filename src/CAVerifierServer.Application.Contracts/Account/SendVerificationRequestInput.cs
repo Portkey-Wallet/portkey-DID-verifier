@@ -14,9 +14,9 @@ public class SendVerificationRequestInput
     [JsonPropertyName("VerifierSessionId")]
     public Guid VerifierSessionId{ get; set; }
 
-    [JsonPropertyName("OperateDetails")]
-    public string OperateDetails { get; set; }
+    [JsonPropertyName("OperationDetails")]
+    public string OperationDetails { get; set; }
     
-    [JsonPropertyName("ShowOperateDetails")]
-    public string ShowOperateDetails { get; set; }
+    [JsonPropertyName("ShowOperationDetails")]
+    public string ShowOperationDetails { get; set; }
 }

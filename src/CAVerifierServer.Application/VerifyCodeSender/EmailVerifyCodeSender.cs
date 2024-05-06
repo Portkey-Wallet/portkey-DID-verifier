@@ -26,14 +26,14 @@ public class EmailVerifyCodeSender : IVerifyCodeSender
 
 
 
-    public async Task SendCodeByGuardianIdentifierAsync(string guardianIdentifier, string code, string showOperateDetail)
+    public async Task SendCodeByGuardianIdentifierAsync(string guardianIdentifier, string code, string showOperationDetails)
     {
             await SendEmailAsync(new SendEmailInput
             {
                 From = _awsEmailOptions.From,
                 To = guardianIdentifier,
-                Body = showOperateDetail.IsNullOrWhiteSpace() ?
-                    EmailBodyBuilder.BuildBodyTemplateWithOperateDetails(_verifierInfoOptions.Name, _awsEmailOptions.Image, CAVerifierServerApplicationConsts.PORTKEY, code, showOperateDetail) :
+                Body = showOperationDetails.IsNullOrWhiteSpace() ?
+                    EmailBodyBuilder.BuildBodyTemplateWithOperationDetails(_verifierInfoOptions.Name, _awsEmailOptions.Image, CAVerifierServerApplicationConsts.PORTKEY, code, showOperationDetails) :
                     EmailBodyBuilder.BuildBodyTemplate(_verifierInfoOptions.Name, _awsEmailOptions.Image, CAVerifierServerApplicationConsts.PORTKEY, code),
                 Subject = CAVerifierServerApplicationConsts.Subject
             });

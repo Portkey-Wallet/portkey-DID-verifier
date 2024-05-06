@@ -77,7 +77,7 @@ public class EmailBodyBuilder
 ";
     }
     
-    public static string BuildBodyTemplateWithOperateDetails(string verifierName, string image, string portkey, string verifyCode, string showOperateDetails)
+    public static string BuildBodyTemplateWithOperationDetails(string verifierName, string image, string portkey, string verifyCode, string showOperationDetails)
     {
         return $@" <div style=""width: 550px; margin: 0 auto; background-color: rgba(255, 255, 255, 1);"">
       <div style=""text-align: center"">
@@ -152,7 +152,7 @@ public class EmailBodyBuilder
           font-family: 'Roboto';
           ""
         >
-          {showOperateDetails}
+          {showOperationDetails}
         </div>
         <div style=""margin: 32px 0 16px 0"">
           This verification code will expire in 10 mins, please complete the

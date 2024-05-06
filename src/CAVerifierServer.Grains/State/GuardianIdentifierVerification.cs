@@ -26,5 +26,5 @@ public class GuardianIdentifierVerification
 
     public string GuardianIdentifierHash { get; set; }
 
-    public string OperateDetails { get; set; }
+    public string OperationDetails { get; set; }
 }
