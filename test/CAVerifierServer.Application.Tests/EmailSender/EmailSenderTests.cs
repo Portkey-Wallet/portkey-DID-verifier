@@ -37,7 +37,7 @@ public partial class EmailSenderTests : CAVerifierServerApplicationTestBase
         emailVerifyCodeSender.Type.ShouldBe("Email");
         try
         {
-            await emailVerifyCodeSender.SendCodeByGuardianIdentifierAsync(DefaultGuardianIdentifier, DefaultCode);
+            await emailVerifyCodeSender.SendCodeByGuardianIdentifierAsync(DefaultGuardianIdentifier, DefaultCode, "");
         }
         catch (Exception e)
         {

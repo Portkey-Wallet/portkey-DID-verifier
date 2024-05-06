@@ -29,7 +29,7 @@ public class PhoneVerifyCodeSender : IVerifyCodeSender
         _smsServiceOptions = smsServiceOptions.Value;
     }
 
-    public async Task SendCodeByGuardianIdentifierAsync(string guardianIdentifier, string code)
+    public async Task SendCodeByGuardianIdentifierAsync(string guardianIdentifier, string code, string showOperateDetail)
     {
         if (string.IsNullOrEmpty(guardianIdentifier) || string.IsNullOrEmpty(code))
         {
