@@ -257,15 +257,15 @@ public class EmailBodyBuilder
         try
         {
             var map = new Dictionary<string, string>();
-            map.Add("https://portkey-did.s3.ap-northeast-1.amazonaws.com/MediaIcons/medium.svg", "https://www.baidu.com");
-            map.Add("https://portkey-did.s3.ap-northeast-1.amazonaws.com/MediaIcons/Youtube.svg", "https://www.baidu.com");
-            map.Add("https://portkey-did.s3.ap-northeast-1.amazonaws.com/MediaIcons/telegram.svg", "https://www.baidu.com");
-            map.Add("https://portkey-did.s3.ap-northeast-1.amazonaws.com/MediaIcons/Twitter+X.svg", "https://www.baidu.com");
-            map.Add("https://portkey-did.s3.ap-northeast-1.amazonaws.com/MediaIcons/discord.svg", "https://www.baidu.com");
-            map.Add("https://portkey-did.s3.ap-northeast-1.amazonaws.com/MediaIcons/github.svg", "https://www.baidu.com");
+            map.Add("https://portkey-did.s3.ap-northeast-1.amazonaws.com/MediaIcons/medium.svg", "https://medium.com/@PortkeyDID");
+            map.Add("https://portkey-did.s3.ap-northeast-1.amazonaws.com/MediaIcons/Youtube.svg", "https://www.youtube.com/@PortkeyDID");
+            map.Add("https://portkey-did.s3.ap-northeast-1.amazonaws.com/MediaIcons/telegram.svg", "https://t.me/Portkey_Official_Group");
+            map.Add("https://portkey-did.s3.ap-northeast-1.amazonaws.com/MediaIcons/Twitter+X.svg", "https://twitter.com/Portkey_DID");
+            map.Add("https://portkey-did.s3.ap-northeast-1.amazonaws.com/MediaIcons/discord.svg", "https://discord.gg/EUBq3rHQhr");
+            map.Add("https://portkey-did.s3.ap-northeast-1.amazonaws.com/MediaIcons/github.svg", "https://github.com/Portkey-Wallet");
 
 
-            var result= map.Keys.Select(key => "<a href=" + map[key] + "; style='margin-right: 24px'>" + "<img src='" + key + "'; style='width: 24px; height: 24px;' /></a>").Aggregate("", (current, communityItem) => current + communityItem);
+            var result= map.Keys.Select(key => "<a href=" + map[key] + " style='margin-right: 24px'>" + "<img src='" + key + "'; style='width: 24px; height: 24px;' /></a>").Aggregate("", (current, communityItem) => current + communityItem);
             return result;
         }
         catch (Exception e)
