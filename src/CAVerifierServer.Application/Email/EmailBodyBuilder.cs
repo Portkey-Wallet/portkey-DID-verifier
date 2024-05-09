@@ -141,28 +141,29 @@ public class EmailBodyBuilder
             var concat = "";
             foreach (var child in jsonObj.Children())
             {
-              if (child is not JProperty property)
-              {
-                continue;
-              }
-              var value = property.Value.ToString();
-              if (string.IsNullOrWhiteSpace(value))
-              {
-                continue;
-              }
+                if (child is not JProperty property)
+                {
+                    continue;
+                }
 
-              var fontStr =
-                "<div  style='margin-bottom: 0; color: #979AA1; flex: 1 ; margin-right: 32px ; font-weight: 300;'>" +
-                property.Name + "</div>";
-              var valueStr = "<div   style='flex: 3;'>" + property.Value + "</div>";
+                var value = property.Value.ToString();
+                if (string.IsNullOrWhiteSpace(value))
+                {
+                    continue;
+                }
 
-              var divWrap =
-                $@" <div style='text-align:left; width: 500px; margin: left auto; display: flex ; margin-bottom: 10px' >
+                var fontStr =
+                    "<div  style='margin-bottom: 0; color: #979AA1; flex: 2 ; margin-right: 32px ; font-weight: 300;'>" +
+                    property.Name + "</div>";
+                var valueStr = "<div   style='flex: 3;'>" + property.Value + "</div>";
+
+                var divWrap =
+                    $@" <div style='text-align:left; width: 500px; margin: left auto; display: flex ; margin-bottom: 10px' >
                             {fontStr}                
                             {valueStr}
                         </div>
                       ";
-              concat += divWrap;
+                concat += divWrap;
             }
 
             return concat;
@@ -178,15 +179,25 @@ public class EmailBodyBuilder
         try
         {
             var map = new Dictionary<string, string>();
-            map.Add("https://portkey-did.s3.ap-northeast-1.amazonaws.com/MediaIcons/medium.svg", "https://medium.com/@PortkeyDID");
-            map.Add("https://portkey-did.s3.ap-northeast-1.amazonaws.com/MediaIcons/Youtube.svg", "https://www.youtube.com/@PortkeyDID");
-            map.Add("https://portkey-did.s3.ap-northeast-1.amazonaws.com/MediaIcons/telegram.svg", "https://t.me/Portkey_Official_Group");
-            map.Add("https://portkey-did.s3.ap-northeast-1.amazonaws.com/MediaIcons/Twitter+X.svg", "https://twitter.com/Portkey_DID");
-            map.Add("https://portkey-did.s3.ap-northeast-1.amazonaws.com/MediaIcons/discord.svg", "https://discord.gg/EUBq3rHQhr");
-            map.Add("https://portkey-did.s3.ap-northeast-1.amazonaws.com/MediaIcons/github.svg", "https://github.com/Portkey-Wallet");
+            map.Add("https://portkey-did.s3.ap-northeast-1.amazonaws.com/MediaIcons/medium.svg",
+                "https://medium.com/@PortkeyDID");
+            map.Add("https://portkey-did.s3.ap-northeast-1.amazonaws.com/MediaIcons/Youtube.svg",
+                "https://www.youtube.com/@PortkeyDID");
+            map.Add("https://portkey-did.s3.ap-northeast-1.amazonaws.com/MediaIcons/telegram.svg",
+                "https://t.me/Portkey_Official_Group");
+            map.Add("https://portkey-did.s3.ap-northeast-1.amazonaws.com/MediaIcons/Twitter+X.svg",
+                "https://twitter.com/Portkey_DID");
+            map.Add("https://portkey-did.s3.ap-northeast-1.amazonaws.com/MediaIcons/discord.svg",
+                "https://discord.gg/EUBq3rHQhr");
+            map.Add("https://portkey-did.s3.ap-northeast-1.amazonaws.com/MediaIcons/github.svg",
+                "https://github.com/Portkey-Wallet");
 
 
-            var result= map.Keys.Select(key => "<a href=" + map[key] + " style='margin-right: 24px'>" + "<img src='" + key + "'; style='width: 24px; height: 24px;' /></a>").Aggregate("", (current, communityItem) => current + communityItem);
+            var result = map.Keys
+                .Select(key =>
+                    "<a href=" + map[key] + " style='margin-right: 24px'>" + "<img src='" + key +
+                    "'; style='width: 24px; height: 24px;' /></a>")
+                .Aggregate("", (current, communityItem) => current + communityItem);
             return result;
         }
         catch (Exception e)
