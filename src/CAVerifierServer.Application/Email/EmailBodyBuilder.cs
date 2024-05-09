@@ -220,25 +220,28 @@ public class EmailBodyBuilder
             var concat = "";
             foreach (var child in jsonObj.Children())
             {
-                if (child is JProperty property)
-                {
-                  if (property.Value.IsNullOrEmpty())
-                  {
-                    continue;
-                  }
-                  var fontStr =
-                        "<div  style='margin-bottom: 0; color: #979AA1; flex: 1 ; margin-right: 32px ; font-weight: 300;'>" +
-                        property.Name + "</div>";
-                    var valueStr = "<div   style='flex: 3;'>" + property.Value + "</div>";
+              if (child is not JProperty property)
+              {
+                continue;
+              }
+              var value = property.Value.ToString();
+              if (string.IsNullOrWhiteSpace(value))
+              {
+                continue;
+              }
 
-                    var divWrap =
-                        $@" <div style='text-align:left; width: 500px; margin: left auto; display: flex ; margin-bottom: 10px' >
+              var fontStr =
+                "<div  style='margin-bottom: 0; color: #979AA1; flex: 1 ; margin-right: 32px ; font-weight: 300;'>" +
+                property.Name + "</div>";
+              var valueStr = "<div   style='flex: 3;'>" + property.Value + "</div>";
+
+              var divWrap =
+                $@" <div style='text-align:left; width: 500px; margin: left auto; display: flex ; margin-bottom: 10px' >
                             {fontStr}                
                             {valueStr}
                         </div>
                       ";
-                    concat += divWrap;
-                }
+              concat += divWrap;
             }
 
             return concat;
