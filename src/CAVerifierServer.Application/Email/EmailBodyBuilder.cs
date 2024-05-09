@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using Amazon.Runtime.Internal.Util;
 using CAVerifierServer.Options;
+using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -221,7 +222,11 @@ public class EmailBodyBuilder
             {
                 if (child is JProperty property)
                 {
-                    var fontStr =
+                  if (property.Value.IsNullOrEmpty())
+                  {
+                    continue;
+                  }
+                  var fontStr =
                         "<div  style='margin-bottom: 0; color: #979AA1; flex: 1 ; margin-right: 32px ; font-weight: 300;'>" +
                         property.Name + "</div>";
                     var valueStr = "<div   style='flex: 3;'>" + property.Value + "</div>";
