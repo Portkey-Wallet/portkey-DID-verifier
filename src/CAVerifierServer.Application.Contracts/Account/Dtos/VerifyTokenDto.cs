@@ -20,4 +20,6 @@ public class TelegramUserExtraInfo
     public string PhotoUrl { get; set; }
     public string GuardianType { get; set; }
     public DateTime AuthTime { get; set; }
+    
+    public string BotId { get; set; }
 }

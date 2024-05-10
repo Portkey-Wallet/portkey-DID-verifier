@@ -364,6 +364,7 @@ public class ThirdPartyVerificationGrain : Grain<ThirdPartyVerificationState>, I
     {
         try
         {
+            //从tg auth请求获取公钥
             var jwkDto = await GetTelegramJwkFormTelegramAuthAsync();
             var jwk = new JsonWebKey(JsonConvert.SerializeObject(jwkDto));
             var validateParameter = new TokenValidationParameters
@@ -466,6 +467,10 @@ public class ThirdPartyVerificationGrain : Grain<ThirdPartyVerificationState>, I
             userInfo.PhotoUrl = jwtPayload[TelegramTokenClaimNames.ProtoUrl].ToString();
         }
 
+        if (jwtPayload.ContainsKey(TelegramTokenClaimNames.BotId))
+        {
+            userInfo.BotId = jwtPayload[TelegramTokenClaimNames.BotId].ToString();
+        }
         return userInfo;
     }
 
