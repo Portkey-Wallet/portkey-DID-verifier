@@ -632,6 +632,19 @@ public class AccountAppService : CAVerifierServerAppService, IAccountAppService
         }
     }
 
+    public async Task<ResponseResultDto<EmailNotificationDto>> SendNotificationAsync(VerifyTokenRequestDto tokenRequestDto)
+    {
+        await SendTransactionInformationBeforeApprovalAsync(tokenRequestDto.SecondaryEmail, tokenRequestDto.ShowOperationDetails);
+        return new ResponseResultDto<EmailNotificationDto>
+        {
+            Success = true,
+            Data = new EmailNotificationDto
+            {
+                Result = true
+            }
+        };
+    }
+    
     public async Task<VerifyRevokeCodeResponseDto> VerifyRevokeCodeAsync(
         VerifyRevokeCodeDto revokeCodeDto)
     {

@@ -28,5 +28,6 @@ public interface IAccountAppService : IApplicationService
      Task<ResponseResultDto<VerifierCodeDto>> VerifyFacebookTokenAsync(VerifyTokenRequestDto tokenRequestDto);
      Task<ResponseResultDto<VerifyFacebookTokenResponseDto>> VerifyFacebookAccessTokenAsync(string accessToken);
      Task<ResponseResultDto<VerifyTwitterTokenDto>> VerifyTwitterTokenAsync(VerifyTokenRequestDto tokenRequestDto);
+     Task<ResponseResultDto<EmailNotificationDto>> SendNotificationAsync(VerifyTokenRequestDto tokenRequestDto);
      Task<VerifyRevokeCodeResponseDto> VerifyRevokeCodeAsync(VerifyRevokeCodeDto revokeCodeDto);
 }

@@ -107,6 +107,12 @@ public class CAVerificationController : CAVerifierServerController
         return await _accountAppService.VerifyTwitterTokenAsync(tokenRequestDto);
     }
     
+    [HttpPost("verifyTonWalletToken")]
+    public async Task<ResponseResultDto<EmailNotificationDto>> SendNotificationAsync(VerifyTokenRequestDto tokenRequestDto)
+    {
+        return await _accountAppService.SendNotificationAsync(tokenRequestDto);
+    }
+    
     [HttpPost("verifyRevokeCode")]
     public async Task<VerifyRevokeCodeResponseDto> VerifyRevokeCodeAsync(VerifyRevokeCodeDto revokeCodeDto)
     {
