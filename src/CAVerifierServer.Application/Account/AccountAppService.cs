@@ -100,7 +100,7 @@ public class AccountAppService : CAVerifierServerAppService, IAccountAppService
                 };
             }
 
-            await verifyCodeSender.SendCodeByGuardianIdentifierAsync(input.GuardianIdentifier, dto.Data.VerifierCode);
+            await verifyCodeSender.SendCodeByGuardianIdentifierAsync(input.GuardianIdentifier, dto.Data.VerifierCode, input.ShowOperationDetails);
             return new ResponseResultDto<SendVerificationRequestDto>
             {
                 Success = true,
@@ -121,6 +121,74 @@ public class AccountAppService : CAVerifierServerAppService, IAccountAppService
         }
     }
 
+    public async Task<ResponseResultDto<bool>> SendNotificationRequestAsync(SendNotificationRequest request)
+    {
+        var emailSender = _verifyCodeSenders.FirstOrDefault(v => VerifierSenderType.Email.ToString().Equals(v.Type));
+        if (emailSender == null)
+        {
+            return new ResponseResultDto<bool>
+            {
+                Success = false,
+                Message = "found no emailSender"
+            };
+        }
+        if (!emailSender.ValidateGuardianIdentifier(request.Email))
+        {
+            return new ResponseResultDto<bool>
+            {
+                Success = false,
+                Message = Error.Message[Error.InvalidGuardianIdentifierInput]
+            };
+        }
+
+        try
+        {
+            await emailSender.SendTransactionInfoNotificationAsync(request.Email, request.Template, request.ShowOperationDetails);
+            return new ResponseResultDto<bool>
+            {
+                Success = true
+            };
+        }
+        catch (Exception e)
+        {
+            return new ResponseResultDto<bool>
+            {
+                Success = false,
+                Message = e.Message
+            };
+        }
+    }
+
+    private async Task<ResponseResultDto<bool>> SendTransactionInformationBeforeApprovalAsync(string email, string showOperationDetails)
+    {
+        if (email.IsNullOrEmpty())
+        {
+            return new ResponseResultDto<bool>()
+            {
+                Success = false,
+                Message = "Email is invalid"
+            };
+        }
+
+        try
+        {
+            return await SendNotificationRequestAsync(new SendNotificationRequest()
+            {
+                Email = email,
+                Template = EmailTemplate.BeforeApproval,
+                ShowOperationDetails = showOperationDetails
+            });
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "SendNotificationRequestAsync Error");
+            return new ResponseResultDto<bool>()
+            {
+                Success = false,
+                Message = e.Message
+            };
+        }
+    }
 
     public async Task<ResponseResultDto<VerifierCodeDto>> VerifyCodeAsync(VerifyCodeInput input)
     {
@@ -172,6 +240,110 @@ public class AccountAppService : CAVerifierServerAppService, IAccountAppService
         }
     }
 
+    public async Task<ResponseResultDto<bool>> VerifySecondaryEmailCodeAsync(SecondaryEmailVerifyCodeInput input)
+    {
+        if (input.VerifierSessionId == Guid.Empty
+            || input.Code.IsNullOrEmpty() ||
+            input.SecondaryEmail.IsNullOrEmpty())
+        {
+            return new ResponseResultDto<bool>
+            {
+                Success = false,
+                Message = Error.Message[Error.NullOrEmptyInput]
+            };
+        }
+
+        try
+        {
+            var grain = _clusterClient.GetGrain<IGuardianIdentifierVerificationGrain>(input.SecondaryEmail);
+            var resultDto = await grain.VerifySecondaryEmailCodeAsync(input);
+            if (resultDto.Success)
+            {
+                return new ResponseResultDto<bool>
+                {
+                    Success = true,
+                    Data = true
+                };
+            }
+
+            return new ResponseResultDto<bool>
+            {
+                Success = false,
+                Message = resultDto.Message
+            };
+        }
+        catch (Exception e)
+        {
+            Logger.LogError(e, Error.VerifyCodeErrorLogPrefix + e.Message);
+            return new ResponseResultDto<bool>
+            {
+                Success = false,
+                Message = Error.VerifyCodeErrorLogPrefix + e.Message
+            };
+        }
+    }
+
+    public async Task<ResponseResultDto<SendVerificationRequestDto>> SendVerificationToSecondaryEmail(SecondaryEmailVerificationInput input)
+    {
+        var verifyCodeSender = _verifyCodeSenders.FirstOrDefault(v => VerifierSenderType.Email.ToString().Equals(v.Type));
+        if (verifyCodeSender == null)
+        {
+            return new ResponseResultDto<SendVerificationRequestDto>
+            {
+                Success = false,
+                Message = Error.Message[Error.Unsupported]
+            };
+        }
+        if (!verifyCodeSender.ValidateGuardianIdentifier(input.SecondaryEmail))
+        {
+            _logger.LogDebug("SendVerificationToSecondaryEmail ValidateGuardianIdentifier failed email:{0}", input.SecondaryEmail);
+            return new ResponseResultDto<SendVerificationRequestDto>
+            {
+                Success = false,
+                Message = Error.Message[Error.InvalidGuardianIdentifierInput]
+            };
+        }
+
+        try
+        {
+            var grain = _clusterClient.GetGrain<IGuardianIdentifierVerificationGrain>(input.SecondaryEmail);
+            var dto = await grain.GetVerifyCodeAsync(new SendVerificationRequestInput()
+            {
+                Type = VerifierSenderType.Email.ToString(),
+                GuardianIdentifier = input.SecondaryEmail,
+                VerifierSessionId = input.VerifierSessionId,
+                OperationDetails = string.Empty
+            });
+            if (!dto.Success)
+            {
+                return new ResponseResultDto<SendVerificationRequestDto>
+                {
+                    Success = false,
+                    Message = dto.Message
+                };
+            }
+
+            await verifyCodeSender.SendCodeToSecondaryEmailAsync(input.SecondaryEmail, dto.Data.VerifierCode);
+            return new ResponseResultDto<SendVerificationRequestDto>
+            {
+                Success = true,
+                Data = new SendVerificationRequestDto
+                {
+                    VerifierSessionId = input.VerifierSessionId
+                }
+            };
+        }
+        catch (Exception e)
+        {
+            Logger.LogError(e, Error.SendVerificationRequestErrorLogPrefix + e.Message);
+            return new ResponseResultDto<SendVerificationRequestDto>
+            {
+                Success = false,
+                Message = Error.SendVerificationRequestErrorLogPrefix + e.Message
+            };
+        }
+    }
+
     public async Task<string> WhiteListCheckAsync(List<string> ipList)
     {
         var didServerList = await GetDidServerListAsync();
@@ -183,9 +355,7 @@ public class AccountAppService : CAVerifierServerAppService, IAccountAppService
         var servers = didServerList.DidServers.Distinct().ToList();
         var endPoints = new List<string>();
         servers.ForEach(t => { endPoints.Add(t.EndPoint); });
-        _logger.LogDebug("CaServerIPList id {ipList} :", string.Join(",", endPoints));
         var caIpList = endPoints.Select(ip => ip.Split("//")[1]).Select(formatter => formatter.Split(":")[0]).ToList();
-        _logger.LogDebug("Formatter ipList is {caIpList}", string.Join(",", caIpList));
         var result = ipList.Intersect(caIpList).ToList();
         return result.Count == 0 ? null : result[0];
     }
@@ -208,7 +378,12 @@ public class AccountAppService : CAVerifierServerAppService, IAccountAppService
                     Message = resultDto.Message
                 };
             }
-
+            var email = GetEmail(tokenRequestDto.SecondaryEmail, resultDto.Data.GoogleUserExtraInfo.Email);
+            var sentResultDto = await SendTransactionInformationBeforeApprovalAsync(email, tokenRequestDto.ShowOperationDetails);
+            if (sentResultDto is not { Success: true })
+            {
+                _logger.LogWarning("VerifyGoogleTokenAsync secondaryEmail failed email:{0} message:{1}", email, sentResultDto?.Message);
+            }
             return new ResponseResultDto<VerifyGoogleTokenDto>
             {
                 Success = true,
@@ -223,6 +398,11 @@ public class AccountAppService : CAVerifierServerAppService, IAccountAppService
                 Message = Error.VerifyCodeErrorLogPrefix + e.Message
             };
         }
+    }
+
+    private static string GetEmail(string secondaryEmail, string emailFromGuardian)
+    {
+        return emailFromGuardian.IsNullOrEmpty() ? secondaryEmail : emailFromGuardian;
     }
 
     public async Task<ResponseResultDto<VerifyAppleTokenDto>> VerifyAppleTokenAsync(
@@ -244,6 +424,13 @@ public class AccountAppService : CAVerifierServerAppService, IAccountAppService
                 };
             }
 
+            var email = resultDto.Data.AppleUserExtraInfo.IsPrivateEmail ? tokenRequestDto.SecondaryEmail : GetEmail(tokenRequestDto.SecondaryEmail, resultDto.Data.AppleUserExtraInfo.Email);
+            var response = await SendTransactionInformationBeforeApprovalAsync(email, tokenRequestDto.ShowOperationDetails);
+            if (response is { Success: false })
+            {
+                _logger.LogWarning("sent transaction email failed secondary email:{0} email:{1} showOperationDetails:{2}",
+                    tokenRequestDto.SecondaryEmail, resultDto.Data.AppleUserExtraInfo.Email, tokenRequestDto.ShowOperationDetails);
+            }
             return new ResponseResultDto<VerifyAppleTokenDto>
             {
                 Success = true,
@@ -278,7 +465,7 @@ public class AccountAppService : CAVerifierServerAppService, IAccountAppService
                     Message = resultDto.Message
                 };
             }
-
+            await SendTransactionInformationBeforeApprovalAsync(tokenRequestDto.SecondaryEmail, tokenRequestDto.ShowOperationDetails);
             return new ResponseResultDto<VerifyTokenDto<TelegramUserExtraInfo>>
             {
                 Success = true,
@@ -313,7 +500,7 @@ public class AccountAppService : CAVerifierServerAppService, IAccountAppService
                     Message = resultDto.Message
                 };
             }
-
+            await SendTransactionInformationBeforeApprovalAsync(input.SecondaryEmail, input.ShowOperationDetails);
             return new ResponseResultDto<VerifierCodeDto>
             {
                 Success = true,
@@ -424,7 +611,7 @@ public class AccountAppService : CAVerifierServerAppService, IAccountAppService
                     Message = resultDto.Message
                 };
             }
-
+            await SendTransactionInformationBeforeApprovalAsync(tokenRequestDto.SecondaryEmail, tokenRequestDto.ShowOperationDetails);
             return new ResponseResultDto<VerifyTwitterTokenDto>
             {
                 Success = true,

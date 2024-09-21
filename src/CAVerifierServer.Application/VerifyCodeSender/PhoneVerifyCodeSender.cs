@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using CAVerifierServer.Account;
 using CAVerifierServer.Options;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -29,7 +30,7 @@ public class PhoneVerifyCodeSender : IVerifyCodeSender
         _smsServiceOptions = smsServiceOptions.Value;
     }
 
-    public async Task SendCodeByGuardianIdentifierAsync(string guardianIdentifier, string code)
+    public async Task SendCodeByGuardianIdentifierAsync(string guardianIdentifier, string code, string showOperateDetail)
     {
         if (string.IsNullOrEmpty(guardianIdentifier) || string.IsNullOrEmpty(code))
         {
@@ -93,9 +94,19 @@ public class PhoneVerifyCodeSender : IVerifyCodeSender
         }
     }
 
+    public Task SendCodeToSecondaryEmailAsync(string guardianIdentifier, string code)
+    {
+        throw new NotImplementedException();
+    }
+
 
     public bool ValidateGuardianIdentifier(string guardianIdentifier)
     {
         return !string.IsNullOrWhiteSpace(guardianIdentifier);
+    }
+
+    public Task SendTransactionInfoNotificationAsync(string email, EmailTemplate template, string showOperationDetails)
+    {
+        throw new NotImplementedException();
     }
 }

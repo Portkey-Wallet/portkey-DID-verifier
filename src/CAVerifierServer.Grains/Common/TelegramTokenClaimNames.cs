@@ -9,4 +9,5 @@ public struct TelegramTokenClaimNames
     public const string LastName = "lastName";
     public const string Hash = "hash";
     public const string ProtoUrl = "protoUrl";
+    public const string BotId = "botId";
 }

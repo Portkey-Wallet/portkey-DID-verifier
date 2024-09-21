@@ -100,7 +100,8 @@ public class GuardianIdentifierVerificationGrain : Grain<GuardianIdentifierVerif
         {
             GuardianIdentifier = input.GuardianIdentifier,
             GuardianType = input.Type,
-            VerifierSessionId = input.VerifierSessionId
+            VerifierSessionId = input.VerifierSessionId,
+            OperationDetails = input.OperationDetails
         };
         //create code
         var randomCode = await GetCodeAsync(6);
@@ -153,7 +154,7 @@ public class GuardianIdentifierVerificationGrain : Grain<GuardianIdentifierVerif
         var guardianTypeCode = _guardianTypeOptions.GuardianTypeDic[guardianTypeVerification.GuardianType];
         var signature = CryptographyHelper.GenerateSignature(guardianTypeCode, guardianTypeVerification.Salt,
             guardianTypeVerification.GuardianIdentifierHash, _verifierAccountOptions.PrivateKey, input.OperationType,
-            input.ChainId, input.OperationDetails);
+            input.ChainId, guardianTypeVerification.OperationDetails.IsNullOrWhiteSpace() ? input.OperationDetails : guardianTypeVerification.OperationDetails);
         guardianTypeVerification.VerificationDoc = signature.Data;
         guardianTypeVerification.Signature = signature.Signature;
         dto.Success = true;
@@ -162,6 +163,39 @@ public class GuardianIdentifierVerificationGrain : Grain<GuardianIdentifierVerif
             Data = signature.Data,
             Signature = signature.Signature
         };
+        await WriteStateAsync();
+        return dto;
+    }
+    
+    public async Task<GrainResultDto<bool>> VerifySecondaryEmailCodeAsync(SecondaryEmailVerifyCodeInput input)
+    {
+        var dto = new GrainResultDto<bool>();
+        var verifications = State.GuardianTypeVerifications;
+        if (verifications == null)
+        {
+            dto.Message = Error.Message[Error.InvalidLoginGuardianIdentifier];
+            return dto;
+        }
+
+        verifications = verifications.Where(p => p.VerifierSessionId == input.VerifierSessionId).ToList();
+        if (verifications.Count == 0)
+        {
+            dto.Message = Error.Message[Error.InvalidVerifierSessionId];
+            return dto;
+        }
+
+        var guardianTypeVerification = verifications[0];
+        var errorCode = VerifyCodeAsync(guardianTypeVerification, input.Code);
+        if (errorCode > 0)
+        {
+            dto.Message = Error.Message[errorCode];
+            return dto;
+        }
+
+        guardianTypeVerification.VerifiedTime = _clock.Now;
+        guardianTypeVerification.Verified = true;
+        dto.Success = true;
+        dto.Data = true;
         await WriteStateAsync();
         return dto;
     }

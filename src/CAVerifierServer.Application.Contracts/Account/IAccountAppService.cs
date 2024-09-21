@@ -13,6 +13,12 @@ public interface IAccountAppService : IApplicationService
      
      Task<ResponseResultDto<VerifierCodeDto>> VerifyCodeAsync(VerifyCodeInput input);
 
+     Task<ResponseResultDto<bool>> VerifySecondaryEmailCodeAsync(SecondaryEmailVerifyCodeInput input);
+
+     Task<ResponseResultDto<SendVerificationRequestDto>> SendVerificationToSecondaryEmail(SecondaryEmailVerificationInput input);
+     
+     Task<ResponseResultDto<bool>> SendNotificationRequestAsync(SendNotificationRequest request);
+
      Task<string> WhiteListCheckAsync(List<string> ipList);
      
      Task<ResponseResultDto<VerifyGoogleTokenDto>> VerifyGoogleTokenAsync(VerifyTokenRequestDto tokenRequestDto);

@@ -3,6 +3,7 @@ using CAVerifierServer.Verifier.Dtos;
 using CAVerifierServer.Account;
 using CAVerifierServer.Account.Dtos;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Volo.Abp;
 
 namespace CAVerifierServer.Controllers;
@@ -14,10 +15,13 @@ namespace CAVerifierServer.Controllers;
 public class CAVerificationController : CAVerifierServerController
 {
     private readonly IAccountAppService _accountAppService;
+    private readonly ILogger<CAVerificationController> _logger;
 
-    public CAVerificationController(IAccountAppService accountAppService)
+    public CAVerificationController(IAccountAppService accountAppService,
+        ILogger<CAVerificationController> logger)
     {
         _accountAppService = accountAppService;
+        _logger = logger;
     }
 
     [HttpPost]
@@ -34,6 +38,30 @@ public class CAVerificationController : CAVerifierServerController
     public async Task<ResponseResultDto<VerifierCodeDto>> VerifyCodeAsync(VerifyCodeInput input)
     {
         return await _accountAppService.VerifyCodeAsync(input);
+    }
+    
+    [HttpPost]
+    [Route("secondaryEmail/verifyCode")]
+    public async Task<ResponseResultDto<bool>> VerifySecondaryEmailCodeAsync(SecondaryEmailVerifyCodeInput input)
+    {
+        return await _accountAppService.VerifySecondaryEmailCodeAsync(input);
+    }
+    
+    [HttpPost]
+    [Route("send/secondary/email/verify")]
+    public async Task<ResponseResultDto<SendVerificationRequestDto>> SendVerificationToSecondaryEmail(SecondaryEmailVerificationInput input)
+    {
+        var result = await _accountAppService.SendVerificationToSecondaryEmail(input);
+        return result;
+    }
+    
+    [HttpPost]
+    [Route("sendNotification")]
+    public async Task<ResponseResultDto<bool>> SendNotificationRequestAsync(
+        SendNotificationRequest request)
+    {
+        request.Template = EmailTemplate.AfterApproval;
+        return await _accountAppService.SendNotificationRequestAsync(request);
     }
 
     [HttpPost("verifyGoogleToken")]

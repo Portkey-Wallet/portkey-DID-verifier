@@ -25,8 +25,6 @@ public class GuardianIdentifierVerification
     public string Salt { get; set; }
 
     public string GuardianIdentifierHash { get; set; }
-    
-    
-    
-    
+
+    public string OperationDetails { get; set; }
 }
