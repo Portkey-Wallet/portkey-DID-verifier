@@ -179,17 +179,17 @@ public class EmailBodyBuilder
         try
         {
             var map = new Dictionary<string, string>();
-            map.Add("https://portkey-did.s3.ap-northeast-1.amazonaws.com/MediaIcons/medium.svg",
+            map.Add("https://portkey-did.s3.ap-northeast-1.amazonaws.com/MediaIcons/medium.png",
                 "https://medium.com/@PortkeyDID");
-            map.Add("https://portkey-did.s3.ap-northeast-1.amazonaws.com/MediaIcons/Youtube.svg",
+            map.Add("https://portkey-did.s3.ap-northeast-1.amazonaws.com/MediaIcons/youtube.png",
                 "https://www.youtube.com/@PortkeyDID");
-            map.Add("https://portkey-did.s3.ap-northeast-1.amazonaws.com/MediaIcons/telegram.svg",
+            map.Add("https://portkey-did.s3.ap-northeast-1.amazonaws.com/MediaIcons/telegram.png",
                 "https://t.me/Portkey_Official_Group");
-            map.Add("https://portkey-did.s3.ap-northeast-1.amazonaws.com/MediaIcons/Twitter+X.svg",
+            map.Add("https://portkey-did.s3.ap-northeast-1.amazonaws.com/MediaIcons/Twitter%2BX.png",
                 "https://twitter.com/Portkey_DID");
-            map.Add("https://portkey-did.s3.ap-northeast-1.amazonaws.com/MediaIcons/discord.svg",
+            map.Add("https://portkey-did.s3.ap-northeast-1.amazonaws.com/MediaIcons/discord.png",
                 "https://discord.gg/EUBq3rHQhr");
-            map.Add("https://portkey-did.s3.ap-northeast-1.amazonaws.com/MediaIcons/github.svg",
+            map.Add("https://portkey-did.s3.ap-northeast-1.amazonaws.com/MediaIcons/github.png",
                 "https://github.com/Portkey-Wallet");
 
 
