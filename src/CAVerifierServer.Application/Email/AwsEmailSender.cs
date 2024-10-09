@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Volo.Abp.BackgroundJobs;
 using Volo.Abp.Emailing;
+using Volo.Abp.MultiTenancy;
 
 namespace CAVerifierServer.Email;
 
@@ -16,20 +17,20 @@ public class AwsEmailSender : EmailSenderBase
     private readonly ILogger<AwsEmailSender> _logger;
 
 
-    public AwsEmailSender(IOptions<AwsEmailOptions> awsEmailOptions, ILogger<AwsEmailSender> logger,
-        IEmailSenderConfiguration configuration, IBackgroundJobManager backgroundJobManager) : base(configuration,
+    public AwsEmailSender(IOptions<AwsEmailOptions> awsEmailOptions, ILogger<AwsEmailSender> logger, ICurrentTenant currentTenant,
+        IEmailSenderConfiguration configuration, IBackgroundJobManager backgroundJobManager) : base(currentTenant, configuration,
         backgroundJobManager)
     {
         _logger = logger;
         _awsEmailOptions = awsEmailOptions.Value;
     }
 
-    public override async Task SendAsync(string to, string subject, string body, bool isBodyHtml = true)
+    public override async Task SendAsync(string to, string subject, string body, bool isBodyHtml = true, AdditionalEmailSendingArgs additionalEmailSendingArgs = null)
     {
         await SendAsync(_awsEmailOptions.From, to, subject, body, isBodyHtml);
     }
 
-    public override async Task SendAsync(string from, string to, string subject, string body, bool isBodyHtml = true)
+    public override async Task SendAsync(string from, string to, string subject, string body, bool isBodyHtml = true, AdditionalEmailSendingArgs additionalEmailSendingArgs = null)
     {
         var mail = new MailMessage();
         mail.IsBodyHtml = true;
