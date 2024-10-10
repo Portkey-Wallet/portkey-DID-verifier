@@ -1,5 +1,6 @@
 using System.Net;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -7,6 +8,7 @@ using Orleans;
 using Orleans.Configuration;
 using Orleans.Hosting;
 using Orleans.Providers.MongoDB.Configuration;
+using Orleans.Providers.MongoDB.StorageProviders.Serializers;
 using Orleans.Statistics;
 
 namespace CAVerifierServer.Extensions;
@@ -33,18 +35,25 @@ public static class OrleansHostExtensions
                     options.DatabaseName = configSection.GetValue<string>("DataBase");;
                     options.Strategy = MongoDBMembershipStrategy.SingleDocument;
                 })
+                .Configure<JsonGrainStateSerializerOptions>(options => options.ConfigureJsonSerializerSettings =
+                    settings =>
+                    {
+                        settings.NullValueHandling = NullValueHandling.Include;
+                        settings.ObjectCreationHandling = ObjectCreationHandling.Replace;
+                        settings.DefaultValueHandling = DefaultValueHandling.Populate;
+                    })
+                .ConfigureServices(services => services.AddSingleton<IGrainStateSerializer, VerifierJsonGrainStateSerializer>())
                 .AddMongoDBGrainStorage("Default",(MongoDBGrainStorageOptions op) =>
                 {
                     op.CollectionPrefix = "GrainStorage";
                     op.DatabaseName = configSection.GetValue<string>("DataBase");
-                
-                    op.ConfigureJsonSerializerSettings = jsonSettings =>
-                    {
-                        // jsonSettings.ContractResolver = new PrivateSetterContractResolver();
-                        jsonSettings.NullValueHandling = NullValueHandling.Include;
-                        jsonSettings.DefaultValueHandling = DefaultValueHandling.Populate;
-                        jsonSettings.ObjectCreationHandling = ObjectCreationHandling.Replace;
-                    };
+                    // op.ConfigureJsonSerializerSettings = jsonSettings =>
+                    // {
+                    //     // jsonSettings.ContractResolver = new PrivateSetterContractResolver();
+                    //     jsonSettings.NullValueHandling = NullValueHandling.Include;
+                    //     jsonSettings.DefaultValueHandling = DefaultValueHandling.Populate;
+                    //     jsonSettings.ObjectCreationHandling = ObjectCreationHandling.Replace;
+                    // };
                     
                 })
                 .UseMongoDBReminders(options =>
@@ -58,7 +67,7 @@ public static class OrleansHostExtensions
                     options.ServiceId = configSection.GetValue<string>("ServiceId");
                 })
                // .AddMemoryGrainStorage("PubSubStore")
-                .ConfigureApplicationParts(parts => parts.AddFromApplicationBaseDirectory())
+                // .ConfigureApplicationParts(parts => parts.AddFromApplicationBaseDirectory())
                 .UseDashboard(options => {
                     options.Username = configSection.GetValue<string>("DashboardUserName");
                     options.Password = configSection.GetValue<string>("DashboardPassword");
@@ -67,7 +76,7 @@ public static class OrleansHostExtensions
                     options.HostSelf = true;
                     options.CounterUpdateIntervalMs = configSection.GetValue<int>("DashboardCounterUpdateIntervalMs");
                 })
-                .UseLinuxEnvironmentStatistics()
+                // .UseLinuxEnvironmentStatistics()
                 .ConfigureLogging(logging => { logging.SetMinimumLevel(LogLevel.Debug).AddConsole(); });
         });
     }

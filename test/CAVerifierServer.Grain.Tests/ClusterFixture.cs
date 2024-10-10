@@ -48,9 +48,9 @@ public class ClusterFixture : IDisposable, ISingletonDependency
 
     public TestCluster Cluster { get; private set; }
 
-    private class TestSiloConfigurations : ISiloBuilderConfigurator
+    private class TestSiloConfigurations : ISiloConfigurator
     {
-        public void Configure(ISiloHostBuilder hostBuilder)
+        public void Configure(ISiloBuilder hostBuilder)
         {
             hostBuilder.ConfigureServices(services =>
                 {
@@ -146,7 +146,8 @@ public class ClusterFixture : IDisposable, ISingletonDependency
                     });
                     services.AddTransient<IMapperAccessor>(provider => provider.GetRequiredService<MapperAccessor>());
                 })
-                .AddSimpleMessageStreamProvider(CAVerifierServerApplicationConsts.MessageStreamName)
+                .AddMemoryStreams(CAVerifierServerApplicationConsts.MessageStreamName)
+                // .AddSimpleMessageStreamProvider(CAVerifierServerApplicationConsts.MessageStreamName)
                 .AddMemoryGrainStorage("PubSubStore")
                 .AddMemoryGrainStorageAsDefault();
         }
@@ -542,6 +543,7 @@ public class ClusterFixture : IDisposable, ISingletonDependency
     private class TestClientBuilderConfigurator : IClientBuilderConfigurator
     {
         public void Configure(IConfiguration configuration, IClientBuilder clientBuilder) => clientBuilder
-            .AddSimpleMessageStreamProvider(CAVerifierServerApplicationConsts.MessageStreamName);
+            .AddMemoryStreams(CAVerifierServerApplicationConsts.MessageStreamName);
+            // .AddSimpleMessageStreamProvider(CAVerifierServerApplicationConsts.MessageStreamName);
     }
 }

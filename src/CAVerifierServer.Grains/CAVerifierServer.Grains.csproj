@@ -11,11 +11,9 @@
         <PackageReference Include="AElf.Client" Version="1.1.0" />
         <PackageReference Include="AElf.Cryptography" Version="1.2.2" />
         <PackageReference Include="AElf.Types" Version="1.2.2" />
-        <PackageReference Include="Microsoft.Orleans.CodeGenerator.MSBuild" Version="3.6.5">
-            <PrivateAssets>all</PrivateAssets>
-            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        </PackageReference>
-        <PackageReference Include="Microsoft.Orleans.Core.Abstractions" Version="3.6.5" />
+        <PackageReference Include="Microsoft.Orleans.Client" Version="7.2.6" />
+        <PackageReference Include="Microsoft.Orleans.Sdk" Version="7.2.6" />
+        <PackageReference Include="Microsoft.Orleans.Reminders" Version="7.2.6" />
         <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.1.2" />
         <PackageReference Include="Volo.Abp.Autofac" Version="8.2.0" />
     </ItemGroup>
