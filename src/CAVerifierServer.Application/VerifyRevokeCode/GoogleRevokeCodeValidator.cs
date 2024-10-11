@@ -29,7 +29,7 @@ public class GoogleRevokeCodeValidator : IVerifyRevokeCodeValidator
             await grain.GetUserInfoFromGoogleAsync(revokeCodeDto.VerifyCode);
             return true;
         }
-        catch (Exception e)
+        catch (System.Exception e)
         {
            _logger.LogError(e,"validate google Token error,{error}",e.Message);
            return false;

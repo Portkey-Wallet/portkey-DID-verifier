@@ -168,7 +168,7 @@ public class EmailBodyBuilder
 
             return concat;
         }
-        catch (Exception e)
+        catch (System.Exception e)
         {
             return "";
         }
@@ -200,7 +200,7 @@ public class EmailBodyBuilder
                 .Aggregate("", (current, communityItem) => current + communityItem);
             return result;
         }
-        catch (Exception e)
+        catch (System.Exception e)
         {
             Console.WriteLine(e);
             throw;

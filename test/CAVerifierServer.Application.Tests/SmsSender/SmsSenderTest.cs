@@ -52,7 +52,7 @@ public partial class SmsSenderTest : CAVerifierServerApplicationTestBase
         {
             await telesignSmsSender.SendAsync(smsMessage);
         }
-        catch (Exception e)
+        catch (System.Exception e)
         {
             e.ShouldNotBeNull();
         }
@@ -61,7 +61,7 @@ public partial class SmsSenderTest : CAVerifierServerApplicationTestBase
         {
             await awsSmsSender.SendAsync(smsMessage);
         }
-        catch (Exception e)
+        catch (System.Exception e)
         {
             e.ShouldNotBeNull();
         }
@@ -71,7 +71,7 @@ public partial class SmsSenderTest : CAVerifierServerApplicationTestBase
             await twilioSmsSender.SendAsync(smsMessage);
             
         }
-        catch (Exception e)
+        catch (System.Exception e)
         {
             e.ShouldNotBeNull();
         }
@@ -80,7 +80,7 @@ public partial class SmsSenderTest : CAVerifierServerApplicationTestBase
         {
             await twilioSmsSender.SendAsync(overseaSmsMessage);
         }
-        catch (Exception e)
+        catch (System.Exception e)
         {
             e.ShouldNotBeNull();
         }

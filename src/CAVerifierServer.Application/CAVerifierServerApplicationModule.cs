@@ -1,4 +1,5 @@
-﻿using CAVerifierServer.Email;
+﻿using AElf.ExceptionHandler;
+using CAVerifierServer.Email;
 using CAVerifierServer.Grains;
 using CAVerifierServer.Options;
 using CAVerifierServer.Phone;
@@ -18,7 +19,8 @@ namespace CAVerifierServer;
     typeof(CAVerifierServerApplicationContractsModule),
     typeof(AbpTenantManagementApplicationModule),
     typeof(AbpSettingManagementApplicationModule),
-    typeof(CAVerifierServerGrainsModule)
+    typeof(CAVerifierServerGrainsModule),
+    typeof(AOPExceptionModule)
 )]
 public class CAVerifierServerApplicationModule : AbpModule
 {

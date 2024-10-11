@@ -1,12 +1,14 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Net;
 using System.Net.Http.Headers;
+using AElf.ExceptionHandler;
 using CAVerifierServer.Telegram;
 using CAVerifierServer.Telegram.Options;
 using CAVerifierServer.Verifier.Dtos;
 using CAVerifierServer.Account;
 using CAVerifierServer.Grains.Common;
 using CAVerifierServer.Grains.Dto;
+using CAVerifierServer.Grains.Grain.Exception;
 using CAVerifierServer.Grains.Options;
 using CAVerifierServer.Grains.State;
 using Microsoft.Extensions.Caching.Distributed;
@@ -68,76 +70,61 @@ public class ThirdPartyVerificationGrain : Grain<ThirdPartyVerificationState>, I
         await base.OnDeactivateAsync(reason, cancellationToken);
     }
 
-    public async Task<GrainResultDto<VerifyGoogleTokenGrainDto>> VerifyGoogleTokenAsync(VerifyTokenGrainDto grainDto)
+    [ExceptionHandler(typeof(System.Exception),
+        TargetType = typeof(GrainVerifyExceptionHandler),
+        MethodName = nameof(GrainVerifyExceptionHandler.VerifyGoogleTokenHandler))]
+    public virtual async Task<GrainResultDto<VerifyGoogleTokenGrainDto>> VerifyGoogleTokenAsync(VerifyTokenGrainDto grainDto)
     {
-        try
+        var googleUserInfo = await GetUserInfoFromGoogleAsync(grainDto.AccessToken);
+
+        var tokenDto = new VerifyGoogleTokenGrainDto
         {
-            var googleUserInfo = await GetUserInfoFromGoogleAsync(grainDto.AccessToken);
+            GoogleUserExtraInfo = _objectMapper.Map<GoogleUserInfoDto, GoogleUserExtraInfo>(googleUserInfo)
+        };
 
-            var tokenDto = new VerifyGoogleTokenGrainDto
-            {
-                GoogleUserExtraInfo = _objectMapper.Map<GoogleUserInfoDto, GoogleUserExtraInfo>(googleUserInfo)
-            };
+        tokenDto.GoogleUserExtraInfo.GuardianType = GuardianIdentifierType.Google.ToString();
+        tokenDto.GoogleUserExtraInfo.AuthTime = DateTime.UtcNow;
 
-            tokenDto.GoogleUserExtraInfo.GuardianType = GuardianIdentifierType.Google.ToString();
-            tokenDto.GoogleUserExtraInfo.AuthTime = DateTime.UtcNow;
+        var signatureOutput = CryptographyHelper.GenerateSignature(Convert.ToInt16(GuardianIdentifierType.Google),
+            grainDto.Salt, grainDto.IdentifierHash, _verifierAccountOptions.PrivateKey, grainDto.OperationType,
+            grainDto.ChainId, grainDto.OperationDetails);
 
-            var signatureOutput = CryptographyHelper.GenerateSignature(Convert.ToInt16(GuardianIdentifierType.Google),
-                grainDto.Salt, grainDto.IdentifierHash, _verifierAccountOptions.PrivateKey, grainDto.OperationType,
-                grainDto.ChainId, grainDto.OperationDetails);
+        tokenDto.Signature = signatureOutput.Signature;
+        tokenDto.VerificationDoc = signatureOutput.Data;
 
-            tokenDto.Signature = signatureOutput.Signature;
-            tokenDto.VerificationDoc = signatureOutput.Data;
-
-            return new GrainResultDto<VerifyGoogleTokenGrainDto>
-            {
-                Success = true,
-                Data = tokenDto
-            };
-        }
-        catch (Exception e)
+        return new GrainResultDto<VerifyGoogleTokenGrainDto>
         {
-            return new GrainResultDto<VerifyGoogleTokenGrainDto>
-            {
-                Message = e.Message
-            };
-        }
+            Success = true,
+            Data = tokenDto
+        };
     }
 
+    [ExceptionHandler(typeof(System.Exception),
+        TargetType = typeof(GrainVerifyExceptionHandler),
+        MethodName = nameof(GrainVerifyExceptionHandler.VerifyAppleTokenHandler))]
     public async Task<GrainResultDto<VerifyAppleTokenGrainDto>> VerifyAppleTokenAsync(VerifyTokenGrainDto grainDto)
     {
-        try
+        var securityToken = await ValidateTokenAsync(grainDto.AccessToken);
+        var userInfo = GetUserInfoFromToken(securityToken);
+
+        userInfo.GuardianType = GuardianIdentifierType.Apple.ToString();
+        userInfo.AuthTime = DateTime.UtcNow;
+
+        var signatureOutput =
+            CryptographyHelper.GenerateSignature(Convert.ToInt16(GuardianIdentifierType.Apple), grainDto.Salt,
+                grainDto.IdentifierHash, _verifierAccountOptions.PrivateKey, grainDto.OperationType,
+                grainDto.ChainId, grainDto.OperationDetails);
+
+        return new GrainResultDto<VerifyAppleTokenGrainDto>
         {
-            var securityToken = await ValidateTokenAsync(grainDto.AccessToken);
-            var userInfo = GetUserInfoFromToken(securityToken);
-
-            userInfo.GuardianType = GuardianIdentifierType.Apple.ToString();
-            userInfo.AuthTime = DateTime.UtcNow;
-
-            var signatureOutput =
-                CryptographyHelper.GenerateSignature(Convert.ToInt16(GuardianIdentifierType.Apple), grainDto.Salt,
-                    grainDto.IdentifierHash, _verifierAccountOptions.PrivateKey, grainDto.OperationType,
-                    grainDto.ChainId, grainDto.OperationDetails);
-
-            return new GrainResultDto<VerifyAppleTokenGrainDto>
+            Success = true,
+            Data = new VerifyAppleTokenGrainDto
             {
-                Success = true,
-                Data = new VerifyAppleTokenGrainDto
-                {
-                    AppleUserExtraInfo = userInfo,
-                    Signature = signatureOutput.Signature,
-                    VerificationDoc = signatureOutput.Data
-                }
-            };
-        }
-        catch (Exception e)
-        {
-            _logger.LogError(e, Error.VerifyAppleErrorLogPrefix + e.Message);
-            return new GrainResultDto<VerifyAppleTokenGrainDto>
-            {
-                Message = e.Message
-            };
-        }
+                AppleUserExtraInfo = userInfo,
+                Signature = signatureOutput.Signature,
+                VerificationDoc = signatureOutput.Data
+            }
+        };
     }
 
     public async Task<GrainResultDto<VerifierCodeDto>> VerifyFacebookTokenAsync(VerifyTokenGrainDto grainDto)
@@ -161,7 +148,7 @@ public class ThirdPartyVerificationGrain : Grain<ThirdPartyVerificationState>, I
                 }
             };
         }
-        catch (Exception e)
+        catch (System.Exception e)
         {
             _logger.LogError(e, Error.VerifyAppleErrorLogPrefix + e.Message);
             return new GrainResultDto<VerifierCodeDto>
@@ -180,14 +167,14 @@ public class ThirdPartyVerificationGrain : Grain<ThirdPartyVerificationState>, I
             var expire = securityToken.ValidTo;
             if (expire < DateTime.UtcNow)
             {
-                throw new Exception(ThirdPartyMessage.TokenExpiresMessage);
+                throw new System.Exception(ThirdPartyMessage.TokenExpiresMessage);
             }
 
             var userInfo = GetTelegramUserInfoFromToken(securityToken);
 
             if (!await _telegramAuthProvider.ValidateTelegramHashAsync(userInfo))
             {
-                throw new Exception(ThirdPartyMessage.InvalidTokenMessage);
+                throw new System.Exception(ThirdPartyMessage.InvalidTokenMessage);
             }
 
             userInfo.GuardianType = GuardianIdentifierType.Telegram.ToString();
@@ -210,7 +197,7 @@ public class ThirdPartyVerificationGrain : Grain<ThirdPartyVerificationState>, I
                 }
             };
         }
-        catch (Exception e)
+        catch (System.Exception e)
         {
             _logger.LogError(e, Error.VerifyAppleErrorLogPrefix + e.Message);
             return new GrainResultDto<VerifyTelegramTokenGrainDto>
@@ -247,7 +234,7 @@ public class ThirdPartyVerificationGrain : Grain<ThirdPartyVerificationState>, I
                 Data = tokenDto
             };
         }
-        catch (Exception e)
+        catch (System.Exception e)
         {
             _logger.LogError(e, Error.VerifyAppleErrorLogPrefix + e.Message);
             return new GrainResultDto<VerifyTwitterTokenGrainDto>
@@ -269,20 +256,20 @@ public class ThirdPartyVerificationGrain : Grain<ThirdPartyVerificationState>, I
         if (response.StatusCode == HttpStatusCode.Unauthorized)
         {
             _logger.LogError("get user info unauthorized, result:{message}", response.ToString());
-            throw new Exception(ThirdPartyMessage.InvalidTokenMessage);
+            throw new System.Exception(ThirdPartyMessage.InvalidTokenMessage);
         }
 
         if (!response.IsSuccessStatusCode)
         {
             _logger.LogError("get user info fail, result:{message}", response.ToString());
-            throw new Exception($"StatusCode: {response.StatusCode.ToString()}, Content: {result}");
+            throw new System.Exception($"StatusCode: {response.StatusCode.ToString()}, Content: {result}");
         }
 
         _logger.LogInformation("get user info from twitter, result:{message}", result);
         var userInfo = JsonConvert.DeserializeObject<TwitterUserInfoDto>(result);
         if (userInfo?.Data == null)
         {
-            throw new Exception("Get userInfo from twitter fail.");
+            throw new System.Exception("Get userInfo from twitter fail.");
         }
 
         return userInfo.Data;
@@ -299,20 +286,20 @@ public class ThirdPartyVerificationGrain : Grain<ThirdPartyVerificationState>, I
         if (response.StatusCode == HttpStatusCode.Unauthorized)
         {
             _logger.LogError("{Message}", response.ToString());
-            throw new Exception(ThirdPartyMessage.InvalidTokenMessage);
+            throw new System.Exception(ThirdPartyMessage.InvalidTokenMessage);
         }
 
         if (!response.IsSuccessStatusCode)
         {
             _logger.LogError("{Message}", response.ToString());
-            throw new Exception($"StatusCode: {response.StatusCode.ToString()}, Content: {result}");
+            throw new System.Exception($"StatusCode: {response.StatusCode.ToString()}, Content: {result}");
         }
 
         _logger.LogInformation("GetUserInfo from google: {userInfo}", result);
         var googleUserInfo = JsonConvert.DeserializeObject<GoogleUserInfoDto>(result);
         if (googleUserInfo == null)
         {
-            throw new Exception("Get userInfo from google fail.");
+            throw new System.Exception("Get userInfo from google fail.");
         }
 
         return googleUserInfo;
@@ -346,17 +333,17 @@ public class ThirdPartyVerificationGrain : Grain<ThirdPartyVerificationState>, I
         catch (SecurityTokenExpiredException e)
         {
             _logger.LogError(e, Error.VerifyAppleErrorLogPrefix + e.Message);
-            throw new Exception(ThirdPartyMessage.TokenExpiresMessage);
+            throw new System.Exception(ThirdPartyMessage.TokenExpiresMessage);
         }
         catch (SecurityTokenException e)
         {
             _logger.LogError(e, Error.VerifyAppleErrorLogPrefix + e.Message);
-            throw new Exception(ThirdPartyMessage.InvalidTokenMessage);
+            throw new System.Exception(ThirdPartyMessage.InvalidTokenMessage);
         }
-        catch (Exception e)
+        catch (System.Exception e)
         {
             _logger.LogError(e, Error.VerifyAppleErrorLogPrefix + e.Message);
-            throw new Exception(ThirdPartyMessage.InvalidTokenMessage);
+            throw new System.Exception(ThirdPartyMessage.InvalidTokenMessage);
         }
     }
 
@@ -388,17 +375,17 @@ public class ThirdPartyVerificationGrain : Grain<ThirdPartyVerificationState>, I
         catch (SecurityTokenExpiredException e)
         {
             _logger.LogError(e, Error.VerifyTelegramErrorLogPrefix + e.Message);
-            throw new Exception(ThirdPartyMessage.TokenExpiresMessage);
+            throw new System.Exception(ThirdPartyMessage.TokenExpiresMessage);
         }
         catch (SecurityTokenException e)
         {
             _logger.LogError(e, Error.VerifyTelegramErrorLogPrefix + e.Message);
-            throw new Exception(ThirdPartyMessage.InvalidTokenMessage);
+            throw new System.Exception(ThirdPartyMessage.InvalidTokenMessage);
         }
-        catch (Exception e)
+        catch (System.Exception e)
         {
             _logger.LogError(e, Error.VerifyTelegramErrorLogPrefix + e.Message);
-            throw new Exception(ThirdPartyMessage.InvalidTokenMessage);
+            throw new System.Exception(ThirdPartyMessage.InvalidTokenMessage);
         }
     }
 

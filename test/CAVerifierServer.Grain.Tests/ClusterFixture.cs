@@ -273,7 +273,7 @@ public class ClusterFixture : IDisposable, ISingletonDependency
                     CancellationTokenProvider.FallbackToProvider(token)
                 );
             }
-            catch (Exception ex)
+            catch (System.Exception ex)
             {
                 if (hideErrors == true)
                 {
@@ -408,7 +408,7 @@ public class ClusterFixture : IDisposable, ISingletonDependency
                         CancellationTokenProvider.FallbackToProvider(token)
                     );
                 }
-                catch (Exception ex)
+                catch (System.Exception ex)
                 {
                     if (hideErrors == true)
                     {
@@ -452,7 +452,7 @@ public class ClusterFixture : IDisposable, ISingletonDependency
             );
         }
 
-        protected virtual async Task HandleExceptionAsync(Exception ex)
+        protected virtual async Task HandleExceptionAsync(System.Exception ex)
         {
             Logger.LogException(ex, LogLevel.Warning);
 

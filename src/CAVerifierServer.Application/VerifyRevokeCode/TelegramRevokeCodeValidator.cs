@@ -27,7 +27,7 @@ public class TelegramRevokeCodeValidator : IVerifyRevokeCodeValidator
             await grain.ValidateTelegramTokenAsync(revokeCodeDto.VerifyCode);
             return true;
         }
-        catch (Exception e)
+        catch (System.Exception e)
         {
             _logger.LogError(e,"validate Telegram Token error,{error}",e.Message);
             return false;

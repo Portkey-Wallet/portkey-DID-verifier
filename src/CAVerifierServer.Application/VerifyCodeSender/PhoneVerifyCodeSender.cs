@@ -78,7 +78,7 @@ public class PhoneVerifyCodeSender : IVerifyCodeSender
                 await smsServiceSender.SendAsync(new SmsMessage(guardianIdentifier, code));
                 break;
             }
-            catch (Exception e)
+            catch (System.Exception e)
             {
                 _logger.LogDebug("{serviceName} sending sms failed : Error:{e}", smsServiceSender.ServiceName,
                     e.Message);

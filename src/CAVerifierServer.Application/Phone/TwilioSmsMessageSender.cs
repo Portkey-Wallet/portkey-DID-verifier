@@ -75,7 +75,7 @@ public class TwilioSmsMessageSender : ISMSServiceSender
                 pathSid: verification.Sid
             );
         }
-        catch (Exception ex)
+        catch (System.Exception ex)
         {
             _logger.LogError(ex, "Twilio SMS Service Sending message error : {ex}", ex.Message);
             throw ex;

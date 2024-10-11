@@ -28,7 +28,7 @@ public class TwitterRevokeCodeValidator : IVerifyRevokeCodeValidator
             await grain.GetTwitterUserInfoAsync(revokeCodeDto.VerifyCode);
             return true;
         }
-        catch (Exception e)
+        catch (System.Exception e)
         {
             _logger.LogError(e, "validate Twitter Token error,{error}", e.Message);
             return false;

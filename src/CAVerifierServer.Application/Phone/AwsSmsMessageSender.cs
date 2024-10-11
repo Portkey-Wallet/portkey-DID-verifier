@@ -60,7 +60,7 @@ public class AwsSmsMessageSender : ISMSServiceSender
                 throw new SmsSenderFailedException("AWS SMS Service sending SMSMessage failed");
             }
         }
-        catch (Exception ex)
+        catch (System.Exception ex)
         {
             _logger.LogError(ex, "AWS SMS Service Sending message error : {ex}", ex.Message);
             throw ex;

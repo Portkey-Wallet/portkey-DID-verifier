@@ -39,7 +39,7 @@ public partial class EmailSenderTests : CAVerifierServerApplicationTestBase
         {
             await emailVerifyCodeSender.SendCodeByGuardianIdentifierAsync(DefaultGuardianIdentifier, DefaultCode, "");
         }
-        catch (Exception e)
+        catch (System.Exception e)
         {
             e.Message.ShouldContain("Failure sending mail.");
         }

@@ -90,7 +90,7 @@ public class EmailVerifyCodeSender : IVerifyCodeSender
             _logger.LogDebug("ValidateGuardianIdentifier guardianIdentifier:{0} !string.IsNullOrWhiteSpace:{1} _regex.IsMatch:{2} validationResult:{3}",
                 guardianIdentifier, !string.IsNullOrWhiteSpace(guardianIdentifier), _regex.IsMatch(guardianIdentifier), result);
         }
-        catch (Exception e)
+        catch (System.Exception e)
         {
             _logger.LogError(e, "ValidateGuardianIdentifier Error");
         }

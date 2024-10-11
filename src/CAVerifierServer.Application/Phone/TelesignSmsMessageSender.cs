@@ -51,7 +51,7 @@ public class TelesignSmsMessageSender : ISMSServiceSender
                 throw new SmsSenderFailedException("Telesign SMS Service sending SMSMessage failed");
             }
         }
-        catch (Exception ex)
+        catch (System.Exception ex)
         {
             _logger.LogError(ex, "Telesign SMS Service sending message error : {ex}", ex.Message);
             throw ex;

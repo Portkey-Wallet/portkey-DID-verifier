@@ -43,7 +43,7 @@ public class ClientDemoService : ITransientDependency
 
             await connection.InvokeAsync("Connect", "client_6464");
         }
-        catch (Exception e)
+        catch (System.Exception e)
         {
             Console.WriteLine(e);
             throw;

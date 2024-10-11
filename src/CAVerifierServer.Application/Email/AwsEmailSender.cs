@@ -59,7 +59,7 @@ public class AwsEmailSender : EmailSenderBase
             await client.SendMailAsync(mail);
             _logger.LogInformation($"Email sent to {mail.To} via aws");
         }
-        catch (Exception ex)
+        catch (System.Exception ex)
         {
             _logger.LogError(ex, $"send aws email failed, to={mail.To}");
             throw ex;

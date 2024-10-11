@@ -118,7 +118,7 @@ public class GuardianIdentifierVerificationGrainTest : CAVerifierServerGrainTest
                 OperationType = "1"
             });
         }
-        catch (Exception e)
+        catch (System.Exception e)
         {
             e.Message.ShouldNotBeNull();
         }
@@ -150,7 +150,7 @@ public class GuardianIdentifierVerificationGrainTest : CAVerifierServerGrainTest
                 GuardianIdentifierHash = hash
             });
         }
-        catch (Exception e)
+        catch (System.Exception e)
         {
             e.Message.ShouldNotBeNull();
         }
@@ -182,7 +182,7 @@ public class GuardianIdentifierVerificationGrainTest : CAVerifierServerGrainTest
                 Type = DefaultType
             });
         }
-        catch (Exception e)
+        catch (System.Exception e)
         {
             e.Message.ShouldNotBeNull();
         }

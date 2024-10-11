@@ -33,7 +33,7 @@ public partial class ThirdPartyVerificationGrainTest : CAVerifierServerGrainTest
         {
             var result = await grain.VerifyGoogleTokenAsync(new VerifyTokenGrainDto());
         }
-        catch (Exception e)
+        catch (System.Exception e)
         {
             e.Message.ShouldNotBeNull();
         }

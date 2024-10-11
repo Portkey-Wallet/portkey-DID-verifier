@@ -29,7 +29,7 @@ public class AppleRevokeCodeValidator : IVerifyRevokeCodeValidator
             await grain.ValidateTokenAsync(revokeCodeDto.VerifyCode);
             return true;
         }
-        catch (Exception e)
+        catch (System.Exception e)
         {
             _logger.LogError(e,"validate apple token failed :{message}", e.Message);
             return false;

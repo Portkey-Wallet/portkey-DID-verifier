@@ -40,7 +40,7 @@ public class FaceBookRevokeCodeValidator : IVerifyRevokeCodeValidator
             _logger.LogError("validate Facebook token failed");
             return false;
         }
-        catch (Exception e)
+        catch (System.Exception e)
         {
             _logger.LogError(e, "validate Facebook token failed:{reason}", e.Message);
             return false;
@@ -89,7 +89,7 @@ public class FaceBookRevokeCodeValidator : IVerifyRevokeCodeValidator
                 return false;
             }
         }
-        catch (Exception e)
+        catch (System.Exception e)
         {
             _logger.LogError(e, "Verify AccessToken failed,AccessToken is {accessToken}", accessToken);
             return false;

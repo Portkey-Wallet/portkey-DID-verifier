@@ -4,10 +4,12 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using AElf.ExceptionHandler;
 using CAVerifierServer.Account.Dtos;
 using CAVerifierServer.Verifier.Dtos;
 using CAVerifierServer.Application;
 using CAVerifierServer.Contracts;
+using CAVerifierServer.Exception;
 using CAVerifierServer.Grains.Grain;
 using CAVerifierServer.Grains.Grain.ThirdPartyVerification;
 using CAVerifierServer.Options;
@@ -65,6 +67,9 @@ public class AccountAppService : CAVerifierServerAppService, IAccountAppService
         _chainOptions = chainOptions.Value;
     }
 
+    [ExceptionHandler(typeof(System.Exception), Message = "VerifySecondaryEmailCodeAsync error",
+        TargetType = typeof(ApplicationExceptionHandler),
+        MethodName = nameof(ApplicationExceptionHandler.SendVerificationRequestHandler))]
     public async Task<ResponseResultDto<SendVerificationRequestDto>> SendVerificationRequestAsync(
         SendVerificationRequestInput input)
     {
@@ -87,8 +92,8 @@ public class AccountAppService : CAVerifierServerAppService, IAccountAppService
             };
         }
 
-        try
-        {
+        // try
+        // {
             var grain = _clusterClient.GetGrain<IGuardianIdentifierVerificationGrain>(input.GuardianIdentifier);
             var dto = await grain.GetVerifyCodeAsync(input);
             if (!dto.Success)
@@ -109,18 +114,21 @@ public class AccountAppService : CAVerifierServerAppService, IAccountAppService
                     VerifierSessionId = input.VerifierSessionId
                 }
             };
-        }
-        catch (Exception e)
-        {
-            Logger.LogError(e, Error.SendVerificationRequestErrorLogPrefix + e.Message);
-            return new ResponseResultDto<SendVerificationRequestDto>
-            {
-                Success = false,
-                Message = Error.SendVerificationRequestErrorLogPrefix + e.Message
-            };
-        }
+        // }
+        // catch (Exception e)
+        // {
+        //     Logger.LogError(e, Error.SendVerificationRequestErrorLogPrefix + e.Message);
+        //     return new ResponseResultDto<SendVerificationRequestDto>
+        //     {
+        //         Success = false,
+        //         Message = Error.SendVerificationRequestErrorLogPrefix + e.Message
+        //     };
+        // }
     }
 
+    [ExceptionHandler(typeof(System.Exception), Message = "SendNotificationRequestAsync error",
+        TargetType = typeof(ApplicationExceptionHandler),
+        MethodName = nameof(ApplicationExceptionHandler.SendNotificationRequestHandler))]
     public async Task<ResponseResultDto<bool>> SendNotificationRequestAsync(SendNotificationRequest request)
     {
         var emailSender = _verifyCodeSenders.FirstOrDefault(v => VerifierSenderType.Email.ToString().Equals(v.Type));
@@ -141,24 +149,27 @@ public class AccountAppService : CAVerifierServerAppService, IAccountAppService
             };
         }
 
-        try
-        {
+        // try
+        // {
             await emailSender.SendTransactionInfoNotificationAsync(request.Email, request.Template, request.ShowOperationDetails);
             return new ResponseResultDto<bool>
             {
                 Success = true
             };
-        }
-        catch (Exception e)
-        {
-            return new ResponseResultDto<bool>
-            {
-                Success = false,
-                Message = e.Message
-            };
-        }
+        // }
+        // catch (Exception e)
+        // {
+        //     return new ResponseResultDto<bool>
+        //     {
+        //         Success = false,
+        //         Message = e.Message
+        //     };
+        // }
     }
-
+    
+    [ExceptionHandler(typeof(System.Exception), Message = "SendTransactionInformationBeforeApprovalAsync error",
+        TargetType = typeof(ApplicationExceptionHandler),
+        MethodName = nameof(ApplicationExceptionHandler.SendTransactionInformationBeforeApprovalHandler))]
     private async Task<ResponseResultDto<bool>> SendTransactionInformationBeforeApprovalAsync(string email, string showOperationDetails)
     {
         if (email.IsNullOrEmpty())
@@ -170,26 +181,29 @@ public class AccountAppService : CAVerifierServerAppService, IAccountAppService
             };
         }
 
-        try
-        {
+        // try
+        // {
             return await SendNotificationRequestAsync(new SendNotificationRequest()
             {
                 Email = email,
                 Template = EmailTemplate.BeforeApproval,
                 ShowOperationDetails = showOperationDetails
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogError(e, "SendNotificationRequestAsync Error");
-            return new ResponseResultDto<bool>()
-            {
-                Success = false,
-                Message = e.Message
-            };
-        }
+        // }
+        // catch (Exception e)
+        // {
+        //     _logger.LogError(e, "SendNotificationRequestAsync Error");
+        //     return new ResponseResultDto<bool>()
+        //     {
+        //         Success = false,
+        //         Message = e.Message
+        //     };
+        // }
     }
 
+    [ExceptionHandler(typeof(System.Exception), Message = "VerifyCodeAsync error",
+        TargetType = typeof(ApplicationExceptionHandler),
+        MethodName = nameof(ApplicationExceptionHandler.VerifyCodeHandler))]
     public async Task<ResponseResultDto<VerifierCodeDto>> VerifyCodeAsync(VerifyCodeInput input)
     {
         if (input.VerifierSessionId == Guid.Empty ||
@@ -206,8 +220,8 @@ public class AccountAppService : CAVerifierServerAppService, IAccountAppService
             };
         }
 
-        try
-        {
+        // try
+        // {
             var grain = _clusterClient.GetGrain<IGuardianIdentifierVerificationGrain>(input.GuardianIdentifier);
             var resultDto = await grain.VerifyAndCreateSignatureAsync(input);
             if (resultDto.Success)
@@ -228,18 +242,21 @@ public class AccountAppService : CAVerifierServerAppService, IAccountAppService
                 Success = false,
                 Message = resultDto.Message
             };
-        }
-        catch (Exception e)
-        {
-            Logger.LogError(e, Error.VerifyCodeErrorLogPrefix + e.Message);
-            return new ResponseResultDto<VerifierCodeDto>
-            {
-                Success = false,
-                Message = Error.VerifyCodeErrorLogPrefix + e.Message
-            };
-        }
+        // }
+        // catch (Exception e)
+        // {
+        //     Logger.LogError(e, Error.VerifyCodeErrorLogPrefix + e.Message);
+        //     return new ResponseResultDto<VerifierCodeDto>
+        //     {
+        //         Success = false,
+        //         Message = Error.VerifyCodeErrorLogPrefix + e.Message
+        //     };
+        // }
     }
 
+    [ExceptionHandler(typeof(System.Exception), Message = "VerifySecondaryEmailCodeAsync error",
+        TargetType = typeof(ApplicationExceptionHandler),
+        MethodName = nameof(ApplicationExceptionHandler.VerifySecondaryEmailCodeHandler))]
     public async Task<ResponseResultDto<bool>> VerifySecondaryEmailCodeAsync(SecondaryEmailVerifyCodeInput input)
     {
         if (input.VerifierSessionId == Guid.Empty
@@ -253,8 +270,8 @@ public class AccountAppService : CAVerifierServerAppService, IAccountAppService
             };
         }
 
-        try
-        {
+        // try
+        // {
             var grain = _clusterClient.GetGrain<IGuardianIdentifierVerificationGrain>(input.SecondaryEmail);
             var resultDto = await grain.VerifySecondaryEmailCodeAsync(input);
             if (resultDto.Success)
@@ -271,18 +288,21 @@ public class AccountAppService : CAVerifierServerAppService, IAccountAppService
                 Success = false,
                 Message = resultDto.Message
             };
-        }
-        catch (Exception e)
-        {
-            Logger.LogError(e, Error.VerifyCodeErrorLogPrefix + e.Message);
-            return new ResponseResultDto<bool>
-            {
-                Success = false,
-                Message = Error.VerifyCodeErrorLogPrefix + e.Message
-            };
-        }
+        // }
+        // catch (Exception e)
+        // {
+        //     Logger.LogError(e, Error.VerifyCodeErrorLogPrefix + e.Message);
+        //     return new ResponseResultDto<bool>
+        //     {
+        //         Success = false,
+        //         Message = Error.VerifyCodeErrorLogPrefix + e.Message
+        //     };
+        // }
     }
-
+    
+    [ExceptionHandler(typeof(System.Exception), Message = "SendVerificationToSecondaryEmail error",
+        TargetType = typeof(ApplicationExceptionHandler),
+        MethodName = nameof(ApplicationExceptionHandler.SendVerificationToSecondaryEmailHandler))]
     public async Task<ResponseResultDto<SendVerificationRequestDto>> SendVerificationToSecondaryEmail(SecondaryEmailVerificationInput input)
     {
         var verifyCodeSender = _verifyCodeSenders.FirstOrDefault(v => VerifierSenderType.Email.ToString().Equals(v.Type));
@@ -304,8 +324,8 @@ public class AccountAppService : CAVerifierServerAppService, IAccountAppService
             };
         }
 
-        try
-        {
+        // try
+        // {
             var grain = _clusterClient.GetGrain<IGuardianIdentifierVerificationGrain>(input.SecondaryEmail);
             var dto = await grain.GetVerifyCodeAsync(new SendVerificationRequestInput()
             {
@@ -332,16 +352,16 @@ public class AccountAppService : CAVerifierServerAppService, IAccountAppService
                     VerifierSessionId = input.VerifierSessionId
                 }
             };
-        }
-        catch (Exception e)
-        {
-            Logger.LogError(e, Error.SendVerificationRequestErrorLogPrefix + e.Message);
-            return new ResponseResultDto<SendVerificationRequestDto>
-            {
-                Success = false,
-                Message = Error.SendVerificationRequestErrorLogPrefix + e.Message
-            };
-        }
+        // }
+        // catch (Exception e)
+        // {
+        //     Logger.LogError(e, Error.SendVerificationRequestErrorLogPrefix + e.Message);
+        //     return new ResponseResultDto<SendVerificationRequestDto>
+        //     {
+        //         Success = false,
+        //         Message = Error.SendVerificationRequestErrorLogPrefix + e.Message
+        //     };
+        // }
     }
 
     public async Task<string> WhiteListCheckAsync(List<string> ipList)
@@ -390,7 +410,7 @@ public class AccountAppService : CAVerifierServerAppService, IAccountAppService
                 Data = _objectMapper.Map<VerifyGoogleTokenGrainDto, VerifyGoogleTokenDto>(resultDto.Data)
             };
         }
-        catch (Exception e)
+        catch (System.Exception e)
         {
             Logger.LogError(e, Error.VerifyCodeErrorLogPrefix + e.Message);
             return new ResponseResultDto<VerifyGoogleTokenDto>
@@ -437,7 +457,7 @@ public class AccountAppService : CAVerifierServerAppService, IAccountAppService
                 Data = _objectMapper.Map<VerifyAppleTokenGrainDto, VerifyAppleTokenDto>(resultDto.Data)
             };
         }
-        catch (Exception e)
+        catch (System.Exception e)
         {
             Logger.LogError(e, Error.VerifyCodeErrorLogPrefix + e.Message);
             return new ResponseResultDto<VerifyAppleTokenDto>
@@ -473,7 +493,7 @@ public class AccountAppService : CAVerifierServerAppService, IAccountAppService
                     resultDto.Data)
             };
         }
-        catch (Exception e)
+        catch (System.Exception e)
         {
             Logger.LogError(e, Error.VerifyCodeErrorLogPrefix + e.Message);
             return new ResponseResultDto<VerifyTokenDto<TelegramUserExtraInfo>>
@@ -507,7 +527,7 @@ public class AccountAppService : CAVerifierServerAppService, IAccountAppService
                 Data = resultDto.Data
             };
         }
-        catch (Exception e)
+        catch (System.Exception e)
         {
             Logger.LogError(e, Error.VerifyCodeErrorLogPrefix + e.Message);
             return new ResponseResultDto<VerifierCodeDto>
@@ -576,7 +596,7 @@ public class AccountAppService : CAVerifierServerAppService, IAccountAppService
                 };
             }
         }
-        catch (Exception e)
+        catch (System.Exception e)
         {
             _logger.LogError(e, "Verify AccessToken failed,AccessToken is {accessToken}", accessToken);
             return new ResponseResultDto<VerifyFacebookTokenResponseDto>
@@ -618,7 +638,7 @@ public class AccountAppService : CAVerifierServerAppService, IAccountAppService
                 Data = _objectMapper.Map<VerifyTwitterTokenGrainDto, VerifyTwitterTokenDto>(resultDto.Data)
             };
         }
-        catch (Exception e)
+        catch (System.Exception e)
         {
             Logger.LogError(e,
                 "verify twitter token error, accessToken:{accessToken}, identifierHash:{identifierHash}, salt:{salt}, operationType:{operationType}",
