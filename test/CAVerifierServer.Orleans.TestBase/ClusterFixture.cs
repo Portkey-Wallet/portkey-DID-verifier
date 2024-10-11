@@ -48,16 +48,19 @@ public class ClusterFixture : IDisposable, ISingletonDependency
                         cacheOptions.GlobalCacheEntryOptions.SlidingExpiration = TimeSpan.FromMinutes(20);
                     });
 
-                    // services.OnExposing(onServiceExposingContext =>
-                    // {
-                    //     //Register types for IObjectMapper<TSource, TDestination> if implements
-                    //     onServiceExposingContext.ExposedTypes.AddRange(
-                    //         ReflectionHelper.GetImplementedGenericTypes(
-                    //             onServiceExposingContext.ImplementationType,
-                    //             typeof(IObjectMapper<,>)
-                    //         )
-                    //     );
-                    // });
+                    services.OnExposing(onServiceExposingContext =>
+                    {
+                        //Register types for IObjectMapper<TSource, TDestination> if implements
+                        var implementedTypes = ReflectionHelper.GetImplementedGenericTypes(
+                            onServiceExposingContext.ImplementationType,
+                            typeof(IObjectMapper<,>)
+                        );
+
+                        foreach (var type in implementedTypes)
+                        {
+                            onServiceExposingContext.ExposedTypes.Add(new ServiceIdentifier(type));
+                        }
+                    });
                 })
                 .AddMemoryStreams(CAVerifierServerApplicationConsts.MessageStreamName)
                 // .AddSimpleMessageStreamProvider(CAVerifierServerApplicationConsts.MessageStreamName)
