@@ -1,6 +1,7 @@
 namespace CAVerifierServer.Grains.State;
 
+[GenerateSerializer]
 public class GuardianIdentifierVerificationState
 {
-    public List<GuardianIdentifierVerification> GuardianTypeVerifications { get; set; }
+    [Id(0)] public List<GuardianIdentifierVerification> GuardianTypeVerifications { get; set; }
 }

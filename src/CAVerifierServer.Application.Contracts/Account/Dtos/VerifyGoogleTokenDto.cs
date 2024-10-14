@@ -1,23 +1,26 @@
 using System;
+using Orleans;
 
 namespace CAVerifierServer.Account;
 
+[GenerateSerializer]
 public class VerifyGoogleTokenDto : VerifierCodeDto
 {
-    public GoogleUserExtraInfo GoogleUserExtraInfo { get; set; }
+    [Id(0)] public GoogleUserExtraInfo GoogleUserExtraInfo { get; set; }
 }
 
+[GenerateSerializer]
 public class GoogleUserExtraInfo
 {
-    public string Id { get; set; }
-    public string FullName { get; set; }
-    public string FirstName { get; set; }
-    public string LastName { get; set; }
-    public string Email { get; set; }
-    public string Picture { get; set; }
-    public bool VerifiedEmail { get; set; }
-    public string GuardianType { get; set; }
-    public DateTime AuthTime { get; set; }
+    [Id(0)] public string Id { get; set; }
+    [Id(1)] public string FullName { get; set; }
+    [Id(2)] public string FirstName { get; set; }
+    [Id(3)] public string LastName { get; set; }
+    [Id(4)] public string Email { get; set; }
+    [Id(5)] public string Picture { get; set; }
+    [Id(6)] public bool VerifiedEmail { get; set; }
+    [Id(7)] public string GuardianType { get; set; }
+    [Id(8)] public DateTime AuthTime { get; set; }
 }
 
 public enum GuardianIdentifierType

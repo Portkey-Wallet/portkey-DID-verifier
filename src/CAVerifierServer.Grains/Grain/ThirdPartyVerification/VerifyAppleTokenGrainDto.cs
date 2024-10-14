@@ -2,7 +2,8 @@ using CAVerifierServer.Account;
 
 namespace CAVerifierServer.Grains.Grain.ThirdPartyVerification;
 
+[GenerateSerializer]
 public class VerifyAppleTokenGrainDto : VerifierCodeDto
 {
-    public AppleUserExtraInfo AppleUserExtraInfo { get; set; }
+    [Id(0)] public AppleUserExtraInfo AppleUserExtraInfo { get; set; }
 }

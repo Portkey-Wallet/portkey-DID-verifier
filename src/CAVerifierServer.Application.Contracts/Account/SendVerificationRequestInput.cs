@@ -1,22 +1,24 @@
 using System;
 using System.Text.Json.Serialization;
+using Orleans;
 
 namespace CAVerifierServer.Account;
 
+[GenerateSerializer]
 public class SendVerificationRequestInput
 {
     [JsonPropertyName("type")]
-    public string Type { get; set; }
+    [Id(0)] public string Type { get; set; }
     
     [JsonPropertyName("guardianIdentifier")]
-    public string GuardianIdentifier { get; set; }
+    [Id(1)] public string GuardianIdentifier { get; set; }
 
     [JsonPropertyName("VerifierSessionId")]
-    public Guid VerifierSessionId{ get; set; }
+    [Id(2)] public Guid VerifierSessionId{ get; set; }
 
     [JsonPropertyName("OperationDetails")]
-    public string OperationDetails { get; set; }
+    [Id(3)] public string OperationDetails { get; set; }
     
     [JsonPropertyName("ShowOperationDetails")]
-    public string ShowOperationDetails { get; set; }
+    [Id(4)] public string ShowOperationDetails { get; set; }
 }

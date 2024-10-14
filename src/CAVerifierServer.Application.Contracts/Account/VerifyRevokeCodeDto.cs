@@ -1,19 +1,21 @@
 using System;
 using System.Text.Json.Serialization;
+using Orleans;
 
 namespace CAVerifierServer.Account.Dtos;
 
+[GenerateSerializer]
 public class VerifyRevokeCodeDto
 {
     [JsonPropertyName("guardianIdentifier")]
-    public string GuardianIdentifier { get; set; }
+    [Id(0)] public string GuardianIdentifier { get; set; }
 
     [JsonPropertyName("VerifierSessionId")]
-    public Guid VerifierSessionId{ get; set; }
+    [Id(1)] public Guid VerifierSessionId{ get; set; }
     
     [JsonPropertyName("VerifyCode")]
-    public string VerifyCode{ get; set; }
+    [Id(2)] public string VerifyCode{ get; set; }
     
     [JsonPropertyName("Type")]
-    public string Type{ get; set; }
+    [Id(3)] public string Type{ get; set; }
 }

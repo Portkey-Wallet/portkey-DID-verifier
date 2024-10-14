@@ -3,7 +3,8 @@ using CAVerifierServer.Account;
 
 namespace CAVerifierServer.Grains.Grain.ThirdPartyVerification;
 
+[GenerateSerializer]
 public class VerifyTelegramTokenGrainDto : VerifierCodeDto
 {
-    public TelegramUserExtraInfo TelegramUserExtraInfo { get; set; }
+    [Id(0)] public TelegramUserExtraInfo TelegramUserExtraInfo { get; set; }
 }
