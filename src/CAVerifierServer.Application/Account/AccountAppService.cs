@@ -70,7 +70,7 @@ public class AccountAppService : CAVerifierServerAppService, IAccountAppService
     [ExceptionHandler(typeof(System.Exception), Message = "VerifySecondaryEmailCodeAsync error",
         TargetType = typeof(ApplicationExceptionHandler),
         MethodName = nameof(ApplicationExceptionHandler.SendVerificationRequestHandler))]
-    public async Task<ResponseResultDto<SendVerificationRequestDto>> SendVerificationRequestAsync(
+    public virtual async Task<ResponseResultDto<SendVerificationRequestDto>> SendVerificationRequestAsync(
         SendVerificationRequestInput input)
     {
         var verifyCodeSender = _verifyCodeSenders.FirstOrDefault(v => v.Type == input.Type);
@@ -129,7 +129,7 @@ public class AccountAppService : CAVerifierServerAppService, IAccountAppService
     [ExceptionHandler(typeof(System.Exception), Message = "SendNotificationRequestAsync error",
         TargetType = typeof(ApplicationExceptionHandler),
         MethodName = nameof(ApplicationExceptionHandler.SendNotificationRequestHandler))]
-    public async Task<ResponseResultDto<bool>> SendNotificationRequestAsync(SendNotificationRequest request)
+    public virtual async Task<ResponseResultDto<bool>> SendNotificationRequestAsync(SendNotificationRequest request)
     {
         var emailSender = _verifyCodeSenders.FirstOrDefault(v => VerifierSenderType.Email.ToString().Equals(v.Type));
         if (emailSender == null)
@@ -168,9 +168,9 @@ public class AccountAppService : CAVerifierServerAppService, IAccountAppService
     }
     
     [ExceptionHandler(typeof(System.Exception), Message = "SendTransactionInformationBeforeApprovalAsync error",
-        TargetType = typeof(ApplicationExceptionHandler),
+        TargetType = typeof(ApplicationExceptionHandler), LogTargets = ["email", "showOperationDetails"],
         MethodName = nameof(ApplicationExceptionHandler.SendTransactionInformationBeforeApprovalHandler))]
-    private async Task<ResponseResultDto<bool>> SendTransactionInformationBeforeApprovalAsync(string email, string showOperationDetails)
+    public virtual async Task<ResponseResultDto<bool>> SendTransactionInformationBeforeApprovalAsync(string email, string showOperationDetails)
     {
         if (email.IsNullOrEmpty())
         {
@@ -204,7 +204,7 @@ public class AccountAppService : CAVerifierServerAppService, IAccountAppService
     [ExceptionHandler(typeof(System.Exception), Message = "VerifyCodeAsync error",
         TargetType = typeof(ApplicationExceptionHandler),
         MethodName = nameof(ApplicationExceptionHandler.VerifyCodeHandler))]
-    public async Task<ResponseResultDto<VerifierCodeDto>> VerifyCodeAsync(VerifyCodeInput input)
+    public virtual async Task<ResponseResultDto<VerifierCodeDto>> VerifyCodeAsync(VerifyCodeInput input)
     {
         if (input.VerifierSessionId == Guid.Empty ||
             input.Code.IsNullOrEmpty() ||
@@ -257,7 +257,7 @@ public class AccountAppService : CAVerifierServerAppService, IAccountAppService
     [ExceptionHandler(typeof(System.Exception), Message = "VerifySecondaryEmailCodeAsync error",
         TargetType = typeof(ApplicationExceptionHandler),
         MethodName = nameof(ApplicationExceptionHandler.VerifySecondaryEmailCodeHandler))]
-    public async Task<ResponseResultDto<bool>> VerifySecondaryEmailCodeAsync(SecondaryEmailVerifyCodeInput input)
+    public virtual async Task<ResponseResultDto<bool>> VerifySecondaryEmailCodeAsync(SecondaryEmailVerifyCodeInput input)
     {
         if (input.VerifierSessionId == Guid.Empty
             || input.Code.IsNullOrEmpty() ||
@@ -303,7 +303,7 @@ public class AccountAppService : CAVerifierServerAppService, IAccountAppService
     [ExceptionHandler(typeof(System.Exception), Message = "SendVerificationToSecondaryEmail error",
         TargetType = typeof(ApplicationExceptionHandler),
         MethodName = nameof(ApplicationExceptionHandler.SendVerificationToSecondaryEmailHandler))]
-    public async Task<ResponseResultDto<SendVerificationRequestDto>> SendVerificationToSecondaryEmail(SecondaryEmailVerificationInput input)
+    public virtual async Task<ResponseResultDto<SendVerificationRequestDto>> SendVerificationToSecondaryEmail(SecondaryEmailVerificationInput input)
     {
         var verifyCodeSender = _verifyCodeSenders.FirstOrDefault(v => VerifierSenderType.Email.ToString().Equals(v.Type));
         if (verifyCodeSender == null)

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -48,41 +47,12 @@ public partial class SmsSenderTest : CAVerifierServerApplicationTestBase
         unSupportSmsSender.ShouldBeNull();
         var smsMessage = new SmsMessage(FakePhoneNum, FakeCode);
         var overseaSmsMessage = new SmsMessage(FakeOverseaPhoneNum, FakeCode);
-        try
-        {
-            await telesignSmsSender.SendAsync(smsMessage);
-        }
-        catch (System.Exception e)
-        {
-            e.ShouldNotBeNull();
-        }
+        await telesignSmsSender.SendAsync(smsMessage);
 
-        try
-        {
-            await awsSmsSender.SendAsync(smsMessage);
-        }
-        catch (System.Exception e)
-        {
-            e.ShouldNotBeNull();
-        }
+        await awsSmsSender.SendAsync(smsMessage);
 
-        try
-        {
-            await twilioSmsSender.SendAsync(smsMessage);
-            
-        }
-        catch (System.Exception e)
-        {
-            e.ShouldNotBeNull();
-        }
-
-        try
-        {
-            await twilioSmsSender.SendAsync(overseaSmsMessage);
-        }
-        catch (System.Exception e)
-        {
-            e.ShouldNotBeNull();
-        }
+        await twilioSmsSender.SendAsync(smsMessage);
+        
+        await twilioSmsSender.SendAsync(overseaSmsMessage);
     }
 }

@@ -7,7 +7,7 @@ namespace CAVerifierServer.Exception;
 
 public class ApplicationExceptionHandler
 {
-    public static async Task<FlowBehavior> SendVerificationRequestHandler(System.Exception e)
+    public async Task<FlowBehavior> SendVerificationRequestHandler(System.Exception e)
     {
         Log.Fatal(e, Error.SendVerificationRequestErrorLogPrefix + e.Message);
         return new FlowBehavior
@@ -21,7 +21,7 @@ public class ApplicationExceptionHandler
         };
     }
     
-    public static async Task<FlowBehavior> SendNotificationRequestHandler(System.Exception e)
+    public async Task<FlowBehavior> SendNotificationRequestHandler(System.Exception e)
     {
         Log.Fatal(e, "SendNotificationRequest error");
         return new FlowBehavior
@@ -35,7 +35,7 @@ public class ApplicationExceptionHandler
         };
     }
     
-    public static async Task<FlowBehavior> SendTransactionInformationBeforeApprovalHandler(System.Exception e)
+    public async Task<FlowBehavior> SendTransactionInformationBeforeApprovalHandler(System.Exception e)
     {
         Log.Fatal(e, "SendTransactionInformationBeforeApproval error");
         return new FlowBehavior
@@ -49,7 +49,7 @@ public class ApplicationExceptionHandler
         };
     }
     
-    public static async Task<FlowBehavior> VerifyCodeHandler(System.Exception e)
+    public async Task<FlowBehavior> VerifyCodeHandler(System.Exception e)
     {
         Log.Fatal(e, Error.VerifyCodeErrorLogPrefix + e.Message);
         return new FlowBehavior
@@ -63,7 +63,7 @@ public class ApplicationExceptionHandler
         };
     }
 
-    public static async Task<FlowBehavior> VerifySecondaryEmailCodeHandler(System.Exception e)
+    public async Task<FlowBehavior> VerifySecondaryEmailCodeHandler(System.Exception e)
     {
         Log.Fatal(e, Error.VerifyCodeErrorLogPrefix + e.Message);
         return new FlowBehavior
@@ -77,7 +77,7 @@ public class ApplicationExceptionHandler
         };
     }
 
-    public static async Task<FlowBehavior> SendVerificationToSecondaryEmailHandler(System.Exception e)
+    public async Task<FlowBehavior> SendVerificationToSecondaryEmailHandler(System.Exception e)
     {
         Log.Fatal(e, Error.SendVerificationRequestErrorLogPrefix + e.Message);
         return new FlowBehavior

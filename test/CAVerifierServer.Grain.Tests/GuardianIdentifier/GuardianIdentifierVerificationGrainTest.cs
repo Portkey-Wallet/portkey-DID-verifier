@@ -106,23 +106,15 @@ public class GuardianIdentifierVerificationGrainTest : CAVerifierServerGrainTest
 
         var salt = verifierSessionId.ToString().Replace("-", "");
         var hash = HashHelper.ComputeFrom(salt + HashHelper.ComputeFrom(DefaultEmailAddress).ToHex()).ToHex();
-        try
+        await grain.VerifyAndCreateSignatureAsync(new VerifyCodeInput
         {
-            await grain.VerifyAndCreateSignatureAsync(new VerifyCodeInput
-            {
-                GuardianIdentifier = DefaultEmailAddress,
-                Code = result.Data.VerifierCode,
-                VerifierSessionId = verifierSessionId,
-                Salt = salt,
-                GuardianIdentifierHash = hash,
-                OperationType = "1"
-            });
-        }
-        catch (System.Exception e)
-        {
-            e.Message.ShouldNotBeNull();
-        }
-
+            GuardianIdentifier = DefaultEmailAddress,
+            Code = result.Data.VerifierCode,
+            VerifierSessionId = verifierSessionId,
+            Salt = salt,
+            GuardianIdentifierHash = hash,
+            OperationType = "1"
+        });
     }
 
     [Fact]
@@ -139,22 +131,14 @@ public class GuardianIdentifierVerificationGrainTest : CAVerifierServerGrainTest
 
         var salt = verifierSessionId.ToString().Replace("-", "");
         var hash = HashHelper.ComputeFrom(salt + HashHelper.ComputeFrom(DefaultEmailAddress).ToHex()).ToHex();
-        try
+        var signatureAsyncResult = await grain.VerifyAndCreateSignatureAsync(new VerifyCodeInput
         {
-            var signatureAsyncResult = await grain.VerifyAndCreateSignatureAsync(new VerifyCodeInput
-            {
-                GuardianIdentifier = DefaultEmailAddress,
-                Code = result.Data.VerifierCode,
-                VerifierSessionId = verifierSessionId,
-                Salt = salt,
-                GuardianIdentifierHash = hash
-            });
-        }
-        catch (System.Exception e)
-        {
-            e.Message.ShouldNotBeNull();
-        }
-
+            GuardianIdentifier = DefaultEmailAddress,
+            Code = result.Data.VerifierCode,
+            VerifierSessionId = verifierSessionId,
+            Salt = salt,
+            GuardianIdentifierHash = hash
+        });
 
     }
     
@@ -172,20 +156,13 @@ public class GuardianIdentifierVerificationGrainTest : CAVerifierServerGrainTest
             VerifierSessionId = verifierSessionId
         });
 
-        try
+        await grain.VerifyRevokeCodeAsync(new VerifyRevokeCodeDto
         {
-            await grain.VerifyRevokeCodeAsync(new VerifyRevokeCodeDto
-            {
-                GuardianIdentifier = DefaultEmailAddress,
-                VerifyCode = result.Data.VerifierCode,
-                VerifierSessionId = verifierSessionId,
-                Type = DefaultType
-            });
-        }
-        catch (System.Exception e)
-        {
-            e.Message.ShouldNotBeNull();
-        }
+            GuardianIdentifier = DefaultEmailAddress,
+            VerifyCode = result.Data.VerifierCode,
+            VerifierSessionId = verifierSessionId,
+            Type = DefaultType
+        });
 
     }
 

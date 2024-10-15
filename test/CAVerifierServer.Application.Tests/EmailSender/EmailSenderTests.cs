@@ -35,14 +35,7 @@ public partial class EmailSenderTests : CAVerifierServerApplicationTestBase
         var emailVerifyCodeSender = _verifyCodeSender.FirstOrDefault(v => v.Type == EmailType);
         emailVerifyCodeSender.ShouldNotBe(null);
         emailVerifyCodeSender.Type.ShouldBe("Email");
-        try
-        {
-            await emailVerifyCodeSender.SendCodeByGuardianIdentifierAsync(DefaultGuardianIdentifier, DefaultCode, "");
-        }
-        catch (System.Exception e)
-        {
-            e.Message.ShouldContain("Failure sending mail.");
-        }
+        await emailVerifyCodeSender.SendCodeByGuardianIdentifierAsync(DefaultGuardianIdentifier, DefaultCode, "");
     }
 
     [Fact]
