@@ -46,6 +46,7 @@ public class CAVerifierServerApplicationModule : AbpModule
         context.Services.AddSingleton<ISMSServiceSender, TwilioSmsMessageSender>();
         context.Services.AddSingleton<IVerifyCodeSender, EmailVerifyCodeSender>();
         context.Services.AddSingleton<IVerifyCodeSender, PhoneVerifyCodeSender>();
+        context.Services.AddSingleton<IEmailBodyBuilder, EmailBodyBuilder>();
         
         context.Services.AddSingleton<IVerifyRevokeCodeValidator, EmailRevokeCodeValidator>();
         context.Services.AddSingleton<IVerifyRevokeCodeValidator, FaceBookRevokeCodeValidator>();

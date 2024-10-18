@@ -1,8 +1,10 @@
 using System;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using AElf.ExceptionHandler;
 using CAVerifierServer.Account;
 using CAVerifierServer.Email;
+using CAVerifierServer.Exception;
 using CAVerifierServer.Options;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -19,15 +21,18 @@ public class EmailVerifyCodeSender : IVerifyCodeSender
     private readonly AwsEmailOptions _awsEmailOptions;
     private readonly VerifierInfoOptions _verifierInfoOptions;
     private readonly ILogger<EmailVerifyCodeSender> _logger;
+    private readonly IEmailBodyBuilder _emailBodyBuilder;
 
     public EmailVerifyCodeSender (IEmailSender emailSender, IOptions<AwsEmailOptions> awsEmailOptions, IOptionsSnapshot<VerifierInfoOptions> verifierinfoOptions,
-        ILogger<EmailVerifyCodeSender> logger)
+        ILogger<EmailVerifyCodeSender> logger,
+        IEmailBodyBuilder emailBodyBuilder)
     {
         _emailSender = emailSender;
         _verifierInfoOptions = verifierinfoOptions.Value;
         _awsEmailOptions = awsEmailOptions.Value;
         _regex = new Regex(CAVerifierServerApplicationConsts.EmailRegex);
         _logger = logger;
+        _emailBodyBuilder = emailBodyBuilder;
     }
 
     public async Task SendTransactionInfoNotificationAsync(string email, EmailTemplate template, string showOperationDetails)
@@ -39,7 +44,7 @@ public class EmailVerifyCodeSender : IVerifyCodeSender
                 From = _awsEmailOptions.From,
                 To = email,
                 Body = 
-                    EmailBodyBuilder.BuildTransactionTemplateBeforeApproval(_verifierInfoOptions.Name, _awsEmailOptions.Image, CAVerifierServerApplicationConsts.PORTKEY,  showOperationDetails),
+                    await _emailBodyBuilder.BuildTransactionTemplateBeforeApproval(_verifierInfoOptions.Name, _awsEmailOptions.Image, CAVerifierServerApplicationConsts.PORTKEY,  showOperationDetails),
                 Subject = CAVerifierServerApplicationConsts.TransactionBeforeApprovalSubject
             });
         }
@@ -50,7 +55,7 @@ public class EmailVerifyCodeSender : IVerifyCodeSender
                 From = _awsEmailOptions.From,
                 To = email,
                 Body = 
-                    EmailBodyBuilder.BuildTransactionTemplateAfterApproval(_verifierInfoOptions.Name, _awsEmailOptions.Image, CAVerifierServerApplicationConsts.PORTKEY,  showOperationDetails),
+                    await _emailBodyBuilder.BuildTransactionTemplateAfterApproval(_verifierInfoOptions.Name, _awsEmailOptions.Image, CAVerifierServerApplicationConsts.PORTKEY,  showOperationDetails),
                 Subject = CAVerifierServerApplicationConsts.TransactionAfterApprovalSubject
             });
         }
@@ -63,7 +68,7 @@ public class EmailVerifyCodeSender : IVerifyCodeSender
                 From = _awsEmailOptions.From,
                 To = guardianIdentifier,
                 Body = 
-                    EmailBodyBuilder.BuildBodyTemplateWithOperationDetails(_verifierInfoOptions.Name, _awsEmailOptions.Image, CAVerifierServerApplicationConsts.PORTKEY, code, showOperationDetails),
+                    await _emailBodyBuilder.BuildBodyTemplateWithOperationDetails(_verifierInfoOptions.Name, _awsEmailOptions.Image, CAVerifierServerApplicationConsts.PORTKEY, code, showOperationDetails),
                 Subject = CAVerifierServerApplicationConsts.Subject
             });
         
@@ -76,7 +81,7 @@ public class EmailVerifyCodeSender : IVerifyCodeSender
             From = _awsEmailOptions.From,
             To = guardianIdentifier,
             Body = 
-                EmailBodyBuilder.BuildBodyTemplateForSecondaryEmail(_verifierInfoOptions.Name, _awsEmailOptions.Image, CAVerifierServerApplicationConsts.PORTKEY, code),
+                await _emailBodyBuilder.BuildBodyTemplateForSecondaryEmail(_verifierInfoOptions.Name, _awsEmailOptions.Image, CAVerifierServerApplicationConsts.PORTKEY, code),
             Subject = CAVerifierServerApplicationConsts.SecondaryVerifyCodeSubject
         });
         
@@ -84,17 +89,17 @@ public class EmailVerifyCodeSender : IVerifyCodeSender
 
     public bool ValidateGuardianIdentifier(string guardianIdentifier)
     {
-        var result = !string.IsNullOrWhiteSpace(guardianIdentifier) && _regex.IsMatch(guardianIdentifier);
-        try
-        {
-            _logger.LogDebug("ValidateGuardianIdentifier guardianIdentifier:{0} !string.IsNullOrWhiteSpace:{1} _regex.IsMatch:{2} validationResult:{3}",
-                guardianIdentifier, !string.IsNullOrWhiteSpace(guardianIdentifier), _regex.IsMatch(guardianIdentifier), result);
-        }
-        catch (System.Exception e)
-        {
-            _logger.LogError(e, "ValidateGuardianIdentifier Error");
-        }
-        return result;
+        return !string.IsNullOrWhiteSpace(guardianIdentifier) && _regex.IsMatch(guardianIdentifier);
+    }
+    
+    [ExceptionHandler(typeof(System.Exception), 
+        TargetType = typeof(ApplicationExceptionHandler), 
+        MethodName = nameof(ApplicationExceptionHandler.SendEmailHandler))]
+    public virtual async Task<bool> ValidateGuardianIdentifierV2(string guardianIdentifier)
+    {
+        await Task.Delay(TimeSpan.FromMilliseconds(100));
+        throw new System.Exception("================================");
+        return !string.IsNullOrWhiteSpace(guardianIdentifier) && _regex.IsMatch(guardianIdentifier);
     }
     
     private async Task SendEmailAsync(SendEmailInput input)

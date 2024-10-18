@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using AElf.ExceptionHandler;
 using CAVerifierServer.Account;
+using CAVerifierServer.Exception;
 using CAVerifierServer.Options;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Volo.Abp;
 using Volo.Abp.Sms;
 
 namespace CAVerifierServer.VerifyCodeSender;
@@ -72,26 +75,28 @@ public class PhoneVerifyCodeSender : IVerifyCodeSender
                 return;
             }
 
-            try
+            var sentResult = await DoSendSmsMessage(smsServiceSender, guardianIdentifier, code);
+            if (sentResult)
             {
-                _logger.LogDebug("Choose sms service provider is : {serviceName}", smsServiceSender.ServiceName);
-                await smsServiceSender.SendAsync(new SmsMessage(guardianIdentifier, code));
                 break;
             }
-            catch (System.Exception e)
-            {
-                _logger.LogDebug("{serviceName} sending sms failed : Error:{e}", smsServiceSender.ServiceName,
-                    e.Message);
-                failedServicesCount += 1;
-                if (failedServicesCount < smsServiceDic.Count)
-                {
-                    continue;
-                }
 
-                _logger.LogError("All sms service provider sending sms failed");
-                throw e;
+            failedServicesCount ++;
+            if (failedServicesCount < smsServiceDic.Count)
+            {
+                continue;
             }
+            throw new UserFriendlyException("All sms service provider sending sms failed");
         }
+    }
+
+    [ExceptionHandler(typeof(System.Exception), Message = "Do Send Sms Message error",
+        TargetType = typeof(ApplicationExceptionHandler), 
+        MethodName = nameof(ApplicationExceptionHandler.DoSendSmsMessageHandler))]
+    public virtual async Task<bool> DoSendSmsMessage(ISMSServiceSender smsServiceSender, string guardianIdentifier, string code)
+    {
+        await smsServiceSender.SendAsync(new SmsMessage(guardianIdentifier, code));
+        return true;
     }
 
     public Task SendCodeToSecondaryEmailAsync(string guardianIdentifier, string code)
@@ -103,6 +108,11 @@ public class PhoneVerifyCodeSender : IVerifyCodeSender
     public bool ValidateGuardianIdentifier(string guardianIdentifier)
     {
         return !string.IsNullOrWhiteSpace(guardianIdentifier);
+    }
+
+    public Task<bool> ValidateGuardianIdentifierV2(string guardianIdentifier)
+    {
+        throw new NotImplementedException();
     }
 
     public Task SendTransactionInfoNotificationAsync(string email, EmailTemplate template, string showOperationDetails)

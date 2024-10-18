@@ -29,14 +29,7 @@ public partial class ThirdPartyVerificationGrainTest : CAVerifierServerGrainTest
     {
         var userId = Guid.NewGuid().ToString();
         var grain = Cluster.Client.GetGrain<IThirdPartyVerificationGrain>(userId);
-        try
-        {
-            var result = await grain.VerifyGoogleTokenAsync(new VerifyTokenGrainDto());
-        }
-        catch (System.Exception e)
-        {
-            e.Message.ShouldNotBeNull();
-        }
+        var result = await grain.VerifyGoogleTokenAsync(new VerifyTokenGrainDto());
     }
 
     [Fact]

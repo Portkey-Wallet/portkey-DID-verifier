@@ -1,10 +1,12 @@
 using System;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using AElf.ExceptionHandler;
 using Amazon;
 using Amazon.SimpleNotificationService;
 using Amazon.SimpleNotificationService.Model;
 using CAVerifierServer.CustomException;
+using CAVerifierServer.Exception;
 using CAVerifierServer.Options;
 using CAVerifierServer.VerifyCodeSender;
 using Microsoft.Extensions.Logging;
@@ -37,7 +39,10 @@ public class AwsSmsMessageSender : ISMSServiceSender
             RegionEndpoint.GetBySystemName(_awssmsMessageOptions.SystemName));
     }
 
-    private async Task SendTextMessageAsync(SmsMessage smsMessage)
+    [ExceptionHandler(typeof(System.Exception), Message = "AWS SMS Service Sending message error",
+        TargetType = typeof(ApplicationExceptionHandler), 
+        MethodName = nameof(ApplicationExceptionHandler.SendTextMessageHandler))]
+    public virtual async Task SendTextMessageAsync(SmsMessage smsMessage)
     {
         // Now actually send the message.
         var request = new PublishRequest
@@ -45,25 +50,17 @@ public class AwsSmsMessageSender : ISMSServiceSender
             Message = string.Format(_smsTemplateOptions.Template, _verifierInfoOptions.Name, smsMessage.Text),
             PhoneNumber = smsMessage.PhoneNumber
         };
-        try
+        _logger.LogDebug("AWS SMS Service sending SMSMessage to {phoneNum}",
+            _regex.Replace(smsMessage.PhoneNumber, CAVerifierServerApplicationConsts.PhoneNumReplacement));
+        var response = await _amazonSimpleNotificationServiceClient.PublishAsync(request);
+        var isSuccess = Convert.ToInt32(response.HttpStatusCode).ToString().StartsWith(SuccessMark);
+        if (!isSuccess)
         {
-            _logger.LogDebug("AWS SMS Service sending SMSMessage to {phoneNum}",
-                _regex.Replace(smsMessage.PhoneNumber, CAVerifierServerApplicationConsts.PhoneNumReplacement));
-            var response = await _amazonSimpleNotificationServiceClient.PublishAsync(request);
-            var isSuccess = Convert.ToInt32(response.HttpStatusCode).ToString().StartsWith(SuccessMark);
-            if (!isSuccess)
-            {
-                _logger.LogError(
-                    "AWS SMS Service sending SMSMessage failed to {phoneNum}, ResponseCode is {statusCode}",
-                    _regex.Replace(smsMessage.PhoneNumber, CAVerifierServerApplicationConsts.PhoneNumReplacement),
-                    response.HttpStatusCode);
-                throw new SmsSenderFailedException("AWS SMS Service sending SMSMessage failed");
-            }
-        }
-        catch (System.Exception ex)
-        {
-            _logger.LogError(ex, "AWS SMS Service Sending message error : {ex}", ex.Message);
-            throw ex;
+            _logger.LogError(
+                "AWS SMS Service sending SMSMessage failed to {phoneNum}, ResponseCode is {statusCode}",
+                _regex.Replace(smsMessage.PhoneNumber, CAVerifierServerApplicationConsts.PhoneNumReplacement),
+                response.HttpStatusCode);
+            throw new SmsSenderFailedException("AWS SMS Service sending SMSMessage failed");
         }
     }
 

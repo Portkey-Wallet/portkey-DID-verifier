@@ -35,7 +35,7 @@ public partial class EmailSenderTests : CAVerifierServerApplicationTestBase
         var emailVerifyCodeSender = _verifyCodeSender.FirstOrDefault(v => v.Type == EmailType);
         emailVerifyCodeSender.ShouldNotBe(null);
         emailVerifyCodeSender.Type.ShouldBe("Email");
-        await emailVerifyCodeSender.SendCodeByGuardianIdentifierAsync(DefaultGuardianIdentifier, DefaultCode, "");
+        await emailVerifyCodeSender.SendCodeByGuardianIdentifierAsync(DefaultGuardianIdentifier, DefaultCode, "{}");
     }
 
     [Fact]
@@ -45,7 +45,7 @@ public partial class EmailSenderTests : CAVerifierServerApplicationTestBase
         emailVerifyCodeSender.ShouldNotBe(null);
         emailVerifyCodeSender.Type.ShouldBe("Email");
 
-        var result = emailVerifyCodeSender.ValidateGuardianIdentifier(DefaultGuardianIdentifier);
-        result.ShouldBeTrue();
+        var result = emailVerifyCodeSender.ValidateGuardianIdentifierV2(DefaultGuardianIdentifier);
+        result.Result.ShouldBeTrue();
     }
 }

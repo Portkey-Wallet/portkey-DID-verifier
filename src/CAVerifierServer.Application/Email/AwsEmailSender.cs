@@ -2,6 +2,8 @@ using System;
 using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
+using AElf.ExceptionHandler;
+using CAVerifierServer.Exception;
 using CAVerifierServer.Options;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -53,16 +55,27 @@ public class AwsEmailSender : EmailSenderBase
         // Enable SSL encryption
         client.EnableSsl = true;
         // Try to send the message. Show status in console.
-        try
-        {
-            _logger.LogInformation($"Attempting to send email to {mail.To} via aws");
-            await client.SendMailAsync(mail);
-            _logger.LogInformation($"Email sent to {mail.To} via aws");
-        }
-        catch (System.Exception ex)
-        {
-            _logger.LogError(ex, $"send aws email failed, to={mail.To}");
-            throw ex;
-        }
+        await DoSendEmailAsync(client: client, mail: mail);
+        // try
+        // {
+        //     _logger.LogInformation($"Attempting to send email to {mail.To} via aws");
+        //     await client.SendMailAsync(mail);
+        //     _logger.LogInformation($"Email sent to {mail.To} via aws");
+        // }
+        // catch (System.Exception ex)
+        // {
+        //     _logger.LogError(ex, $"send aws email failed, to={mail.To}");
+        //     throw ex;
+        // }
+    }
+
+    [ExceptionHandler(typeof(System.Exception), 
+        TargetType = typeof(ApplicationExceptionHandler), 
+        MethodName = nameof(ApplicationExceptionHandler.SendEmailHandler))]
+    public virtual async Task DoSendEmailAsync(SmtpClient client, MailMessage mail)
+    {
+        _logger.LogInformation($"Attempting to send email to {mail.To} via aws");
+        await client.SendMailAsync(mail);
+        _logger.LogInformation($"Email sent to {mail.To} via aws");
     }
 }

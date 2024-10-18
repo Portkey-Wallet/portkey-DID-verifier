@@ -102,7 +102,7 @@ public class ThirdPartyVerificationGrain : Grain<ThirdPartyVerificationState>, I
     [ExceptionHandler(typeof(System.Exception),
         TargetType = typeof(GrainVerifyExceptionHandler),
         MethodName = nameof(GrainVerifyExceptionHandler.VerifyAppleTokenHandler))]
-    public async Task<GrainResultDto<VerifyAppleTokenGrainDto>> VerifyAppleTokenAsync(VerifyTokenGrainDto grainDto)
+    public virtual async Task<GrainResultDto<VerifyAppleTokenGrainDto>> VerifyAppleTokenAsync(VerifyTokenGrainDto grainDto)
     {
         var securityToken = await ValidateTokenAsync(grainDto.AccessToken);
         var userInfo = GetUserInfoFromToken(securityToken);
@@ -127,10 +127,13 @@ public class ThirdPartyVerificationGrain : Grain<ThirdPartyVerificationState>, I
         };
     }
 
-    public async Task<GrainResultDto<VerifierCodeDto>> VerifyFacebookTokenAsync(VerifyTokenGrainDto grainDto)
+    [ExceptionHandler(typeof(System.Exception),
+        TargetType = typeof(GrainVerifyExceptionHandler),
+        MethodName = nameof(GrainVerifyExceptionHandler.VerifyFacebookTokenHandler))]
+    public virtual async Task<GrainResultDto<VerifierCodeDto>> VerifyFacebookTokenAsync(VerifyTokenGrainDto grainDto)
     {
-        try
-        {
+        // try
+        // {
             var signatureOutput =
                 CryptographyHelper.GenerateSignature(Convert.ToInt16(GuardianIdentifierType.Facebook), grainDto.Salt,
                     grainDto.IdentifierHash,
@@ -147,22 +150,25 @@ public class ThirdPartyVerificationGrain : Grain<ThirdPartyVerificationState>, I
                     VerificationDoc = signatureOutput.Data
                 }
             };
-        }
-        catch (System.Exception e)
-        {
-            _logger.LogError(e, Error.VerifyAppleErrorLogPrefix + e.Message);
-            return new GrainResultDto<VerifierCodeDto>
-            {
-                Message = e.Message
-            };
-        }
+        // }
+        // catch (System.Exception e)
+        // {
+        //     _logger.LogError(e, Error.VerifyAppleErrorLogPrefix + e.Message);
+        //     return new GrainResultDto<VerifierCodeDto>
+        //     {
+        //         Message = e.Message
+        //     };
+        // }
     }
 
-    public async Task<GrainResultDto<VerifyTelegramTokenGrainDto>> VerifyTelegramTokenAsync(
+    [ExceptionHandler(typeof(System.Exception),
+        TargetType = typeof(GrainVerifyExceptionHandler),
+        MethodName = nameof(GrainVerifyExceptionHandler.VerifyTelegramTokenHandler))]
+    public virtual async Task<GrainResultDto<VerifyTelegramTokenGrainDto>> VerifyTelegramTokenAsync(
         VerifyTokenGrainDto tokenGrainDto)
     {
-        try
-        {
+        // try
+        // {
             var securityToken = await ValidateTelegramTokenAsync(tokenGrainDto.AccessToken);
             var expire = securityToken.ValidTo;
             if (expire < DateTime.UtcNow)
@@ -196,21 +202,24 @@ public class ThirdPartyVerificationGrain : Grain<ThirdPartyVerificationState>, I
                     VerificationDoc = signatureOutput.Data
                 }
             };
-        }
-        catch (System.Exception e)
-        {
-            _logger.LogError(e, Error.VerifyAppleErrorLogPrefix + e.Message);
-            return new GrainResultDto<VerifyTelegramTokenGrainDto>
-            {
-                Message = e.Message
-            };
-        }
+        // }
+        // catch (System.Exception e)
+        // {
+        //     _logger.LogError(e, Error.VerifyTelegramErrorLogPrefix + e.Message);
+        //     return new GrainResultDto<VerifyTelegramTokenGrainDto>
+        //     {
+        //         Message = e.Message
+        //     };
+        // }
     }
 
-    public async Task<GrainResultDto<VerifyTwitterTokenGrainDto>> VerifyTwitterTokenAsync(VerifyTokenGrainDto grainDto)
+    [ExceptionHandler(typeof(System.Exception),
+        TargetType = typeof(GrainVerifyExceptionHandler),
+        MethodName = nameof(GrainVerifyExceptionHandler.VerifyTwitterTokenHandler))]
+    public virtual async Task<GrainResultDto<VerifyTwitterTokenGrainDto>> VerifyTwitterTokenAsync(VerifyTokenGrainDto grainDto)
     {
-        try
-        {
+        // try
+        // {
             var userInfo = await GetTwitterUserInfoAsync(grainDto.AccessToken);
             var tokenDto = new VerifyTwitterTokenGrainDto
             {
@@ -233,15 +242,15 @@ public class ThirdPartyVerificationGrain : Grain<ThirdPartyVerificationState>, I
                 Success = true,
                 Data = tokenDto
             };
-        }
-        catch (System.Exception e)
-        {
-            _logger.LogError(e, Error.VerifyAppleErrorLogPrefix + e.Message);
-            return new GrainResultDto<VerifyTwitterTokenGrainDto>
-            {
-                Message = e.Message
-            };
-        }
+        // }
+        // catch (System.Exception e)
+        // {
+        //     _logger.LogError(e, Error.VerifyTwitterErrorLogPrefix + e.Message);
+        //     return new GrainResultDto<VerifyTwitterTokenGrainDto>
+        //     {
+        //         Message = e.Message
+        //     };
+        // }
     }
 
     public async Task<TwitterUserInfo> GetTwitterUserInfoAsync(string accessToken)
@@ -305,10 +314,19 @@ public class ThirdPartyVerificationGrain : Grain<ThirdPartyVerificationState>, I
         return googleUserInfo;
     }
 
-    public async Task<SecurityToken> ValidateTokenAsync(string identityToken)
+    [ExceptionHandler(typeof(SecurityTokenExpiredException),
+        TargetType = typeof(GrainVerifyExceptionHandler),
+        MethodName = nameof(GrainVerifyExceptionHandler.ValidateTokenSecurityTokenExpiredHandler))]
+    [ExceptionHandler(typeof(SecurityTokenException),
+        TargetType = typeof(GrainVerifyExceptionHandler),
+        MethodName = nameof(GrainVerifyExceptionHandler.ValidateTokenSecurityTokenHandler))]
+    [ExceptionHandler(typeof(System.Exception),
+        TargetType = typeof(GrainVerifyExceptionHandler),
+        MethodName = nameof(GrainVerifyExceptionHandler.ValidateTokenHandler))]
+    public virtual async Task<SecurityToken> ValidateTokenAsync(string identityToken)
     {
-        try
-        {
+        // try
+        // {
             var jwtToken = _jwtSecurityTokenHandler.ReadJwtToken(identityToken);
             var kid = jwtToken.Header["kid"].ToString();
             var appleKey = await GetAppleKeyAsync(kid);
@@ -329,28 +347,37 @@ public class ThirdPartyVerificationGrain : Grain<ThirdPartyVerificationState>, I
                 out SecurityToken validatedToken);
 
             return validatedToken;
-        }
-        catch (SecurityTokenExpiredException e)
-        {
-            _logger.LogError(e, Error.VerifyAppleErrorLogPrefix + e.Message);
-            throw new System.Exception(ThirdPartyMessage.TokenExpiresMessage);
-        }
-        catch (SecurityTokenException e)
-        {
-            _logger.LogError(e, Error.VerifyAppleErrorLogPrefix + e.Message);
-            throw new System.Exception(ThirdPartyMessage.InvalidTokenMessage);
-        }
-        catch (System.Exception e)
-        {
-            _logger.LogError(e, Error.VerifyAppleErrorLogPrefix + e.Message);
-            throw new System.Exception(ThirdPartyMessage.InvalidTokenMessage);
-        }
+        // }
+        // catch (SecurityTokenExpiredException e)
+        // {
+        //     _logger.LogError(e, Error.VerifyAppleErrorLogPrefix + e.Message);
+        //     throw new System.Exception(ThirdPartyMessage.TokenExpiresMessage);
+        // }
+        // catch (SecurityTokenException e)
+        // {
+        //     _logger.LogError(e, Error.VerifyAppleErrorLogPrefix + e.Message);
+        //     throw new System.Exception(ThirdPartyMessage.InvalidTokenMessage);
+        // }
+        // catch (System.Exception e)
+        // {
+        //     _logger.LogError(e, Error.VerifyAppleErrorLogPrefix + e.Message);
+        //     throw new System.Exception(ThirdPartyMessage.InvalidTokenMessage);
+        // }
     }
 
-    public async Task<SecurityToken> ValidateTelegramTokenAsync(string identityToken)
+    [ExceptionHandler(typeof(SecurityTokenExpiredException),
+        TargetType = typeof(GrainVerifyExceptionHandler),
+        MethodName = nameof(GrainVerifyExceptionHandler.ValidateTelegramSecurityTokenExpiredHandler))]
+    [ExceptionHandler(typeof(SecurityTokenException),
+        TargetType = typeof(GrainVerifyExceptionHandler),
+        MethodName = nameof(GrainVerifyExceptionHandler.ValidateTelegramSecurityTokenHandler))]
+    [ExceptionHandler(typeof(System.Exception),
+        TargetType = typeof(GrainVerifyExceptionHandler),
+        MethodName = nameof(GrainVerifyExceptionHandler.ValidateTelegramTokenHandler))]
+    public virtual async Task<SecurityToken> ValidateTelegramTokenAsync(string identityToken)
     {
-        try
-        {
+        // try
+        // {
             //get public key from telegram auth
             var jwkDto = await GetTelegramJwkFormTelegramAuthAsync();
             var jwk = new JsonWebKey(JsonConvert.SerializeObject(jwkDto));
@@ -371,22 +398,22 @@ public class ThirdPartyVerificationGrain : Grain<ThirdPartyVerificationState>, I
                 out SecurityToken validatedToken);
 
             return validatedToken;
-        }
-        catch (SecurityTokenExpiredException e)
-        {
-            _logger.LogError(e, Error.VerifyTelegramErrorLogPrefix + e.Message);
-            throw new System.Exception(ThirdPartyMessage.TokenExpiresMessage);
-        }
-        catch (SecurityTokenException e)
-        {
-            _logger.LogError(e, Error.VerifyTelegramErrorLogPrefix + e.Message);
-            throw new System.Exception(ThirdPartyMessage.InvalidTokenMessage);
-        }
-        catch (System.Exception e)
-        {
-            _logger.LogError(e, Error.VerifyTelegramErrorLogPrefix + e.Message);
-            throw new System.Exception(ThirdPartyMessage.InvalidTokenMessage);
-        }
+        // }
+        // catch (SecurityTokenExpiredException e)
+        // {
+        //     _logger.LogError(e, Error.VerifyTelegramErrorLogPrefix + e.Message);
+        //     throw new System.Exception(ThirdPartyMessage.TokenExpiresMessage);
+        // }
+        // catch (SecurityTokenException e)
+        // {
+        //     _logger.LogError(e, Error.VerifyTelegramErrorLogPrefix + e.Message);
+        //     throw new System.Exception(ThirdPartyMessage.InvalidTokenMessage);
+        // }
+        // catch (System.Exception e)
+        // {
+        //     _logger.LogError(e, Error.VerifyTelegramErrorLogPrefix + e.Message);
+        //     throw new System.Exception(ThirdPartyMessage.InvalidTokenMessage);
+        // }
     }
 
     private AppleUserExtraInfo GetUserInfoFromToken(SecurityToken validatedToken)

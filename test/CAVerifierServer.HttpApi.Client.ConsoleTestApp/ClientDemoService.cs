@@ -26,27 +26,19 @@ public class ClientDemoService : ITransientDependency
 
     public async Task RunHubClientAsync()
     {
-        try
+        var connection = new HubConnectionBuilder()
+            .WithUrl("http://localhost:5588/ca")
+            .Build();
+        /*connection.On<HubResponse<string>>("Ping", s => { Console.WriteLine($"Receive ping, requestId={s.RequestId} body={s.Body}"); });
+        connection.On<HubResponse<GenerateSignatureOutput>>("Sin", s =>
         {
-            var connection = new HubConnectionBuilder()
-                .WithUrl("http://localhost:5588/ca")
-                .Build();
-            /*connection.On<HubResponse<string>>("Ping", s => { Console.WriteLine($"Receive ping, requestId={s.RequestId} body={s.Body}"); });
-            connection.On<HubResponse<GenerateSignatureOutput>>("Sin", s =>
             {
-                {
-                    Console.WriteLine($"Receive Sin, requestId={s.RequestId} body={s.Body.Signature}");
-                    connection.InvokeAsync("Ack", "client_6464", s.RequestId);
-                }
-            });*/
-            await connection.StartAsync().ConfigureAwait(false);
+                Console.WriteLine($"Receive Sin, requestId={s.RequestId} body={s.Body.Signature}");
+                connection.InvokeAsync("Ack", "client_6464", s.RequestId);
+            }
+        });*/
+        await connection.StartAsync().ConfigureAwait(false);
 
-            await connection.InvokeAsync("Connect", "client_6464");
-        }
-        catch (System.Exception e)
-        {
-            Console.WriteLine(e);
-            throw;
-        }
+        await connection.InvokeAsync("Connect", "client_6464");
     }
 }

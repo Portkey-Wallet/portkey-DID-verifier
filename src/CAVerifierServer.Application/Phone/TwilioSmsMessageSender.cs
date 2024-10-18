@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using AElf.ExceptionHandler;
 using CAVerifierServer.CustomException;
+using CAVerifierServer.Exception;
 using CAVerifierServer.Options;
 using CAVerifierServer.VerifyCodeSender;
 using Microsoft.Extensions.Logging;
@@ -34,51 +36,45 @@ public class TwilioSmsMessageSender : ISMSServiceSender
         _verifierInfoOptions = verifierInfoOptions.Value;
     }
 
-
-    public async Task SendAsync(SmsMessage smsMessage)
+    [ExceptionHandler(typeof(System.Exception), Message = "Twilio SMS Service Sending message error",
+        TargetType = typeof(ApplicationExceptionHandler), 
+        MethodName = nameof(ApplicationExceptionHandler.SendTextMessageHandler))]
+    public virtual async Task SendAsync(SmsMessage smsMessage)
     {
         var customSubstitutions = new Dictionary<string, string> { { CustomerVar, _verifierInfoOptions.Name } };
         var customSubstitutionsJsonStr = JsonConvert.SerializeObject(customSubstitutions);
 
-        try
+        TwilioClient.Init(_twilioSmsMessageOptions.AccountSid, _twilioSmsMessageOptions.AuthToken);
+        var isMatch = _CNRegex.IsMatch(smsMessage.PhoneNumber);
+        var verification = await VerificationResource.CreateAsync(
+            to: smsMessage.PhoneNumber,
+            templateSid: isMatch ? null : _twilioSmsMessageOptions.TemplateId,
+            locale: _twilioSmsMessageOptions.Locale,
+            customCode: smsMessage.Text,
+            templateCustomSubstitutions: customSubstitutionsJsonStr,
+            channel: _twilioSmsMessageOptions.Channel,
+            pathServiceSid: _twilioSmsMessageOptions.ServiceId
+        );
+
+        if (verification.Status != VerifyStatus)
         {
-            TwilioClient.Init(_twilioSmsMessageOptions.AccountSid, _twilioSmsMessageOptions.AuthToken);
-            var isMatch = _CNRegex.IsMatch(smsMessage.PhoneNumber);
-            var verification = await VerificationResource.CreateAsync(
-                to: smsMessage.PhoneNumber,
-                templateSid: isMatch ? null : _twilioSmsMessageOptions.TemplateId,
-                locale: _twilioSmsMessageOptions.Locale,
-                customCode: smsMessage.Text,
-                templateCustomSubstitutions: customSubstitutionsJsonStr,
-                channel: _twilioSmsMessageOptions.Channel,
-                pathServiceSid: _twilioSmsMessageOptions.ServiceId
-            );
-
-            if (verification.Status != VerifyStatus)
-            {
-                _logger.LogError(
-                    "Twilio SMS Service sending SMSMessage failed to {phoneNum}.",
-                    _regex.Replace(smsMessage.PhoneNumber, CAVerifierServerApplicationConsts.PhoneNumReplacement));
-                throw new SmsSenderFailedException("Twilio SMS Service sending SMSMessage failed");
-            }
-
-            _logger.LogDebug("Twilio SMS Service sending SMSMessage to {phoneNum}",
+            _logger.LogError(
+                "Twilio SMS Service sending SMSMessage failed to {phoneNum}.",
                 _regex.Replace(smsMessage.PhoneNumber, CAVerifierServerApplicationConsts.PhoneNumReplacement));
-
-            _logger.LogDebug("Start Approve phone,phoneNum is  {phoneNum}",
-                _regex.Replace(smsMessage.PhoneNumber, CAVerifierServerApplicationConsts.PhoneNumReplacement));
-
-
-            await VerificationResource.UpdateAsync(
-                status: VerificationResource.StatusEnum.Approved,
-                pathServiceSid: _twilioSmsMessageOptions.ServiceId,
-                pathSid: verification.Sid
-            );
+            throw new SmsSenderFailedException("Twilio SMS Service sending SMSMessage failed");
         }
-        catch (System.Exception ex)
-        {
-            _logger.LogError(ex, "Twilio SMS Service Sending message error : {ex}", ex.Message);
-            throw ex;
-        }
+
+        _logger.LogDebug("Twilio SMS Service sending SMSMessage to {phoneNum}",
+            _regex.Replace(smsMessage.PhoneNumber, CAVerifierServerApplicationConsts.PhoneNumReplacement));
+
+        _logger.LogDebug("Start Approve phone,phoneNum is  {phoneNum}",
+            _regex.Replace(smsMessage.PhoneNumber, CAVerifierServerApplicationConsts.PhoneNumReplacement));
+
+
+        await VerificationResource.UpdateAsync(
+            status: VerificationResource.StatusEnum.Approved,
+            pathServiceSid: _twilioSmsMessageOptions.ServiceId,
+            pathSid: verification.Sid
+        );
     }
 }

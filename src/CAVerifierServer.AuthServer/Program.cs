@@ -25,8 +25,7 @@ public class Program
             .WriteTo.Async(c => c.Console())
             .CreateLogger();
 
-        try
-        {
+        
             Log.Information("Starting CAVerifierServer.AuthServer.");
             var builder = WebApplication.CreateBuilder(args);
             builder.Host.AddAppSettingsSecretsJson()
@@ -37,15 +36,6 @@ public class Program
             await app.InitializeApplicationAsync();
             await app.RunAsync();
             return 0;
-        }
-        catch (System.Exception ex)
-        {
-            Log.Fatal(ex, "CAVerifierServer.AuthServer terminated unexpectedly!");
-            return 1;
-        }
-        finally
-        {
-            Log.CloseAndFlush();
-        }
+        
     }
 }
