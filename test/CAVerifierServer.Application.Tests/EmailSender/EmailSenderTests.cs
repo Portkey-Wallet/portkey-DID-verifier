@@ -45,7 +45,7 @@ public partial class EmailSenderTests : CAVerifierServerApplicationTestBase
         emailVerifyCodeSender.ShouldNotBe(null);
         emailVerifyCodeSender.Type.ShouldBe("Email");
 
-        var result = emailVerifyCodeSender.ValidateGuardianIdentifierV2(DefaultGuardianIdentifier);
-        result.Result.ShouldBeTrue();
+        var result = emailVerifyCodeSender.ValidateGuardianIdentifier(DefaultGuardianIdentifier);
+        result.ShouldBeTrue();
     }
 }

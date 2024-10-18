@@ -110,11 +110,6 @@ public class PhoneVerifyCodeSender : IVerifyCodeSender
         return !string.IsNullOrWhiteSpace(guardianIdentifier);
     }
 
-    public Task<bool> ValidateGuardianIdentifierV2(string guardianIdentifier)
-    {
-        throw new NotImplementedException();
-    }
-
     public Task SendTransactionInfoNotificationAsync(string email, EmailTemplate template, string showOperationDetails)
     {
         throw new NotImplementedException();

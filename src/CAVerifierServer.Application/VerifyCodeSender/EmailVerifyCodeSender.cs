@@ -92,16 +92,6 @@ public class EmailVerifyCodeSender : IVerifyCodeSender
         return !string.IsNullOrWhiteSpace(guardianIdentifier) && _regex.IsMatch(guardianIdentifier);
     }
     
-    [ExceptionHandler(typeof(System.Exception), 
-        TargetType = typeof(ApplicationExceptionHandler), 
-        MethodName = nameof(ApplicationExceptionHandler.SendEmailHandler))]
-    public virtual async Task<bool> ValidateGuardianIdentifierV2(string guardianIdentifier)
-    {
-        await Task.Delay(TimeSpan.FromMilliseconds(100));
-        throw new System.Exception("================================");
-        return !string.IsNullOrWhiteSpace(guardianIdentifier) && _regex.IsMatch(guardianIdentifier);
-    }
-    
     private async Task SendEmailAsync(SendEmailInput input)
     {
         await _emailSender.QueueAsync(input.From, input.To, input.Subject, input.Body, false);

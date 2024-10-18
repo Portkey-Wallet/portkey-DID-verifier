@@ -193,8 +193,6 @@ public class ApplicationExceptionHandler
     
     public async Task<FlowBehavior> SendEmailHandler(System.Exception e)
     {
-        await Task.Delay(TimeSpan.FromMilliseconds(100));
-        Console.WriteLine("send aws email failed");
         Log.Fatal(e, "send aws email failed");
         return new FlowBehavior
         {
