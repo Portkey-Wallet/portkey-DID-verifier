@@ -22,6 +22,7 @@
     <ItemGroup>
         <ProjectReference Include="..\CAVerifierServer.Application\CAVerifierServer.Application.csproj" />
         <ProjectReference Include="..\CAVerifierServer.Grains\CAVerifierServer.Grains.csproj" />
+        <ProjectReference Include="..\CAVerifierServer.MongoDB\CAVerifierServer.MongoDB.csproj" />
     </ItemGroup>
 
     <ItemGroup>

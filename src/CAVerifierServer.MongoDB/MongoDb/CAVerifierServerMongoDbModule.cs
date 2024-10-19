@@ -18,7 +18,6 @@ namespace CAVerifierServer.MongoDB;
     typeof(AbpSettingManagementMongoDbModule),
     typeof(AbpIdentityMongoDbModule),
     typeof(AbpOpenIddictMongoDbModule),
-    //typeof(AbpBackgroundJobsMongoDbModule),
     typeof(AbpAuditLoggingMongoDbModule),
     typeof(AbpTenantManagementMongoDbModule),
     typeof(AbpFeatureManagementMongoDbModule)

@@ -1,12 +1,11 @@
-﻿using CAVerifierServer.Extensions;
-using CAVerifierServer.Silo.Extensions;
+﻿using CAVerifierServer.Silo.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using Serilog.Events;
 
-namespace CAVerifierServer;
+namespace CAVerifierServer.Silo;
 public class Program
 {
     public async static Task<int> Main(string[] args)
