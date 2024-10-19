@@ -1,17 +1,17 @@
 using System.Net;
+using CAVerifierServer.Extensions;
+using CAVerifierServer.Silo.MongoDB;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using Orleans;
 using Orleans.Configuration;
-using Orleans.Hosting;
 using Orleans.Providers.MongoDB.Configuration;
 using Orleans.Providers.MongoDB.StorageProviders.Serializers;
-using Orleans.Statistics;
+using Orleans.Serialization;
 
-namespace CAVerifierServer.Extensions;
+namespace CAVerifierServer.Silo.Extensions;
 
 public static class OrleansHostExtensions
 {
@@ -43,18 +43,40 @@ public static class OrleansHostExtensions
                         settings.DefaultValueHandling = DefaultValueHandling.Populate;
                     })
                 .ConfigureServices(services => services.AddSingleton<IGrainStateSerializer, VerifierJsonGrainStateSerializer>())
-                .AddMongoDBGrainStorage("Default",(MongoDBGrainStorageOptions op) =>
+                .AddCAVerifierServerMongoDBGrainStorage("Default",(MongoDBGrainStorageOptions op) =>
                 {
                     op.CollectionPrefix = "GrainStorage";
                     op.DatabaseName = configSection.GetValue<string>("DataBase");
-                    // op.ConfigureJsonSerializerSettings = jsonSettings =>
-                    // {
-                    //     // jsonSettings.ContractResolver = new PrivateSetterContractResolver();
-                    //     jsonSettings.NullValueHandling = NullValueHandling.Include;
-                    //     jsonSettings.DefaultValueHandling = DefaultValueHandling.Populate;
-                    //     jsonSettings.ObjectCreationHandling = ObjectCreationHandling.Replace;
-                    // };
                     
+                    var grainIdPrefix = configSection
+                        .GetSection("GrainSpecificIdPrefix").GetChildren().ToDictionary(o => o.Key.ToLower(), o => o.Value);
+                    op.KeyGenerator = id =>
+                    {
+                        var grainType = id.Type.ToString();
+                        if (grainIdPrefix.TryGetValue(grainType, out var prefix))
+                        {
+                            return $"{prefix}+{id.Key}";
+                        }
+
+                        return id.ToString();
+                    };
+                    op.CreateShardKeyForCosmos = configSection.GetValue<bool>("CreateShardKeyForMongoDB", false);
+                })
+                .Configure<GrainCollectionOptions>(options =>
+                {
+                    // Override the value of CollectionAge to
+                    var collection = configSection.GetSection(nameof(GrainCollectionOptions.ClassSpecificCollectionAge))
+                        .GetChildren();
+                    foreach (var item in collection)
+                    {
+                        options.ClassSpecificCollectionAge[item.Key] = TimeSpan.FromSeconds(int.Parse(item.Value));
+                    }
+                })
+                .Configure<GrainCollectionNameOptions>(options =>
+                {
+                    var collectionName = configSection
+                        .GetSection(nameof(GrainCollectionNameOptions.GrainSpecificCollectionName)).GetChildren();
+                    options.GrainSpecificCollectionName = collectionName.ToDictionary(o => o.Key, o => o.Value);
                 })
                 .UseMongoDBReminders(options =>
                 {
@@ -66,7 +88,12 @@ public static class OrleansHostExtensions
                     options.ClusterId = configSection.GetValue<string>("ClusterId");
                     options.ServiceId = configSection.GetValue<string>("ServiceId");
                 })
-               // .AddMemoryGrainStorage("PubSubStore")
+                .Configure<ExceptionSerializationOptions>(options=>
+                {
+                    options.SupportedNamespacePrefixes.Add("Volo.Abp");
+                    options.SupportedNamespacePrefixes.Add("Newtonsoft.Json");
+                })
+               .AddMemoryGrainStorage("PubSubStore")
                 // .ConfigureApplicationParts(parts => parts.AddFromApplicationBaseDirectory())
                 .UseDashboard(options => {
                     options.Username = configSection.GetValue<string>("DashboardUserName");
@@ -76,8 +103,8 @@ public static class OrleansHostExtensions
                     options.HostSelf = true;
                     options.CounterUpdateIntervalMs = configSection.GetValue<int>("DashboardCounterUpdateIntervalMs");
                 })
-                // .UseLinuxEnvironmentStatistics()
-                .ConfigureLogging(logging => { logging.SetMinimumLevel(LogLevel.Debug).AddConsole(); });
+                .ConfigureLogging(logging => { logging.SetMinimumLevel(LogLevel.Debug).AddConsole(); })
+                .AddActivityPropagation();
         });
     }
 }

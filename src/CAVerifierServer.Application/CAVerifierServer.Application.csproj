@@ -17,9 +17,9 @@
     <PackageReference Include="AElf.ExceptionHandler" Version="1.6.2" />
     <PackageReference Include="AElf.ExceptionHandler.ABP" Version="1.0.0" />
     <PackageReference Include="AWSSDK.SimpleNotificationService" Version="3.7.101.24" />
-    <PackageReference Include="Microsoft.Orleans.Client" Version="7.2.6" />
-    <PackageReference Include="Microsoft.Orleans.Sdk" Version="7.2.6" />
-    <PackageReference Include="Orleans.Providers.MongoDB" Version="7.6.1" />
+    <PackageReference Include="Microsoft.Orleans.Client" Version="8.1.0" />
+    <PackageReference Include="Microsoft.Orleans.Sdk" Version="8.1.0" />
+    <PackageReference Include="Orleans.Providers.MongoDB" Version="8.0.3" />
     <PackageReference Include="AElf.Cryptography" Version="1.2.2" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Serilog" Version="4.0.2" />
