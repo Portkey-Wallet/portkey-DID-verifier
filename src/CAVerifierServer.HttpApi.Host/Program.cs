@@ -37,6 +37,7 @@ public class Program
             var builder = WebApplication.CreateBuilder(args);
             builder.Configuration.AddJsonFile("mobileCountryRegularCategory.json");
             builder.Host.AddAppSettingsSecretsJson()
+                .UseOrleansClient()
                 .UseAutofac()
                 .UseSerilog();
             builder.Services.AddSignalR();
