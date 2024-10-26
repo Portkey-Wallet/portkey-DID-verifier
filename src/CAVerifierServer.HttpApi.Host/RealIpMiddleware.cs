@@ -52,11 +52,11 @@ public class RealIpMiddleware
         _logger.LogInformation("ipList count {count} :",ipList.Count);
         var caServerAddressIp = await _accountAppService.WhiteListCheckAsync(ipList);
         _logger.LogInformation("caServerAddressIp is {0}",caServerAddressIp);
-        if (string.IsNullOrEmpty(caServerAddressIp))
-        {
-            _logger.LogDebug($"Resolve real ip is not in whiteList,Please check and retry.");
-            throw new ExternalException("Resolve real ip is not in whiteList,Please check and retry.");
-        }
+        // if (string.IsNullOrEmpty(caServerAddressIp))
+        // {
+        //     _logger.LogDebug($"Resolve real ip is not in whiteList,Please check and retry.");
+        //     throw new ExternalException("Resolve real ip is not in whiteList,Please check and retry.");
+        // }
         await _requestDelegate(context);
     }
 }
