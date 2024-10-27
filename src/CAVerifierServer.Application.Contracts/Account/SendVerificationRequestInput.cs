@@ -8,17 +8,22 @@ namespace CAVerifierServer.Account;
 public class SendVerificationRequestInput
 {
     [JsonPropertyName("type")]
-    [Id(0)] public string Type { get; set; }
+    [Id(0)] 
+    public string Type { get; set; }
     
     [JsonPropertyName("guardianIdentifier")]
-    [Id(1)] public string GuardianIdentifier { get; set; }
+    [Id(1)] 
+    public string GuardianIdentifier { get; set; }
 
     [JsonPropertyName("VerifierSessionId")]
-    [Id(2)] public Guid VerifierSessionId{ get; set; }
+    [Id(2)]
+    public Guid VerifierSessionId{ get; set; }
 
     [JsonPropertyName("OperationDetails")]
-    [Id(3)] public string OperationDetails { get; set; }
+    [Id(3)] 
+    public string OperationDetails { get; set; }
     
     [JsonPropertyName("ShowOperationDetails")]
-    [Id(4)] public string ShowOperationDetails { get; set; }
+    [Id(4)]
+    public string ShowOperationDetails { get; set; }
 }
