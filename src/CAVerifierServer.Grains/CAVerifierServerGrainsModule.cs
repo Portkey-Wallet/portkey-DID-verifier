@@ -1,5 +1,4 @@
 ﻿using AElf.ExceptionHandler.ABP;
-using CAVerifierServer.Telegram.Options;
 using CAVerifierServer.Grains.Options;
 using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.AutoMapper;

@@ -1,7 +1,7 @@
-namespace CAVerifierServer.Telegram.Options;
+namespace CAVerifierServer.Grains.Options;
 
 [GenerateSerializer]
-[Alias("CAVerifierServer.Telegram.Options.JwtTokenOptions")]
+[Alias("CAVerifierServer.Grains.Options.JwtTokenOptions")]
 public class JwtTokenOptions
 {
     [Id(0)]

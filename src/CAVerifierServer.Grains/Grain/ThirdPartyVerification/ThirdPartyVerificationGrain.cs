@@ -3,7 +3,6 @@ using System.Net;
 using System.Net.Http.Headers;
 using AElf.ExceptionHandler;
 using CAVerifierServer.Telegram;
-using CAVerifierServer.Telegram.Options;
 using CAVerifierServer.Verifier.Dtos;
 using CAVerifierServer.Account;
 using CAVerifierServer.Grains.Common;
@@ -379,6 +378,7 @@ public class ThirdPartyVerificationGrain : Grain<ThirdPartyVerificationState>, I
         // try
         // {
             //get public key from telegram auth
+            _logger.LogInformation("ValidateTelegramTokenAsync JwtToken:{0}", JsonConvert.SerializeObject(_jwtTokenOptions));
             var jwkDto = await GetTelegramJwkFormTelegramAuthAsync();
             var jwk = new JsonWebKey(JsonConvert.SerializeObject(jwkDto));
             var validateParameter = new TokenValidationParameters
