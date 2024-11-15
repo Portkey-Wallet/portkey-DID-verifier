@@ -22,9 +22,9 @@ public static class Error
         { NullOrEmptyInput, "Input is null or empty" },
         { InvalidLoginGuardianIdentifier, "LoginGuardianIdentifier does not match the VerifierSessionId" },
         { InvalidGuardianIdentifierInput, "Invalid GuardianIdentifier input" },
-        { TooManyRetries, "Too Many Retries" },
-        { WrongCode, "Invalid code" },
-        { Timeout, "Timeout" },
+        { TooManyRetries, "Too many retries. Please request a new verification code to continue." },
+        { WrongCode, "Incorrect code, please try again." },
+        { Timeout, "Verification code expired. Please request a new one to continue." },
         { Verified, "Already Verified" },
         { IdNotExist,"There is no such entity" }
     };
