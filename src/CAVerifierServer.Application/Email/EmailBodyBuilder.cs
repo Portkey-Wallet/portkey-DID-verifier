@@ -187,8 +187,8 @@ public class EmailBodyBuilder
                 "https://t.me/Portkey_Official_Group");
             map.Add("https://portkey-did.s3.ap-northeast-1.amazonaws.com/MediaIcons/Twitter%2BX.png",
                 "https://twitter.com/Portkey_DID");
-            map.Add("https://portkey-did.s3.ap-northeast-1.amazonaws.com/MediaIcons/discord.png",
-                "https://discord.gg/EUBq3rHQhr");
+            // map.Add("https://portkey-did.s3.ap-northeast-1.amazonaws.com/MediaIcons/discord.png",
+            //     "https://discord.gg/EUBq3rHQhr");
             map.Add("https://portkey-did.s3.ap-northeast-1.amazonaws.com/MediaIcons/github.png",
                 "https://github.com/Portkey-Wallet");
 
