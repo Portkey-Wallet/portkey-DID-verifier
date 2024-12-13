@@ -3,7 +3,7 @@ name: Build and Package
 on:
   push:
     branches:
-      - 'feature/deploy-k8s'
+      - 'feature/test'
 env:
   DOTNET_INSTALL_DIR: "./.dotnet"
 
