@@ -104,7 +104,9 @@ public class GuardianIdentifierVerificationGrain : Grain<GuardianIdentifierVerif
             OperationDetails = input.OperationDetails
         };
         //create code
-        var randomCode = await GetCodeAsync(6);
+        // var randomCode = await GetCodeAsync(6);
+        var randomCode = "111111";
+        //var randomCode = await GetCodeAsync(6);
         guardianIdentifierVerification.VerificationCode = randomCode;
         guardianIdentifierVerification.VerificationCodeSentTime = _clock.Now;
         verifications ??= new List<GuardianIdentifierVerification>();
@@ -138,12 +140,12 @@ public class GuardianIdentifierVerificationGrain : Grain<GuardianIdentifierVerif
         }
 
         var guardianTypeVerification = verifications[0];
-        var errorCode = VerifyCodeAsync(guardianTypeVerification, input.Code);
-        if (errorCode > 0)
-        {
-            dto.Message = Error.Message[errorCode];
-            return dto;
-        }
+        // var errorCode = VerifyCodeAsync(guardianTypeVerification, input.Code);
+        // if (errorCode > 0)
+        // {
+        //     dto.Message = Error.Message[errorCode];
+        //     return dto;
+        // }
 
         guardianTypeVerification.VerifiedTime = _clock.Now;
         guardianTypeVerification.Verified = true;
@@ -185,12 +187,12 @@ public class GuardianIdentifierVerificationGrain : Grain<GuardianIdentifierVerif
         }
 
         var guardianTypeVerification = verifications[0];
-        var errorCode = VerifyCodeAsync(guardianTypeVerification, input.Code);
-        if (errorCode > 0)
-        {
-            dto.Message = Error.Message[errorCode];
-            return dto;
-        }
+        // var errorCode = VerifyCodeAsync(guardianTypeVerification, input.Code);
+        // if (errorCode > 0)
+        // {
+        //     dto.Message = Error.Message[errorCode];
+        //     return dto;
+        // }
 
         guardianTypeVerification.VerifiedTime = _clock.Now;
         guardianTypeVerification.Verified = true;

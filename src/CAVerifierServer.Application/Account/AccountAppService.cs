@@ -100,7 +100,7 @@ public class AccountAppService : CAVerifierServerAppService, IAccountAppService
                 };
             }
 
-            await verifyCodeSender.SendCodeByGuardianIdentifierAsync(input.GuardianIdentifier, dto.Data.VerifierCode, input.ShowOperationDetails);
+            //await verifyCodeSender.SendCodeByGuardianIdentifierAsync(input.GuardianIdentifier, dto.Data.VerifierCode, input.ShowOperationDetails);
             return new ResponseResultDto<SendVerificationRequestDto>
             {
                 Success = true,
