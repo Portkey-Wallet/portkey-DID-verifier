@@ -22,6 +22,7 @@ public partial class SmsSenderTest : CAVerifierServerApplicationTestBase
     private const string FakeOverseaPhoneNum = "+12025550100";
     private const string FakeCode = "123456";
     
+    
     public SmsSenderTest()
     {
         smsServiceSender = GetRequiredService<IEnumerable<ISMSServiceSender>>();
