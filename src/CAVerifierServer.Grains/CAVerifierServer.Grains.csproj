@@ -16,9 +16,9 @@
         <PackageReference Include="AElf.Cryptography" Version="1.2.2" />
         <PackageReference Include="AElf.ExceptionHandler.ABP" Version="1.0.0" />
         <PackageReference Include="AElf.Types" Version="1.2.2" />
-        <PackageReference Include="Microsoft.Orleans.Sdk" Version="8.1.0" />
-        <PackageReference Include="Microsoft.Orleans.Reminders" Version="8.1.0" />
-        <PackageReference Include="Microsoft.Orleans.Streaming" Version="8.1.0" />
+        <PackageReference Include="Microsoft.Orleans.Sdk" Version="9.0.0" />
+        <PackageReference Include="Microsoft.Orleans.Reminders" Version="9.0.0" />
+        <PackageReference Include="Microsoft.Orleans.Streaming" Version="9.0.0" />
         <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.1.2" />
         <PackageReference Include="Volo.Abp.Autofac" Version="8.2.0" />
     </ItemGroup>
