@@ -1,8 +1,10 @@
 
 
-namespace CAVerifierServer.Account;
+using Orleans;
 
+namespace CAVerifierServer.Account;
+[GenerateSerializer]
 public class VerifyCodeDto
 {
-    public string VerifierCode { get; set; }
+    [Id(0)] public string VerifierCode { get; set; }
 }

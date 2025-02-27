@@ -1,6 +1,9 @@
+using Orleans;
+
 namespace CAVerifierServer.Account.Dtos;
 
+[GenerateSerializer]
 public class VerifyRevokeCodeResponseDto
 {
-    public bool Success { get; set; }
+    [Id(0)] public bool Success { get; set; }
 }

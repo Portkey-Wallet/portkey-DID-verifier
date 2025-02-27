@@ -2,8 +2,10 @@ using System;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using AElf.ExceptionHandler;
 using CAVerifierServer.Account;
 using CAVerifierServer.Account.Dtos;
+using CAVerifierServer.Exception;
 using CAVerifierServer.Options;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -27,71 +29,60 @@ public class FaceBookRevokeCodeValidator : IVerifyRevokeCodeValidator
 
     public string Type => "Facebook";
 
-    public async Task<bool> VerifyRevokeCodeAsync(VerifyRevokeCodeDto revokeCodeDto)
+    [ExceptionHandler(typeof(System.Exception), Message = "validate Facebook token failed",
+        TargetType = typeof(ApplicationExceptionHandler), 
+        MethodName = nameof(ApplicationExceptionHandler.VerifyRevokeCodeHandler))]
+    public virtual async Task<bool> VerifyRevokeCodeAsync(VerifyRevokeCodeDto revokeCodeDto)
     {
-        try
+        var result = await VerifyFacebookAccessTokenAsync(revokeCodeDto.VerifyCode);
+        if (result)
         {
-            var result = await VerifyFacebookAccessTokenAsync(revokeCodeDto.VerifyCode);
-            if (result)
-            {
-                return true;
-            }
+            return true;
+        }
 
-            _logger.LogError("validate Facebook token failed");
-            return false;
-        }
-        catch (Exception e)
-        {
-            _logger.LogError(e, "validate Facebook token failed:{reason}", e.Message);
-            return false;
-        }
+        _logger.LogError("validate Facebook token failed");
+        return false;
     }
 
-    private async Task<bool> VerifyFacebookAccessTokenAsync(
-        string accessToken)
+    [ExceptionHandler(typeof(System.Exception), Message = "Verify AccessToken failed,AccessToken is",
+        TargetType = typeof(ApplicationExceptionHandler), LogTargets = ["accessToken"],
+        MethodName = nameof(ApplicationExceptionHandler.VerifyRevokeCodeHandler))]
+    public virtual async Task<bool> VerifyFacebookAccessTokenAsync(string accessToken)
     {
         var appToken = _facebookOptions.AppId + "%7C" + _facebookOptions.AppSecret;
         var requestUrl =
             "https://graph.facebook.com/debug_token?access_token=" + appToken + "&input_token=" + accessToken;
-        try
+        var client = _httpClientFactory.CreateClient();
+        var response = await client.SendAsync(new HttpRequestMessage(HttpMethod.Get, requestUrl));
+
+        var result = await response.Content.ReadAsStringAsync();
+        if (response.StatusCode == HttpStatusCode.Unauthorized)
         {
-            var client = _httpClientFactory.CreateClient();
-            var response = await client.SendAsync(new HttpRequestMessage(HttpMethod.Get, requestUrl));
-
-            var result = await response.Content.ReadAsStringAsync();
-            if (response.StatusCode == HttpStatusCode.Unauthorized)
-            {
-                _logger.LogError("{Message}", response.ToString());
-                return false;
-            }
-
-            if (response.IsSuccessStatusCode)
-            {
-                var verifyUserInfo = JsonConvert.DeserializeObject<VerifyFacebookResultResponse>(result);
-                if (verifyUserInfo == null)
-                {
-                    _logger.LogError("Verify Facebook userInfo fail.");
-                    return false;
-                }
-
-                if (!verifyUserInfo.Data.IsValid)
-                {
-                    _logger.LogError("Verify accessToken from Facebook fail.");
-                    return false;
-                }
-
-                if (verifyUserInfo.Data.ExpiresAt >= DateTimeOffset.UtcNow.ToUnixTimeSeconds())
-                {
-                    return true;
-                }
-
-                _logger.LogError("Token Expired");
-                return false;
-            }
+            _logger.LogError("{Message}", response.ToString());
+            return false;
         }
-        catch (Exception e)
+
+        if (response.IsSuccessStatusCode)
         {
-            _logger.LogError(e, "Verify AccessToken failed,AccessToken is {accessToken}", accessToken);
+            var verifyUserInfo = JsonConvert.DeserializeObject<VerifyFacebookResultResponse>(result);
+            if (verifyUserInfo == null)
+            {
+                _logger.LogError("Verify Facebook userInfo fail.");
+                return false;
+            }
+
+            if (!verifyUserInfo.Data.IsValid)
+            {
+                _logger.LogError("Verify accessToken from Facebook fail.");
+                return false;
+            }
+
+            if (verifyUserInfo.Data.ExpiresAt >= DateTimeOffset.UtcNow.ToUnixTimeSeconds())
+            {
+                return true;
+            }
+
+            _logger.LogError("Token Expired");
             return false;
         }
 

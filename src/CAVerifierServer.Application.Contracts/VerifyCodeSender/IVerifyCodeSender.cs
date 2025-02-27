@@ -12,6 +12,6 @@ public interface IVerifyCodeSender
     Task SendCodeToSecondaryEmailAsync(string guardianIdentifier, string code);
     
     bool ValidateGuardianIdentifier(string guardianIdentifier);
-
+    
     Task SendTransactionInfoNotificationAsync(string email, EmailTemplate template, string showOperationDetails);
 }

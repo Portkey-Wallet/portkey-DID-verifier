@@ -1,7 +1,9 @@
 using System;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using AElf.ExceptionHandler;
 using CAVerifierServer.CustomException;
+using CAVerifierServer.Exception;
 using CAVerifierServer.Options;
 using CAVerifierServer.VerifyCodeSender;
 using Microsoft.Extensions.Logging;
@@ -34,27 +36,22 @@ public class TelesignSmsMessageSender : ISMSServiceSender
             new MessagingClient(_telesignSMSMessageOptions.CustomerId, _telesignSMSMessageOptions.ApiKey);
     }
 
-    private async Task SendTextMessageAsync(SmsMessage smsMessage)
+    [ExceptionHandler(typeof(System.Exception), Message = "Telesign SMS Service sending message error",
+        TargetType = typeof(ApplicationExceptionHandler), 
+        MethodName = nameof(ApplicationExceptionHandler.SendTextMessageHandler))]
+    public virtual async Task SendTextMessageAsync(SmsMessage smsMessage)
     {
         var phoneNumber = smsMessage.PhoneNumber;
         var message = string.Format(_smsTemplateOptions.Template, _verifierInfoOptions.Name, smsMessage.Text);
-        try
+        _logger.LogDebug("Telesign SMS Service sending SMSMessage to {phoneNum}",
+            _regex.Replace(smsMessage.PhoneNumber, CAVerifierServerApplicationConsts.PhoneNumReplacement));
+        var response = await _messagingClient.MessageAsync(phoneNumber, message, _telesignSMSMessageOptions.Type);
+        if (!response.OK)
         {
-            _logger.LogDebug("Telesign SMS Service sending SMSMessage to {phoneNum}",
+            _logger.LogError(
+                "Telesign SMS Service sending SMSMessage failed to {phoneNum}",
                 _regex.Replace(smsMessage.PhoneNumber, CAVerifierServerApplicationConsts.PhoneNumReplacement));
-            var response = await _messagingClient.MessageAsync(phoneNumber, message, _telesignSMSMessageOptions.Type);
-            if (!response.OK)
-            {
-                _logger.LogError(
-                    "Telesign SMS Service sending SMSMessage failed to {phoneNum}",
-                    _regex.Replace(smsMessage.PhoneNumber, CAVerifierServerApplicationConsts.PhoneNumReplacement));
-                throw new SmsSenderFailedException("Telesign SMS Service sending SMSMessage failed");
-            }
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Telesign SMS Service sending message error : {ex}", ex.Message);
-            throw ex;
+            throw new SmsSenderFailedException("Telesign SMS Service sending SMSMessage failed");
         }
     }
 

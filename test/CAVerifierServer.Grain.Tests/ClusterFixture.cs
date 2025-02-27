@@ -48,9 +48,9 @@ public class ClusterFixture : IDisposable, ISingletonDependency
 
     public TestCluster Cluster { get; private set; }
 
-    private class TestSiloConfigurations : ISiloBuilderConfigurator
+    private class TestSiloConfigurations : ISiloConfigurator
     {
-        public void Configure(ISiloHostBuilder hostBuilder)
+        public void Configure(ISiloBuilder hostBuilder)
         {
             hostBuilder.ConfigureServices(services =>
                 {
@@ -114,7 +114,8 @@ public class ClusterFixture : IDisposable, ISingletonDependency
                         typeof(ICurrentTenant),
                         typeof(CurrentTenant)
                     );
-                    services.OnRegistred(UnitOfWorkInterceptorRegistrar.RegisterIfNeeded);
+                    services.OnRegistered(UnitOfWorkInterceptorRegistrar.RegisterIfNeeded);
+                    // services.OnRegistred(UnitOfWorkInterceptorRegistrar.RegisterIfNeeded);
                     services.AddTransient(
                         typeof(IUnitOfWorkManager),
                         typeof(UnitOfWorkManager)
@@ -145,7 +146,8 @@ public class ClusterFixture : IDisposable, ISingletonDependency
                     });
                     services.AddTransient<IMapperAccessor>(provider => provider.GetRequiredService<MapperAccessor>());
                 })
-                .AddSimpleMessageStreamProvider(CAVerifierServerApplicationConsts.MessageStreamName)
+                .AddMemoryStreams(CAVerifierServerApplicationConsts.MessageStreamName)
+                // .AddSimpleMessageStreamProvider(CAVerifierServerApplicationConsts.MessageStreamName)
                 .AddMemoryGrainStorage("PubSubStore")
                 .AddMemoryGrainStorageAsDefault();
         }
@@ -264,23 +266,10 @@ public class ClusterFixture : IDisposable, ISingletonDependency
 
             byte[] cachedBytes;
 
-            try
-            {
                 cachedBytes = await Cache.GetAsync(
                     NormalizeKey(key),
                     CancellationTokenProvider.FallbackToProvider(token)
                 );
-            }
-            catch (Exception ex)
-            {
-                if (hideErrors == true)
-                {
-                    await HandleExceptionAsync(ex);
-                    return null;
-                }
-
-                throw;
-            }
 
             if (cachedBytes == null)
             {
@@ -397,25 +386,12 @@ public class ClusterFixture : IDisposable, ISingletonDependency
             {
                 hideErrors = hideErrors ?? _distributedCacheOption.HideErrors;
 
-                try
-                {
-                    await Cache.SetAsync(
-                        NormalizeKey(key),
-                        Serializer.Serialize(value),
-                        options ?? DefaultCacheOptions,
-                        CancellationTokenProvider.FallbackToProvider(token)
-                    );
-                }
-                catch (Exception ex)
-                {
-                    if (hideErrors == true)
-                    {
-                        await HandleExceptionAsync(ex);
-                        return;
-                    }
-
-                    throw;
-                }
+                await Cache.SetAsync(
+                    NormalizeKey(key),
+                    Serializer.Serialize(value),
+                    options ?? DefaultCacheOptions,
+                    CancellationTokenProvider.FallbackToProvider(token)
+                );
             }
 
             if (ShouldConsiderUow(considerUow))
@@ -450,7 +426,7 @@ public class ClusterFixture : IDisposable, ISingletonDependency
             );
         }
 
-        protected virtual async Task HandleExceptionAsync(Exception ex)
+        protected virtual async Task HandleExceptionAsync(System.Exception ex)
         {
             Logger.LogException(ex, LogLevel.Warning);
 
@@ -541,6 +517,7 @@ public class ClusterFixture : IDisposable, ISingletonDependency
     private class TestClientBuilderConfigurator : IClientBuilderConfigurator
     {
         public void Configure(IConfiguration configuration, IClientBuilder clientBuilder) => clientBuilder
-            .AddSimpleMessageStreamProvider(CAVerifierServerApplicationConsts.MessageStreamName);
+            .AddMemoryStreams(CAVerifierServerApplicationConsts.MessageStreamName);
+            // .AddSimpleMessageStreamProvider(CAVerifierServerApplicationConsts.MessageStreamName);
     }
 }

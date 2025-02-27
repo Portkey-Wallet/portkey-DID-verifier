@@ -1,10 +1,12 @@
 using System;
+using Orleans;
 
 namespace CAVerifierServer.Account;
 
+[GenerateSerializer]
 public class SecondaryEmailVerifyCodeInput
 {
-    public string SecondaryEmail { get; set;}
-    public Guid VerifierSessionId { get; set; }
-    public string Code { get; set; }
+    [Id(0)] public string SecondaryEmail { get; set;}
+    [Id(1)] public Guid VerifierSessionId { get; set; }
+    [Id(2)] public string Code { get; set; }
 }

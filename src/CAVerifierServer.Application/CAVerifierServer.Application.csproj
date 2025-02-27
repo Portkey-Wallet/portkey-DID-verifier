@@ -3,7 +3,7 @@
   <Import Project="..\..\common.props" />
 
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <RootNamespace>CAVerifierServer</RootNamespace>
   </PropertyGroup>
 
@@ -14,26 +14,25 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="AElf.ExceptionHandler" Version="1.6.2" />
+    <PackageReference Include="AElf.ExceptionHandler.ABP" Version="1.0.0" />
     <PackageReference Include="AWSSDK.SimpleNotificationService" Version="3.7.101.24" />
-    <PackageReference Include="Microsoft.Orleans.CodeGenerator.MSBuild" Version="3.6.5">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.Orleans.Core.Abstractions" Version="3.6.5" />
-    <PackageReference Include="Orleans.Providers.MongoDB" Version="3.8.0" />
+    <PackageReference Include="Orleans.Providers.MongoDB" Version="8.0.3" />
     <PackageReference Include="AElf.Cryptography" Version="1.2.2" />
-    <PackageReference Include="Microsoft.Orleans.Core" Version="3.6.5" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.25.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Serilog" Version="4.0.2" />
+    <PackageReference Include="Serilog.AspNetCore" Version="8.0.3" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="6.0.0" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.1.2" />
     <PackageReference Include="TelesignEnterprise" Version="2.2.3" />
     <PackageReference Include="Twilio" Version="6.10.0" />
-    <PackageReference Include="Volo.Abp.Account.Application" Version="7.0.0" />
-    <PackageReference Include="Volo.Abp.Identity.Application" Version="7.0.0" />
-    <PackageReference Include="Volo.Abp.PermissionManagement.Application" Version="7.0.0" />
-    <PackageReference Include="Volo.Abp.Sms" Version="7.0.3" />
-    <PackageReference Include="Volo.Abp.TenantManagement.Application" Version="7.0.0" />
-    <PackageReference Include="Volo.Abp.FeatureManagement.Application" Version="7.0.0" />
-    <PackageReference Include="Volo.Abp.SettingManagement.Application" Version="7.0.0" />
+    <PackageReference Include="Volo.Abp.Account.Application" Version="8.2.0" />
+    <PackageReference Include="Volo.Abp.Identity.Application" Version="8.2.0" />
+    <PackageReference Include="Volo.Abp.PermissionManagement.Application" Version="8.2.0" />
+    <PackageReference Include="Volo.Abp.Sms" Version="8.2.0" />
+    <PackageReference Include="Volo.Abp.TenantManagement.Application" Version="8.2.0" />
+    <PackageReference Include="Volo.Abp.FeatureManagement.Application" Version="8.2.0" />
+    <PackageReference Include="Volo.Abp.SettingManagement.Application" Version="8.2.0" />
   </ItemGroup>
 
 </Project>

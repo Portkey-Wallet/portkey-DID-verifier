@@ -37,6 +37,7 @@ public class Program
             var builder = WebApplication.CreateBuilder(args);
             builder.Configuration.AddJsonFile("mobileCountryRegularCategory.json");
             builder.Host.AddAppSettingsSecretsJson()
+                .UseOrleansClient()
                 .UseAutofac()
                 .UseSerilog();
             builder.Services.AddSignalR();
@@ -46,7 +47,7 @@ public class Program
             await app.RunAsync();
             return 0;
         }
-        catch (Exception ex)
+        catch (System.Exception ex)
         {
             Log.Fatal(ex, "Host terminated unexpectedly!");
             return 1;

@@ -2,11 +2,14 @@ using System;
 using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
+using AElf.ExceptionHandler;
+using CAVerifierServer.Exception;
 using CAVerifierServer.Options;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Volo.Abp.BackgroundJobs;
 using Volo.Abp.Emailing;
+using Volo.Abp.MultiTenancy;
 
 namespace CAVerifierServer.Email;
 
@@ -16,20 +19,20 @@ public class AwsEmailSender : EmailSenderBase
     private readonly ILogger<AwsEmailSender> _logger;
 
 
-    public AwsEmailSender(IOptions<AwsEmailOptions> awsEmailOptions, ILogger<AwsEmailSender> logger,
-        IEmailSenderConfiguration configuration, IBackgroundJobManager backgroundJobManager) : base(configuration,
+    public AwsEmailSender(IOptions<AwsEmailOptions> awsEmailOptions, ILogger<AwsEmailSender> logger, ICurrentTenant currentTenant,
+        IEmailSenderConfiguration configuration, IBackgroundJobManager backgroundJobManager) : base(currentTenant, configuration,
         backgroundJobManager)
     {
         _logger = logger;
         _awsEmailOptions = awsEmailOptions.Value;
     }
 
-    public override async Task SendAsync(string to, string subject, string body, bool isBodyHtml = true)
+    public override async Task SendAsync(string to, string subject, string body, bool isBodyHtml = true, AdditionalEmailSendingArgs additionalEmailSendingArgs = null)
     {
         await SendAsync(_awsEmailOptions.From, to, subject, body, isBodyHtml);
     }
 
-    public override async Task SendAsync(string from, string to, string subject, string body, bool isBodyHtml = true)
+    public override async Task SendAsync(string from, string to, string subject, string body, bool isBodyHtml = true, AdditionalEmailSendingArgs additionalEmailSendingArgs = null)
     {
         var mail = new MailMessage();
         mail.IsBodyHtml = true;
@@ -52,16 +55,27 @@ public class AwsEmailSender : EmailSenderBase
         // Enable SSL encryption
         client.EnableSsl = true;
         // Try to send the message. Show status in console.
-        try
-        {
-            _logger.LogInformation($"Attempting to send email to {mail.To} via aws");
-            await client.SendMailAsync(mail);
-            _logger.LogInformation($"Email sent to {mail.To} via aws");
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, $"send aws email failed, to={mail.To}");
-            throw ex;
-        }
+        await DoSendEmailAsync(client: client, mail: mail);
+        // try
+        // {
+        //     _logger.LogInformation($"Attempting to send email to {mail.To} via aws");
+        //     await client.SendMailAsync(mail);
+        //     _logger.LogInformation($"Email sent to {mail.To} via aws");
+        // }
+        // catch (System.Exception ex)
+        // {
+        //     _logger.LogError(ex, $"send aws email failed, to={mail.To}");
+        //     throw ex;
+        // }
+    }
+
+    [ExceptionHandler(typeof(System.Exception), 
+        TargetType = typeof(ApplicationExceptionHandler), 
+        MethodName = nameof(ApplicationExceptionHandler.SendEmailHandler))]
+    public virtual async Task DoSendEmailAsync(SmtpClient client, MailMessage mail)
+    {
+        _logger.LogInformation($"Attempting to send email to {mail.To} via aws");
+        await client.SendMailAsync(mail);
+        _logger.LogInformation($"Email sent to {mail.To} via aws");
     }
 }

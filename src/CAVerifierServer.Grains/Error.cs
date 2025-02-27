@@ -15,6 +15,8 @@ public static class Error
     public const string SendVerificationRequestErrorLogPrefix = "SendVerificationRequest falied. Error:";
     public const string VerifyAppleErrorLogPrefix = "Verify apple identity token falied.Error:";
     public const string VerifyTelegramErrorLogPrefix = "Verify Telegram identity token falied.Error:";
+    public const string VerifyTwitterErrorLogPrefix = "Verify twitter identity token falied.Error:";
+    public const string VerifyFacebookErrorLogPrefix = "Verify facebook identity token falied.Error:";
     public const int InvalidVerifierSessionId = 20010;
     public static readonly Dictionary<int, string> Message = new()
     {

@@ -2,7 +2,8 @@ using CAVerifierServer.Account;
 
 namespace CAVerifierServer.Grains.Grain.ThirdPartyVerification;
 
+[GenerateSerializer]
 public class VerifyGoogleTokenGrainDto : VerifierCodeDto
 {
-    public GoogleUserExtraInfo GoogleUserExtraInfo { get; set; }
+    [Id(0)] public GoogleUserExtraInfo GoogleUserExtraInfo { get; set; }
 }

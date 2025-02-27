@@ -1,4 +1,5 @@
-﻿using CAVerifierServer.Email;
+﻿using AElf.ExceptionHandler.ABP;
+using CAVerifierServer.Email;
 using CAVerifierServer.Grains;
 using CAVerifierServer.Options;
 using CAVerifierServer.Phone;
@@ -18,7 +19,8 @@ namespace CAVerifierServer;
     typeof(CAVerifierServerApplicationContractsModule),
     typeof(AbpTenantManagementApplicationModule),
     typeof(AbpSettingManagementApplicationModule),
-    typeof(CAVerifierServerGrainsModule)
+    typeof(CAVerifierServerGrainsModule),
+    typeof(AOPExceptionModule)
 )]
 public class CAVerifierServerApplicationModule : AbpModule
 {
@@ -44,6 +46,7 @@ public class CAVerifierServerApplicationModule : AbpModule
         context.Services.AddSingleton<ISMSServiceSender, TwilioSmsMessageSender>();
         context.Services.AddSingleton<IVerifyCodeSender, EmailVerifyCodeSender>();
         context.Services.AddSingleton<IVerifyCodeSender, PhoneVerifyCodeSender>();
+        context.Services.AddSingleton<IEmailBodyBuilder, EmailBodyBuilder>();
         
         context.Services.AddSingleton<IVerifyRevokeCodeValidator, EmailRevokeCodeValidator>();
         context.Services.AddSingleton<IVerifyRevokeCodeValidator, FaceBookRevokeCodeValidator>();

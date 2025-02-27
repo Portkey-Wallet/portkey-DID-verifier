@@ -19,7 +19,7 @@ public partial class SmsSenderTest
     {
         var mockEmailSender = new Mock<IEmailSender>();
         mockEmailSender.Setup(o => o.QueueAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(),
-            It.IsAny<string>(), It.IsAny<bool>())).Returns(Task.CompletedTask);
+            It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<AdditionalEmailSendingArgs>())).Returns(Task.CompletedTask);
         return mockEmailSender.Object;
     }
 

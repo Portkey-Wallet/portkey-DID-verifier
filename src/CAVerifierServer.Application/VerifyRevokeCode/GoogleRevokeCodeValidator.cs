@@ -1,6 +1,8 @@
 using System;
 using System.Threading.Tasks;
+using AElf.ExceptionHandler;
 using CAVerifierServer.Account.Dtos;
+using CAVerifierServer.Exception;
 using CAVerifierServer.Grains.Grain.ThirdPartyVerification;
 using Microsoft.Extensions.Logging;
 using Orleans;
@@ -20,20 +22,14 @@ public class GoogleRevokeCodeValidator : IVerifyRevokeCodeValidator
     }
 
     public string Type => "Google";
-    public async Task<bool> VerifyRevokeCodeAsync(VerifyRevokeCodeDto revokeCodeDto)
+    
+    [ExceptionHandler(typeof(System.Exception), Message = "validate google token failed",
+        TargetType = typeof(ApplicationExceptionHandler), 
+        MethodName = nameof(ApplicationExceptionHandler.VerifyRevokeCodeHandler))]
+    public virtual async Task<bool> VerifyRevokeCodeAsync(VerifyRevokeCodeDto revokeCodeDto)
     {
         var grain = _clusterClient.GetGrain<IThirdPartyVerificationGrain>(revokeCodeDto.VerifyCode);
-
-        try
-        {
-            await grain.GetUserInfoFromGoogleAsync(revokeCodeDto.VerifyCode);
-            return true;
-        }
-        catch (Exception e)
-        {
-           _logger.LogError(e,"validate google Token error,{error}",e.Message);
-           return false;
-        }
-       
+        await grain.GetUserInfoFromGoogleAsync(revokeCodeDto.VerifyCode);
+        return true;
     }
 }

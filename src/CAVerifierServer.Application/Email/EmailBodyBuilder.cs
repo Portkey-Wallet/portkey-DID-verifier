@@ -1,14 +1,17 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using AElf.ExceptionHandler;
+using CAVerifierServer.Exception;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace CAVerifierServer.Email;
 
-public class EmailBodyBuilder
+public class EmailBodyBuilder : IEmailBodyBuilder
 {
-    public static string BuildBodyTemplateWithOperationDetails(string verifierName, string image, string portkey,
+    public async Task<string> BuildBodyTemplateWithOperationDetails(string verifierName, string image, string portkey,
         string verifyCode, string showOperationDetails)
     {
         return $@" <div style=""width: 550px; margin: 0 auto; background-color: rgba(255, 255, 255, 1);"">
@@ -88,7 +91,7 @@ public class EmailBodyBuilder
           Verification details are as follows. Proceed only if all data matches:
         </div>
           <div style="" width:100%; background: rgba(245, 246, 247); margin: 8px 0 24px 0; padding: 20px ; border-radius: 6px; "">
-         {HandleShowOperationDetailsJson(showOperationDetails)}
+         {await HandleShowOperationDetailsJson(showOperationDetails)}
           </div>
 
         </div>      
@@ -119,7 +122,7 @@ public class EmailBodyBuilder
         <div
           style=""display: inline-flex; align-items: left; margin-top: 16px ; ""
         >
-          {HandleCommunityList()}
+          {await HandleCommunityList()}
         </div>
         <div>
           <a href=https://portkey.finance/terms-of-service><font color='5B8EF4' >Term of Service</font></a><span style='margin: 0 8px;color: #979AA1'> | </span><a href=https://portkey.finance/privacy-policy><font color='5B8EF4';>Privacy Policy</font>
@@ -131,83 +134,73 @@ public class EmailBodyBuilder
 ";
     }
 
-
-    private static string HandleShowOperationDetailsJson(string json)
+    [ExceptionHandler(typeof(System.Exception), 
+      TargetType = typeof(ApplicationExceptionHandler), LogTargets = ["json"],
+      MethodName = nameof(ApplicationExceptionHandler.HandleShowOperationDetailsJsonHandler))]
+    public virtual async Task<string> HandleShowOperationDetailsJson(string json)
     {
-        try
+        JsonConvert.DeserializeObject(json);
+        var jsonObj = JObject.Parse(json);
+        var concat = "";
+        foreach (var child in jsonObj.Children())
         {
-            JsonConvert.DeserializeObject(json);
-            var jsonObj = JObject.Parse(json);
-            var concat = "";
-            foreach (var child in jsonObj.Children())
+            if (child is not JProperty property)
             {
-                if (child is not JProperty property)
-                {
-                    continue;
-                }
-
-                var value = property.Value.ToString();
-                if (string.IsNullOrWhiteSpace(value))
-                {
-                    continue;
-                }
-
-                var fontStr =
-                    "<div  style='margin-bottom: 0; color: #979AA1; flex: 2 ; margin-right: 32px ; font-weight: 300;'>" +
-                    property.Name + "</div>";
-                var valueStr = "<div   style='flex: 3;'>" + property.Value + "</div>";
-
-                var divWrap =
-                    $@" <div style='text-align:left; width: 500px; margin: left auto; display: flex ; margin-bottom: 10px' >
-                            {fontStr}                
-                            {valueStr}
-                        </div>
-                      ";
-                concat += divWrap;
+                continue;
             }
 
-            return concat;
+            var value = property.Value.ToString();
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                continue;
+            }
+
+            var fontStr =
+                "<div  style='margin-bottom: 0; color: #979AA1; flex: 2 ; margin-right: 32px ; font-weight: 300;'>" +
+                property.Name + "</div>";
+            var valueStr = "<div   style='flex: 3;'>" + property.Value + "</div>";
+
+            var divWrap =
+                $@" <div style='text-align:left; width: 500px; margin: left auto; display: flex ; margin-bottom: 10px' >
+                        {fontStr}                
+                        {valueStr}
+                    </div>
+                  ";
+            concat += divWrap;
         }
-        catch (Exception e)
-        {
-            return "";
-        }
+
+        return concat;
     }
 
-    private static string HandleCommunityList()
+    [ExceptionHandler(typeof(System.Exception), 
+      TargetType = typeof(ApplicationExceptionHandler),
+      MethodName = nameof(ApplicationExceptionHandler.HandleCommunityListHandler))]
+    public virtual async Task<string> HandleCommunityList()
     {
-        try
-        {
-            var map = new Dictionary<string, string>();
-            map.Add("https://portkey-did.s3.ap-northeast-1.amazonaws.com/MediaIcons/medium.png",
-                "https://medium.com/@PortkeyDID");
-            map.Add("https://portkey-did.s3.ap-northeast-1.amazonaws.com/MediaIcons/youtube.png",
-                "https://www.youtube.com/@PortkeyDID");
-            map.Add("https://portkey-did.s3.ap-northeast-1.amazonaws.com/MediaIcons/telegram.png",
-                "https://t.me/Portkey_Official_Group");
-            map.Add("https://portkey-did.s3.ap-northeast-1.amazonaws.com/MediaIcons/Twitter%2BX.png",
-                "https://twitter.com/Portkey_DID");
-            // map.Add("https://portkey-did.s3.ap-northeast-1.amazonaws.com/MediaIcons/discord.png",
-            //     "https://discord.gg/EUBq3rHQhr");
-            map.Add("https://portkey-did.s3.ap-northeast-1.amazonaws.com/MediaIcons/github.png",
-                "https://github.com/Portkey-Wallet");
+      var map = new Dictionary<string, string>();
+      map.Add("https://portkey-did.s3.ap-northeast-1.amazonaws.com/MediaIcons/medium.png",
+        "https://medium.com/@PortkeyDID");
+      map.Add("https://portkey-did.s3.ap-northeast-1.amazonaws.com/MediaIcons/youtube.png",
+        "https://www.youtube.com/@PortkeyDID");
+      map.Add("https://portkey-did.s3.ap-northeast-1.amazonaws.com/MediaIcons/telegram.png",
+        "https://t.me/Portkey_Official_Group");
+      map.Add("https://portkey-did.s3.ap-northeast-1.amazonaws.com/MediaIcons/Twitter%2BX.png",
+        "https://twitter.com/Portkey_DID");
+      // map.Add("https://portkey-did.s3.ap-northeast-1.amazonaws.com/MediaIcons/discord.png",
+      //     "https://discord.gg/EUBq3rHQhr");
+      map.Add("https://portkey-did.s3.ap-northeast-1.amazonaws.com/MediaIcons/github.png",
+        "https://github.com/Portkey-Wallet");
 
 
-            var result = map.Keys
-                .Select(key =>
-                    "<a href=" + map[key] + " style='margin-right: 24px'>" + "<img src='" + key +
-                    "'; style='width: 24px; height: 24px;' /></a>")
-                .Aggregate("", (current, communityItem) => current + communityItem);
-            return result;
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            throw;
-        }
+        var result = map.Keys
+            .Select(key =>
+                "<a href=" + map[key] + " style='margin-right: 24px'>" + "<img src='" + key +
+                "'; style='width: 24px; height: 24px;' /></a>")
+            .Aggregate("", (current, communityItem) => current + communityItem);
+        return result;
     }
     
-    public static string BuildTransactionTemplateBeforeApproval(string verifierName, string image, string portkey,
+    public async Task<string> BuildTransactionTemplateBeforeApproval(string verifierName, string image, string portkey,
         string showOperationDetails)
     {
         return $@" <div style=""width: 550px; margin: 0 auto; background-color: rgba(255, 255, 255, 1);"">
@@ -271,7 +264,7 @@ public class EmailBodyBuilder
           You're approving a transaction, the details of which are as follows. Proceed only if all data matches:
         </div>
           <div style="" width:100%; background: rgba(245, 246, 247); margin: 8px 0 24px 0; padding: 20px ; border-radius: 6px; "">
-         {HandleShowOperationDetailsJson(showOperationDetails)}
+         {await HandleShowOperationDetailsJson(showOperationDetails)}
           </div>
 
         </div>      
@@ -300,7 +293,7 @@ public class EmailBodyBuilder
         <div
           style=""display: inline-flex; align-items: left; margin-top: 16px ; ""
         >
-          {HandleCommunityList()}
+          {await HandleCommunityList()}
         </div>
         <div>
           <a href=https://portkey.finance/terms-of-service><font color='5B8EF4' >Term of Service</font></a><span style='margin: 0 8px;color: #979AA1'> | </span><a href=https://portkey.finance/privacy-policy><font color='5B8EF4';>Privacy Policy</font>
@@ -312,7 +305,7 @@ public class EmailBodyBuilder
       ";
     }
     
-    public static string BuildTransactionTemplateAfterApproval(string verifierName, string image, string portkey,
+    public async Task<string> BuildTransactionTemplateAfterApproval(string verifierName, string image, string portkey,
         string showOperationDetails)
     {
         return $@" <div style=""width: 550px; margin: 0 auto; background-color: rgba(255, 255, 255, 1);"">
@@ -376,7 +369,7 @@ public class EmailBodyBuilder
           The transaction is approved. You can view the verification details below:
         </div>
           <div style="" width:100%; background: rgba(245, 246, 247); margin: 8px 0 24px 0; padding: 20px ; border-radius: 6px; "">
-         {HandleShowOperationDetailsJson(showOperationDetails)}
+         {await HandleShowOperationDetailsJson(showOperationDetails)}
           </div>
 
         </div>
@@ -401,7 +394,7 @@ public class EmailBodyBuilder
         <div
           style=""display: inline-flex; align-items: left; margin-top: 16px ; ""
         >
-          {HandleCommunityList()}
+          {await HandleCommunityList()}
         </div>
         <div>
           <a href=https://portkey.finance/terms-of-service><font color='5B8EF4' >Term of Service</font></a><span style='margin: 0 8px;color: #979AA1'> | </span><a href=https://portkey.finance/privacy-policy><font color='5B8EF4';>Privacy Policy</font>
@@ -413,7 +406,7 @@ public class EmailBodyBuilder
       ";
     }
     
-    public static string BuildBodyTemplateForSecondaryEmail(string verifierName, string image, string portkey, string verifyCode)
+    public async Task<string> BuildBodyTemplateForSecondaryEmail(string verifierName, string image, string portkey, string verifyCode)
     {
         return $@" <div style=""width: 550px; margin: 0 auto; background-color: rgba(255, 255, 255, 1);"">
       <div style=""text-align: left"">
@@ -505,7 +498,7 @@ public class EmailBodyBuilder
         <div
           style=""display: inline-flex; align-items: left; margin-top: 16px ; ""
         >
-          {HandleCommunityList()}
+          {await HandleCommunityList()}
         </div>
         <div>
           <a href=https://portkey.finance/terms-of-service><font color='5B8EF4' >Term of Service</font></a><span style='margin: 0 8px;color: #979AA1'> | </span><a href=https://portkey.finance/privacy-policy><font color='5B8EF4';>Privacy Policy</font>

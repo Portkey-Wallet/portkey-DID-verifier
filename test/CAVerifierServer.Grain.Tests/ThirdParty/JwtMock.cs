@@ -4,7 +4,6 @@ using System.Security.Cryptography;
 using System.Security.Principal;
 using CAVerifierServer.Grains.Grain.ThirdPartyVerification;
 using CAVerifierServer.Grains.Options;
-using CAVerifierServer.Telegram.Options;
 using CAVerifierServer.Verifier.Dtos;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;

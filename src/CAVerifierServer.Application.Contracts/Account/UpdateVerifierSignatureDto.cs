@@ -1,8 +1,11 @@
+using Orleans;
+
 namespace CAVerifierServer;
 
+[GenerateSerializer]
 public class UpdateVerifierSignatureDto
 {
-    public string Data { get; set; }
+    [Id(0)] public string Data { get; set; }
     
-    public string Signature { get; set; }
+    [Id(1)] public string Signature { get; set; }
 }

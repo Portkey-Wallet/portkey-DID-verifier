@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Asp.Versioning;
 using CAVerifierServer.Account;
 using CAVerifierServer.Localization;
 using Microsoft.AspNetCore.Mvc;

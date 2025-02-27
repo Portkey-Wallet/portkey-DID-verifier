@@ -1,11 +1,11 @@
-﻿using CAVerifierServer.Extensions;
+﻿using CAVerifierServer.Silo.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using Serilog.Events;
 
-namespace CAVerifierServer;
+namespace CAVerifierServer.Silo;
 public class Program
 {
     public async static Task<int> Main(string[] args)
@@ -33,7 +33,7 @@ public class Program
 
             return 0;
         }
-        catch (Exception ex)
+        catch (System.Exception ex)
         {
             Log.Fatal(ex, "Host terminated unexpectedly!");
             return 1;
