@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\common.props" />
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <RootNamespace>CAVerifierServer</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\CAVerifierServer.Application.Contracts\CAVerifierServer.Application.Contracts.csproj" />
+    <ProjectReference Include="..\..\src\CAVerifierServer.Application\CAVerifierServer.Application.csproj" />
+    <ProjectReference Include="..\CAVerifierServer.Domain.Tests\CAVerifierServer.Domain.Tests.csproj" />
+    <ProjectReference Include="..\CAVerifierServer.Grain.Tests\CAVerifierServer.Grain.Tests.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.4.1" />
+    <PackageReference Include="coverlet.collector" Version="3.2.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Moq" Version="4.18.4" />
+  </ItemGroup>
+
+</Project>

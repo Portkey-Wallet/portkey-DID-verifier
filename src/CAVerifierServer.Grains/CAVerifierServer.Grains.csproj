@@ -1,0 +1,38 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <RootNamespace>CAVerifierServer.Grains</RootNamespace>
+        <PackageId>CAVerifierServer.Grains</PackageId>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="AElf.Client" Version="1.1.0" />
+        <PackageReference Include="AElf.Cryptography" Version="1.2.2" />
+        <PackageReference Include="AElf.Types" Version="1.2.2" />
+        <PackageReference Include="Microsoft.Orleans.CodeGenerator.MSBuild" Version="3.6.5">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.Orleans.Core.Abstractions" Version="3.6.5" />
+        <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.25.1" />
+        <PackageReference Include="Volo.Abp.Autofac" Version="7.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\CAVerifierServer.Application.Contracts\CAVerifierServer.Application.Contracts.csproj" />
+        <ProjectReference Include="..\CAVerifierServer.Domain\CAVerifierServer.Domain.csproj" />
+        <PackageReference Include="Volo.Abp.BackgroundJobs.Domain" Version="7.0.0" />
+        <PackageReference Include="Volo.Abp.Emailing" Version="7.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="obj\Debug" />
+    </ItemGroup>
+
+    <ItemGroup>
+    </ItemGroup>
+
+
+</Project>
