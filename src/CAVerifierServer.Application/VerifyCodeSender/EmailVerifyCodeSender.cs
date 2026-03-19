@@ -6,7 +6,6 @@ using CAVerifierServer.Email;
 using CAVerifierServer.Options;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using NUglify.Helpers;
 using Volo.Abp.Emailing;
 
 namespace CAVerifierServer.VerifyCodeSender;
@@ -20,7 +19,7 @@ public class EmailVerifyCodeSender : IVerifyCodeSender
     private readonly VerifierInfoOptions _verifierInfoOptions;
     private readonly ILogger<EmailVerifyCodeSender> _logger;
 
-    public EmailVerifyCodeSender (IEmailSender emailSender, IOptions<AwsEmailOptions> awsEmailOptions, IOptionsSnapshot<VerifierInfoOptions> verifierinfoOptions,
+    public EmailVerifyCodeSender(IEmailSender emailSender, IOptions<AwsEmailOptions> awsEmailOptions, IOptions<VerifierInfoOptions> verifierinfoOptions,
         ILogger<EmailVerifyCodeSender> logger)
     {
         _emailSender = emailSender;
@@ -99,7 +98,7 @@ public class EmailVerifyCodeSender : IVerifyCodeSender
     
     private async Task SendEmailAsync(SendEmailInput input)
     {
-        await _emailSender.QueueAsync(input.From, input.To, input.Subject, input.Body, false);
+        await _emailSender.QueueAsync(input.To, input.Subject, input.Body, true);
     }
     
 }

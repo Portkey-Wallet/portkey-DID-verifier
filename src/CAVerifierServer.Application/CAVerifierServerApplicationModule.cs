@@ -38,6 +38,7 @@ public class CAVerifierServerApplicationModule : AbpModule
         Configure<TwilioSmsMessageOptions>(configuration.GetSection("TwilioSmsMessage"));
         Configure<FacebookOptions>(configuration.GetSection("Facebook"));
         
+        context.Services.AddSingleton<IAwsEmailDeliveryClient, AwsSmtpEmailDeliveryClient>();
         context.Services.AddSingleton<IEmailSender, AwsEmailSender>();
         context.Services.AddSingleton<ISMSServiceSender,AwsSmsMessageSender>();
         context.Services.AddSingleton<ISMSServiceSender, TelesignSmsMessageSender>();
