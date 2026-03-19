@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using CAVerifierServer.Account.Dtos;
 using CAVerifierServer.Application;
 using CAVerifierServer.Contracts;
+using CAVerifierServer.Email;
 using CAVerifierServer.Grains.Dto;
 using CAVerifierServer.Grains.Grain;
 using CAVerifierServer.Grains.Grain.ThirdPartyVerification;
@@ -15,17 +16,16 @@ using CAVerifierServer.Options;
 using Microsoft.Extensions.Options;
 using Moq;
 using Orleans;
-using Volo.Abp.Emailing;
 
 namespace CAVerifierServer.Account;
 
 public partial class AccountAppServiceTests
 {
-    private IEmailSender GetMockEmailSender()
+    private IVerifierEmailSender GetMockEmailSender()
     {
-        var mockEmailSender = new Mock<IEmailSender>();
+        var mockEmailSender = new Mock<IVerifierEmailSender>();
         mockEmailSender.Setup(o => o.QueueAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(),
-            It.IsAny<string>(), It.IsAny<bool>())).Returns(Task.CompletedTask);
+            It.IsAny<bool>())).Returns(Task.CompletedTask);
         return mockEmailSender.Object;
     }
 

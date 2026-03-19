@@ -6,7 +6,6 @@ using CAVerifierServer.VerifyCodeSender;
 using CAVerifierServer.VerifyRevokeCode;
 using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.AutoMapper;
-using Volo.Abp.Emailing;
 using Volo.Abp.Modularity;
 using Volo.Abp.SettingManagement;
 using Volo.Abp.TenantManagement;
@@ -29,7 +28,11 @@ public class CAVerifierServerApplicationModule : AbpModule
         Configure<ChainOptions>(configuration.GetSection("Chains"));
         Configure<WhiteListExpireTimeOptions>(configuration.GetSection("WhiteListExpireTime"));
         Configure<VerifierInfoOptions>(configuration.GetSection("VerifierInfo"));
-        Configure<AwsEmailOptions>(configuration.GetSection("awsEmail"));
+        context.Services.AddOptions<AwsEmailOptions>()
+            .Bind(configuration.GetSection("awsEmail"))
+            .ValidateOnStart();
+        context.Services.AddSingleton<Microsoft.Extensions.Options.IValidateOptions<AwsEmailOptions>,
+            AwsEmailOptionsValidator>();
         Configure<AwssmsMessageOptions>(configuration.GetSection("AWSSMSMessage"));
         Configure<SmsServiceOptions>(configuration.GetSection("SmsService"));
         Configure<TelesignSMSMessageOptions>(configuration.GetSection("TelesignSMSMessage"));
@@ -38,11 +41,13 @@ public class CAVerifierServerApplicationModule : AbpModule
         Configure<TwilioSmsMessageOptions>(configuration.GetSection("TwilioSmsMessage"));
         Configure<FacebookOptions>(configuration.GetSection("Facebook"));
         
-        context.Services.AddSingleton<IEmailSender, AwsEmailSender>();
+        context.Services.AddSingleton<AwsEmailRoutingPolicy>();
+        context.Services.AddTransient<IAwsEmailDeliveryClient, AwsSmtpEmailDeliveryClient>();
+        context.Services.AddTransient<IVerifierEmailSender, AwsEmailSender>();
         context.Services.AddSingleton<ISMSServiceSender,AwsSmsMessageSender>();
         context.Services.AddSingleton<ISMSServiceSender, TelesignSmsMessageSender>();
         context.Services.AddSingleton<ISMSServiceSender, TwilioSmsMessageSender>();
-        context.Services.AddSingleton<IVerifyCodeSender, EmailVerifyCodeSender>();
+        context.Services.AddTransient<IVerifyCodeSender, EmailVerifyCodeSender>();
         context.Services.AddSingleton<IVerifyCodeSender, PhoneVerifyCodeSender>();
         
         context.Services.AddSingleton<IVerifyRevokeCodeValidator, EmailRevokeCodeValidator>();
