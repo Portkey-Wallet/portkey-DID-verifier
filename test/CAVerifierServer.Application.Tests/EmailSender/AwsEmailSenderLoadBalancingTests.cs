@@ -84,12 +84,8 @@ public class AwsEmailSenderLoadBalancingTests
         await sender.SendAsync("user@example.com", "subject-3", "body");
         await sender.SendAsync("user@example.com", "subject-4", "body");
 
-        deliveryClient.Attempts.Take(2).Select(attempt => attempt.AccountKey)
-            .ShouldBe(new[] { "primary", "secondary" });
-        deliveryClient.Attempts.Skip(2).Select(attempt => attempt.AccountKey)
-            .ShouldContain("primary");
-        deliveryClient.Attempts.Skip(2).Select(attempt => attempt.AccountKey)
-            .ShouldContain("tertiary");
+        deliveryClient.Attempts.Select(attempt => attempt.AccountKey)
+            .ShouldBe(new[] { "primary", "secondary", "secondary", "tertiary", "primary" });
     }
 
     [Theory]
@@ -205,6 +201,23 @@ public class AwsEmailSenderLoadBalancingTests
     }
 
     [Fact]
+    public async Task Should_Fallback_To_RoundRobin_For_Unsupported_Selection_Mode()
+    {
+        var deliveryClient = new FakeAwsEmailDeliveryClient();
+        var options = CreateMultiAccountOptions();
+        options.SelectionMode = (AwsEmailSelectionMode)99;
+        var sender = CreateSender(options, deliveryClient);
+
+        await sender.SendAsync("user@example.com", "subject-1", "body");
+        await sender.SendAsync("user@example.com", "subject-2", "body");
+        await sender.SendAsync("user@example.com", "subject-3", "body");
+        await sender.SendAsync("user@example.com", "subject-4", "body");
+
+        deliveryClient.Attempts.Select(attempt => attempt.AccountKey)
+            .ShouldBe(new[] { "primary", "secondary", "tertiary", "primary" });
+    }
+
+    [Fact]
     public async Task EmailVerifyCodeSender_Should_Use_Html_QueueAsync_Without_From()
     {
         var emailSender = new Mock<IEmailSender>();
@@ -287,7 +300,7 @@ public class AwsEmailSenderLoadBalancingTests
             new SmtpException(SmtpStatusCode.ClientNotPermitted, "454 Maximum sending rate exceeded"));
         var sender = CreateSender(CreateMultiAccountOptions(), deliveryClient);
 
-        await sender.SendAsync("custom@caller.com", "user@example.com", "subject", "body");
+        await sender.SendAsync("primary@portkey.com", "user@example.com", "subject", "body");
 
         deliveryClient.Attempts.Select(attempt => attempt.From)
             .ShouldBe(new[] { "primary@portkey.com", "secondary@portkey.com" });
@@ -307,7 +320,7 @@ public class AwsEmailSenderLoadBalancingTests
             Subject = "subject",
             Body = "body",
             IsBodyHtml = true,
-            From = new MailAddress("caller@custom.com", "Caller Display")
+            From = new MailAddress("primary@portkey.com", "Caller Display")
         };
         mail.To.Add("user@example.com");
 
@@ -317,6 +330,39 @@ public class AwsEmailSenderLoadBalancingTests
             .ShouldBe(new[] { "primary@portkey.com", "secondary@portkey.com" });
         deliveryClient.Attempts.Select(attempt => attempt.FromDisplayName)
             .ShouldBe(new[] { "Caller Display", "Caller Display" });
+    }
+
+    [Fact]
+    public async Task Should_Reject_Unsupported_Explicit_From_Address()
+    {
+        var deliveryClient = new FakeAwsEmailDeliveryClient();
+        var sender = CreateSender(CreateMultiAccountOptions(), deliveryClient);
+
+        var exception = await Should.ThrowAsync<InvalidOperationException>(() =>
+            sender.SendAsync("custom@caller.com", "user@example.com", "subject", "body"));
+
+        exception.Message.ShouldBe("Requested from address must match a configured aws email account.");
+        deliveryClient.Attempts.ShouldBeEmpty();
+    }
+
+    [Fact]
+    public async Task Should_Reject_Unsupported_MailMessage_From_Address()
+    {
+        var deliveryClient = new FakeAwsEmailDeliveryClient();
+        var sender = CreateSender(CreateMultiAccountOptions(), deliveryClient);
+        using var mail = new MailMessage
+        {
+            Subject = "subject",
+            Body = "body",
+            IsBodyHtml = true,
+            From = new MailAddress("custom@caller.com", "Caller Display")
+        };
+        mail.To.Add("user@example.com");
+
+        var exception = await Should.ThrowAsync<InvalidOperationException>(() => sender.SendAsync(mail));
+
+        exception.Message.ShouldBe("Requested from address must match a configured aws email account.");
+        deliveryClient.Attempts.ShouldBeEmpty();
     }
 
     [Fact]
