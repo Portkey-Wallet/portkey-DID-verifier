@@ -111,6 +111,7 @@ internal static class AwsMailMessageFactory
             ? requestedFrom.Address
             : account.From;
         mail.From = new MailAddress(fromAddress, fromDisplayName);
+        mail.Sender = null;
 
         if (string.IsNullOrWhiteSpace(account.ConfigSet))
         {

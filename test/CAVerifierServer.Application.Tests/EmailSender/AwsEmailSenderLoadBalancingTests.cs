@@ -100,9 +100,7 @@ public class AwsEmailSenderLoadBalancingTests
             sender.SendAsync("user@example.com", "subject", "body"));
 
         thrown.ShouldNotBeNull();
-        thrown.ShouldBeOfType<InvalidOperationException>();
-        thrown.InnerException.ShouldNotBeNull();
-        thrown.InnerException.ShouldBeOfType(exception.GetType());
+        thrown.GetType().ShouldBe(exception.GetType());
         deliveryClient.Attempts.Select(attempt => attempt.AccountKey)
             .ShouldBe(new[] { "primary" });
     }
@@ -179,6 +177,30 @@ public class AwsEmailSenderLoadBalancingTests
     }
 
     [Fact]
+    public void AwsEmailOptionsValidator_Should_Fail_For_Invalid_Enabled_Account()
+    {
+        var validator = new AwsEmailOptionsValidator();
+        var result = validator.Validate(null, new AwsEmailOptions
+        {
+            Accounts = new List<AwsEmailAccountOptions>
+            {
+                new()
+                {
+                    Key = "primary",
+                    Enabled = true,
+                    From = "primary@portkey.com",
+                    Host = "primary.smtp.portkey.com",
+                    Port = 587,
+                    SmtpUsername = "primary-user"
+                }
+            }
+        });
+
+        result.Failed.ShouldBeTrue();
+        result.Failures.Single().ShouldContain("SmtpPassword");
+    }
+
+    [Fact]
     public async Task Should_Fail_Fast_When_All_Accounts_Are_In_Cooldown()
     {
         var deliveryClient = new FakeAwsEmailDeliveryClient();
@@ -220,7 +242,7 @@ public class AwsEmailSenderLoadBalancingTests
     [Fact]
     public async Task EmailVerifyCodeSender_Should_Use_Html_QueueAsync_Without_From()
     {
-        var emailSender = new Mock<IEmailSender>();
+        var emailSender = new Mock<IVerifierEmailSender>();
         emailSender.Setup(sender => sender.QueueAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(),
             It.IsAny<bool>())).Returns(Task.CompletedTask);
         var verifyCodeSender = new CAVerifierServer.VerifyCodeSender.EmailVerifyCodeSender(emailSender.Object,
@@ -284,10 +306,10 @@ public class AwsEmailSenderLoadBalancingTests
             new SmtpException(SmtpStatusCode.TransactionFailed, "535 Authentication credentials invalid"));
         var sender = CreateSender(CreateMultiAccountOptions(), deliveryClient);
 
-        var exception = await Should.ThrowAsync<InvalidOperationException>(() =>
+        var exception = await Should.ThrowAsync<SmtpException>(() =>
             sender.SendAsync("user@example.com", "subject", "body"));
 
-        exception.InnerException.ShouldBeOfType<SmtpException>();
+        exception.Message.ShouldContain("Authentication credentials invalid");
         deliveryClient.Attempts.Select(attempt => attempt.AccountKey)
             .ShouldBe(new[] { "primary" });
     }
@@ -333,20 +355,20 @@ public class AwsEmailSenderLoadBalancingTests
     }
 
     [Fact]
-    public async Task Should_Reject_Unsupported_Explicit_From_Address()
+    public async Task Should_Fallback_To_Selected_Account_When_Explicit_From_Address_Is_Not_Configured()
     {
         var deliveryClient = new FakeAwsEmailDeliveryClient();
         var sender = CreateSender(CreateMultiAccountOptions(), deliveryClient);
 
-        var exception = await Should.ThrowAsync<InvalidOperationException>(() =>
-            sender.SendAsync("custom@caller.com", "user@example.com", "subject", "body"));
+        await sender.SendAsync("custom@caller.com", "user@example.com", "subject", "body");
 
-        exception.Message.ShouldBe("Requested from address must match a configured aws email account.");
-        deliveryClient.Attempts.ShouldBeEmpty();
+        deliveryClient.Attempts.Count.ShouldBe(1);
+        deliveryClient.Attempts[0].From.ShouldBe("primary@portkey.com");
+        deliveryClient.Attempts[0].FromDisplayName.ShouldBe("Portkey primary");
     }
 
     [Fact]
-    public async Task Should_Reject_Unsupported_MailMessage_From_Address()
+    public async Task Should_Fallback_To_Selected_Account_When_MailMessage_From_Address_Is_Not_Configured()
     {
         var deliveryClient = new FakeAwsEmailDeliveryClient();
         var sender = CreateSender(CreateMultiAccountOptions(), deliveryClient);
@@ -359,10 +381,53 @@ public class AwsEmailSenderLoadBalancingTests
         };
         mail.To.Add("user@example.com");
 
-        var exception = await Should.ThrowAsync<InvalidOperationException>(() => sender.SendAsync(mail));
+        await sender.SendAsync(mail);
 
-        exception.Message.ShouldBe("Requested from address must match a configured aws email account.");
-        deliveryClient.Attempts.ShouldBeEmpty();
+        deliveryClient.Attempts.Count.ShouldBe(1);
+        deliveryClient.Attempts[0].From.ShouldBe("primary@portkey.com");
+        deliveryClient.Attempts[0].FromDisplayName.ShouldBe("Caller Display");
+    }
+
+    [Fact]
+    public async Task Should_Fallback_To_Selected_Account_When_MailMessage_From_Address_Is_Not_Configured_And_Normalize_Is_False()
+    {
+        var deliveryClient = new FakeAwsEmailDeliveryClient();
+        var sender = CreateSender(CreateMultiAccountOptions(), deliveryClient);
+        using var mail = new MailMessage
+        {
+            Subject = "subject",
+            Body = "body",
+            IsBodyHtml = true,
+            From = new MailAddress("custom@caller.com", "Caller Display")
+        };
+        mail.To.Add("user@example.com");
+
+        await sender.SendAsync(mail, false);
+
+        deliveryClient.Attempts.Count.ShouldBe(1);
+        deliveryClient.Attempts[0].From.ShouldBe("primary@portkey.com");
+        deliveryClient.Attempts[0].FromDisplayName.ShouldBe("Caller Display");
+    }
+
+    [Fact]
+    public async Task Should_Clear_Custom_Sender_When_Applying_Account_Route()
+    {
+        var deliveryClient = new FakeAwsEmailDeliveryClient();
+        var sender = CreateSender(CreateMultiAccountOptions(), deliveryClient);
+        using var mail = new MailMessage
+        {
+            Subject = "subject",
+            Body = "body",
+            IsBodyHtml = true,
+            Sender = new MailAddress("sender@custom.com", "Sender Display"),
+            From = new MailAddress("primary@portkey.com", "Caller Display")
+        };
+        mail.To.Add("user@example.com");
+
+        await sender.SendAsync(mail);
+
+        deliveryClient.Attempts.Count.ShouldBe(1);
+        deliveryClient.Attempts[0].Sender.ShouldBeNull();
     }
 
     [Fact]
@@ -439,7 +504,10 @@ public class AwsEmailSenderLoadBalancingTests
     private static AwsEmailSender CreateSender(AwsEmailOptions options, FakeAwsEmailDeliveryClient deliveryClient,
         IClock clock = null)
     {
-        return new AwsEmailSender(new OptionsWrapper<AwsEmailOptions>(options), deliveryClient, clock ?? new TestClock(),
+        var effectiveClock = clock ?? new TestClock();
+        var routingPolicy = new AwsEmailRoutingPolicy(new OptionsWrapper<AwsEmailOptions>(options), effectiveClock,
+            Mock.Of<Microsoft.Extensions.Logging.ILogger<AwsEmailRoutingPolicy>>());
+        return new AwsEmailSender(deliveryClient, routingPolicy, effectiveClock,
             new StaticCorrelationIdProvider(), Mock.Of<Microsoft.Extensions.Logging.ILogger<AwsEmailSender>>(),
             Mock.Of<IEmailSenderConfiguration>(), Mock.Of<IBackgroundJobManager>());
     }
@@ -492,7 +560,7 @@ public class AwsEmailSenderLoadBalancingTests
         public Task SendAsync(AwsEmailAccountOptions account, MailMessage mail)
         {
             Attempts.Add(new EmailAttemptRecord(account.Key, mail.From?.Address,
-                mail.From?.DisplayName, mail.To.Single().Address, mail.IsBodyHtml,
+                mail.From?.DisplayName, mail.Sender?.Address, mail.To.Single().Address, mail.IsBodyHtml,
                 mail.Headers["X-SES-CONFIGURATION-SET"], GetAttachmentBytes(mail),
                 mail.AlternateViews.Cast<AlternateView>().FirstOrDefault()?.BaseUri?.OriginalString));
 
@@ -527,8 +595,8 @@ public class AwsEmailSenderLoadBalancingTests
         }
     }
 
-    private sealed record EmailAttemptRecord(string AccountKey, string From, string FromDisplayName, string To,
-        bool IsBodyHtml, string ConfigSet, long AttachmentBytes, string AlternateViewBaseUri);
+    private sealed record EmailAttemptRecord(string AccountKey, string From, string FromDisplayName, string Sender,
+        string To, bool IsBodyHtml, string ConfigSet, long AttachmentBytes, string AlternateViewBaseUri);
 
     private sealed class StaticCorrelationIdProvider : ICorrelationIdProvider
     {

@@ -5,32 +5,35 @@ using System.Linq;
 using System.Threading;
 using CAVerifierServer.Options;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Volo.Abp.Timing;
 
 namespace CAVerifierServer.Email;
 
-internal sealed class AwsEmailRoutingPolicy
+public sealed class AwsEmailRoutingPolicy
 {
     private readonly AwsEmailOptions _options;
     private readonly IClock _clock;
-    private readonly IReadOnlyList<AwsEmailAccountOptions> _accounts;
-    private readonly ILogger _logger;
+    private readonly IReadOnlyList<AwsEmailAccountOptions> _configuredAccounts;
+    private readonly ILogger<AwsEmailRoutingPolicy> _logger;
     private readonly ConcurrentDictionary<string, DateTime> _cooldownAccounts = new(StringComparer.OrdinalIgnoreCase);
     private int _roundRobinCursor = -1;
 
-    public AwsEmailRoutingPolicy(AwsEmailOptions options, IClock clock, IReadOnlyList<AwsEmailAccountOptions> accounts,
-        ILogger logger)
+    public AwsEmailRoutingPolicy(IOptions<AwsEmailOptions> awsEmailOptions, IClock clock,
+        ILogger<AwsEmailRoutingPolicy> logger)
     {
-        _options = options;
+        _options = awsEmailOptions.Value;
         _clock = clock;
-        _accounts = accounts;
         _logger = logger;
+        _configuredAccounts = AwsEmailAccountProvider.BuildConfiguredAccounts(_options);
     }
+
+    public IReadOnlyList<AwsEmailAccountOptions> ConfiguredAccounts => _configuredAccounts;
 
     public List<AwsEmailAccountOptions> GetOrderedCandidateAccounts(out DateTime? nextAvailableAt)
     {
         var now = _clock.Now;
-        var availableAccounts = _accounts.Where(account => !IsCoolingDown(account.Key, now)).ToList();
+        var availableAccounts = _configuredAccounts.Where(account => !IsCoolingDown(account.Key, now)).ToList();
         if (availableAccounts.Count == 0)
         {
             nextAvailableAt = _cooldownAccounts.Values.DefaultIfEmpty().Cast<DateTime?>().Min();

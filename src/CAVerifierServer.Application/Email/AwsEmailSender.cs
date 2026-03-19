@@ -1,10 +1,7 @@
 using System;
-using System.Linq;
 using System.Net.Mail;
 using System.Threading.Tasks;
-using CAVerifierServer.Options;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Volo.Abp.BackgroundJobs;
 using Volo.Abp.Emailing;
 using Volo.Abp.Timing;
@@ -12,16 +9,15 @@ using Volo.Abp.Tracing;
 
 namespace CAVerifierServer.Email;
 
-public class AwsEmailSender : EmailSenderBase
+public class AwsEmailSender : EmailSenderBase, IVerifierEmailSender
 {
     private readonly IAwsEmailDeliveryClient _awsEmailDeliveryClient;
     private readonly IClock _clock;
     private readonly ICorrelationIdProvider _correlationIdProvider;
     private readonly ILogger<AwsEmailSender> _logger;
-    private readonly AwsEmailAccountOptions[] _configuredAccounts;
     private readonly AwsEmailRoutingPolicy _routingPolicy;
 
-    public AwsEmailSender(IOptions<AwsEmailOptions> awsEmailOptions, IAwsEmailDeliveryClient awsEmailDeliveryClient,
+    public AwsEmailSender(IAwsEmailDeliveryClient awsEmailDeliveryClient, AwsEmailRoutingPolicy routingPolicy,
         IClock clock, ICorrelationIdProvider correlationIdProvider, ILogger<AwsEmailSender> logger,
         IEmailSenderConfiguration configuration, IBackgroundJobManager backgroundJobManager) : base(configuration,
         backgroundJobManager)
@@ -30,34 +26,13 @@ public class AwsEmailSender : EmailSenderBase
         _awsEmailDeliveryClient = awsEmailDeliveryClient;
         _clock = clock;
         _correlationIdProvider = correlationIdProvider;
-        var accounts = AwsEmailAccountProvider.BuildConfiguredAccounts(awsEmailOptions.Value);
-        _configuredAccounts = accounts.ToArray();
-        _routingPolicy = new AwsEmailRoutingPolicy(awsEmailOptions.Value, clock, accounts, logger);
+        _routingPolicy = routingPolicy;
     }
 
-    public override async Task SendAsync(string to, string subject, string body, bool isBodyHtml = true)
+    protected override Task NormalizeMailAsync(MailMessage mail)
     {
-        var mail = AwsMailMessageFactory.CreateMessage(to, subject, body, isBodyHtml);
-        await SendAsync(mail, normalize: true);
-    }
-
-    public override async Task SendAsync(string from, string to, string subject, string body, bool isBodyHtml = true)
-    {
-        var mail = AwsMailMessageFactory.CreateMessage(to, subject, body, isBodyHtml);
-        mail.From = new MailAddress(from);
-        await SendAsync(mail, normalize: true);
-    }
-
-    public override async Task SendAsync(MailMessage mail, bool normalize = true)
-    {
-        if (normalize)
-        {
-            AwsMailMessageFactory.NormalizeMail(mail);
-        }
-
-        EnsureRequestedFromMatchesConfiguredAccounts(mail.From);
-
-        await SendEmailAsync(mail);
+        AwsMailMessageFactory.NormalizeMail(mail);
+        return Task.CompletedTask;
     }
 
     protected override async Task SendEmailAsync(MailMessage mail)
@@ -75,7 +50,7 @@ public class AwsEmailSender : EmailSenderBase
         var attemptedAccounts = new System.Collections.Generic.List<string>();
         SmtpException lastRetryableException = null;
         using var templateMail = AwsMailMessageFactory.CloneMailMessage(mail);
-        var requestedFrom = templateMail.From;
+        var requestedFrom = ResolveRequestedFrom(templateMail.From, correlationId);
         var maskedRecipient = AwsEmailRecipientMasker.MaskRecipients(templateMail);
 
         foreach (var account in candidateAccounts)
@@ -119,7 +94,7 @@ public class AwsEmailSender : EmailSenderBase
                 _logger.LogError(ex,
                     "Non-retryable aws email failure for {MaskedRecipient}. Account:{AccountKey} CorrelationId:{CorrelationId} Attempts:{Attempts}",
                     maskedRecipient, account.Key, correlationId, string.Join(" -> ", attemptedAccounts));
-                throw AwsSmtpFailureClassifier.CreateDeliveryUnavailableException(ex);
+                throw;
             }
         }
 
@@ -129,20 +104,24 @@ public class AwsEmailSender : EmailSenderBase
         throw AwsSmtpFailureClassifier.CreateDeliveryUnavailableException(lastRetryableException);
     }
 
-    private void EnsureRequestedFromMatchesConfiguredAccounts(MailAddress requestedFrom)
+    private MailAddress ResolveRequestedFrom(MailAddress requestedFrom, string correlationId)
     {
         if (requestedFrom == null)
         {
-            return;
+            return null;
         }
 
-        var matchesConfiguredAccount = _configuredAccounts.Any(account =>
-            string.Equals(account.From, requestedFrom.Address, StringComparison.OrdinalIgnoreCase));
-        if (matchesConfiguredAccount)
+        foreach (var account in _routingPolicy.ConfiguredAccounts)
         {
-            return;
+            if (string.Equals(account.From, requestedFrom.Address, StringComparison.OrdinalIgnoreCase))
+            {
+                return requestedFrom;
+            }
         }
 
-        throw new InvalidOperationException("Requested from address must match a configured aws email account.");
+        _logger.LogWarning(
+            "Ignoring unsupported requested from address {RequestedFrom} for verifier aws email sender. CorrelationId:{CorrelationId}",
+            requestedFrom.Address, correlationId);
+        return requestedFrom;
     }
 }

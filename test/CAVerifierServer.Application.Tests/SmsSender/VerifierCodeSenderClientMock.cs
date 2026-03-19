@@ -4,22 +4,22 @@ using Amazon;
 using Amazon.Runtime;
 using Amazon.SimpleNotificationService;
 using Amazon.SimpleNotificationService.Model;
+using CAVerifierServer.Email;
 using CAVerifierServer.Options;
 using CAVerifierServer.VerifyCodeSender;
 using Microsoft.Extensions.Options;
 using Moq;
-using Volo.Abp.Emailing;
 using Volo.Abp.Sms;
 
 namespace CAVerifierServer.SmsSender;
 
 public partial class SmsSenderTest
 {
-    private IEmailSender GetMockEmailSender()
+    private IVerifierEmailSender GetMockEmailSender()
     {
-        var mockEmailSender = new Mock<IEmailSender>();
+        var mockEmailSender = new Mock<IVerifierEmailSender>();
         mockEmailSender.Setup(o => o.QueueAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(),
-            It.IsAny<string>(), It.IsAny<bool>())).Returns(Task.CompletedTask);
+            It.IsAny<bool>())).Returns(Task.CompletedTask);
         return mockEmailSender.Object;
     }
 

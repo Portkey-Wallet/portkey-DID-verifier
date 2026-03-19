@@ -4,7 +4,7 @@ Switch language: [中文](./aws-email-multi-account-load-balancing.zh.md)
 
 ## Summary
 
-This document describes the AWS SES SMTP multi-account load-balancing design for the verifier service. The goal is to remove the single-account bottleneck in the email pipeline by introducing local round-robin account selection, same-request failover, and failure cooldown while keeping `IEmailSender` as the application entry point.
+This document describes the AWS SES SMTP multi-account load-balancing design for the verifier service. The goal is to remove the single-account bottleneck in the email pipeline by introducing local round-robin account selection, same-request failover, and failure cooldown while keeping the verifier business entry unchanged.
 
 ## Background
 
@@ -12,11 +12,12 @@ The previous verifier email pipeline used a single AWS SES SMTP account. If that
 
 Current implementation context:
 
-- Business entry stays in `EmailVerifyCodeSender`, which builds email templates and queues messages through `IEmailSender`.
+- Business entry stays in `EmailVerifyCodeSender`, which builds email templates and queues messages through the verifier-scoped `IVerifierEmailSender`.
 - This feature keeps the existing ABP email/background-job execution semantics; it does not add a durable background-job store.
 - `AwsEmailSender` handles account selection, failover, cooldown, and delivery orchestration.
 - `AwsSmtpEmailDeliveryClient` performs the actual SMTP transport.
 - Multi-account configuration is now supported through `awsEmail.Accounts[]`.
+- `AwsEmailOptionsValidator` validates configured accounts on startup so broken SMTP config fails fast.
 - Legacy root-level `awsEmail.From`, `FromName`, `SmtpUsername`, `SmtpPassword`, `ConfigSet`, `Host`, and `Port` are still accepted as fallback when `Accounts` is not configured.
 
 ## Goals
@@ -106,10 +107,10 @@ Main components:
 
 - `EmailVerifyCodeSender`
   - Builds verification and notification HTML templates
-  - Calls `IEmailSender.QueueAsync(..., true)` as the application entry
+  - Calls `IVerifierEmailSender.QueueAsync(..., true)` as the verifier email entry
   - Does not change whether the host executes that queue through durable background jobs or in-process execution
 - `AwsEmailSender`
-  - Keeps `IEmailSender` as the single application-level email entry point
+  - Implements `IVerifierEmailSender` instead of globally replacing ABP `IEmailSender`
   - Loads enabled AWS accounts from `AwsEmailOptions`
   - Applies round-robin selection, failover, cooldown, and logging
 - `AwsSmtpEmailDeliveryClient`
@@ -118,12 +119,12 @@ Main components:
 Data flow:
 
 1. Business code creates email subject and HTML body.
-2. `EmailVerifyCodeSender` queues the message through `IEmailSender`.
+2. `EmailVerifyCodeSender` queues the message through `IVerifierEmailSender`.
 3. `AwsEmailSender` resolves the candidate AWS SMTP accounts.
 4. The sender picks the first account using local round-robin.
 5. If a retryable error happens, the failed account enters cooldown and the sender tries the next account in the same request.
 6. If all accounts are in cooldown, the sender fails fast instead of generating a retry storm against every configured account.
-7. If every candidate fails, the sender logs the attempted account chain and throws a generic temporary-unavailable exception.
+7. If every candidate fails with retryable errors, the sender logs the attempted account chain and throws a generic temporary-unavailable exception.
 
 ## Routing and Failure Handling
 
@@ -144,6 +145,7 @@ Retryable failure behavior:
 Non-retryable failure behavior:
 
 - The sender stops immediately for invalid addresses, permanent recipient failures, authentication/authorization failures, and local message-construction issues.
+- Non-retryable exceptions keep their original error type instead of being rewritten as temporary delivery failures.
 
 Message handling:
 
@@ -151,6 +153,7 @@ Message handling:
 - The sender first clones the original message into an in-memory template.
 - Every account attempt is created from that template so account-specific mutations do not leak across retries.
 - The selected account always decides the SMTP `From` address. Caller-provided `From` values do not pin later failover attempts to the wrong SES identity.
+- The routed attempt also clears `MailMessage.Sender` so SMTP identity stays consistent with the selected AWS account.
 - This also protects failover for attachments, alternate views, custom headers, alternate view `BaseUri`, and non-seekable attachment streams.
 
 Logging behavior:
@@ -169,19 +172,23 @@ Covered scenarios:
 - Expired cooldown allows the account to re-enter selection.
 - HTML emails remain queued and preserve `IsBodyHtml` during SMTP send.
 - Explicitly configured but fully disabled `Accounts` do not fall back to legacy root fields.
+- Invalid `awsEmail` startup configuration fails through the options validator before runtime traffic.
 - All-accounts-in-cooldown path fails fast without new SMTP attempts.
 - Non-seekable attachment streams still survive failover.
 - Alternate view `BaseUri` survives failover.
 - `X-SES-CONFIGURATION-SET` switches per attempt and is cleared when the target account has no config set.
+- `Sender` is cleared when routing applies an AWS account identity.
 - Non-retryable exceptions stop failover immediately across the covered matrix (`FormatException`, `ArgumentException`, `SmtpFailedRecipientException`, `SmtpFailedRecipientsException`, and permanent SMTP auth failures).
 - Account-specific `From` addresses are applied during failover.
 - All-account failure returns a generic temporary-unavailable exception while the detailed attempt chain stays in logs.
+- A container-backed integration test verifies `IVerifierEmailSender` resolution and `QueueAsync` delivery wiring without replacing the global ABP `IEmailSender`.
 
 Validation commands used during implementation:
 
 ```bash
 dotnet build CAVerifierServer.sln
 DOTNET_ROLL_FORWARD=Major dotnet test test/CAVerifierServer.Application.Tests/CAVerifierServer.Application.Tests.csproj --filter AwsEmailSenderLoadBalancingTests
+DOTNET_ROLL_FORWARD=Major dotnet test test/CAVerifierServer.Application.Tests/CAVerifierServer.Application.Tests.csproj --filter VerifierEmailSenderIntegrationTests
 ```
 
 ## Rollout and Rollback

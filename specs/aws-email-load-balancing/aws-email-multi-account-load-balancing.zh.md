@@ -4,7 +4,7 @@
 
 ## 摘要
 
-本文档描述 verifier 服务的 AWS SES SMTP 多账号负载方案。目标是在不改变业务入口 `IEmailSender` 的前提下，引入本地 `RoundRobin` 账号选择、同次请求 failover 和失败冷却机制，消除单账号带来的邮件链路单点瓶颈。
+本文档描述 verifier 服务的 AWS SES SMTP 多账号负载方案。目标是在不改变 verifier 业务入口的前提下，引入本地 `RoundRobin` 账号选择、同次请求 failover 和失败冷却机制，消除单账号带来的邮件链路单点瓶颈。
 
 ## 背景
 
@@ -12,11 +12,12 @@
 
 当前实现上下文如下：
 
-- 业务入口仍然在 `EmailVerifyCodeSender`，负责组装邮件模板并通过 `IEmailSender` 入队。
+- 业务入口仍然在 `EmailVerifyCodeSender`，负责组装邮件模板并通过 verifier 专用的 `IVerifierEmailSender` 入队。
 - 这次 feature 保留现有 ABP email/background-job 执行语义，不会额外引入 durable background-job store。
 - `AwsEmailSender` 负责账号选择、failover、cooldown 和发送编排。
 - `AwsSmtpEmailDeliveryClient` 负责实际 SMTP 投递。
 - 多账号配置已经通过 `awsEmail.Accounts[]` 支持。
+- `AwsEmailOptionsValidator` 会在启动时校验配置，坏配置会 fail-fast。
 - 当 `Accounts` 未配置时，仍兼容 legacy root-level 的 `awsEmail.From`、`FromName`、`SmtpUsername`、`SmtpPassword`、`ConfigSet`、`Host`、`Port`。
 
 ## 目标
@@ -106,10 +107,10 @@
 
 - `EmailVerifyCodeSender`
   - 负责构建验证码和通知类 HTML 模板
-  - 通过 `IEmailSender.QueueAsync(..., true)` 作为应用层入口
+  - 通过 `IVerifierEmailSender.QueueAsync(..., true)` 作为 verifier 邮件入口
   - 但不会改变宿主当前是 durable background job 还是 in-process 执行
 - `AwsEmailSender`
-  - 保持 `IEmailSender` 作为统一应用层入口
+  - 实现 `IVerifierEmailSender`，而不是全局替换 ABP 的 `IEmailSender`
   - 从 `AwsEmailOptions` 中解析启用的 AWS 账号
   - 负责 round-robin、failover、cooldown 和日志
 - `AwsSmtpEmailDeliveryClient`
@@ -118,12 +119,12 @@
 数据流：
 
 1. 业务代码生成邮件主题和 HTML 正文。
-2. `EmailVerifyCodeSender` 通过 `IEmailSender` 入队。
+2. `EmailVerifyCodeSender` 通过 `IVerifierEmailSender` 入队。
 3. `AwsEmailSender` 解析当前可用 AWS SMTP 账号集合。
 4. 发送器按本地 round-robin 选择首个账号。
 5. 如果出现可重试错误，则将当前账号打入 cooldown，并在同一次请求内尝试下一个账号。
 6. 如果所有账号都在 cooldown，则快速失败，避免对全部账号形成重试风暴。
-7. 如果所有候选账号都失败，则把账号尝试链路记录到日志中，并抛出通用的临时不可用异常。
+7. 如果所有候选账号都以可重试错误失败，则把账号尝试链路记录到日志中，并抛出通用的临时不可用异常。
 
 ## 路由与失败处理
 
@@ -144,6 +145,7 @@
 不可重试错误处理：
 
 - 遇到非法地址、永久收件人失败、认证/授权失败以及本地消息构造错误时，会立即停止 failover。
+- 不可重试异常会保留原始错误类型，不再统一改写成临时不可用。
 
 消息对象处理：
 
@@ -151,6 +153,7 @@
 - 发送器会先把原始消息克隆成一份内存模板。
 - 每个账号尝试都从该模板派生，避免账号级别的修改污染后续重试。
 - 实际 SMTP `From` 地址始终由选中的账号决定，调用方传入的 `From` 不会把 failover 锁死到错误的 SES identity。
+- 路由时还会清理 `MailMessage.Sender`，确保最终 SMTP 身份与选中的 AWS 账号一致。
 - 这也保护了附件、alternate views、自定义 headers、alternate view `BaseUri` 和 non-seekable attachment stream 的 failover 行为。
 
 日志行为：
@@ -169,19 +172,23 @@
 - cooldown 到期后，账号可重新参与选择。
 - HTML 邮件仍按 HTML 形式入队，并在 SMTP 发送时保留 `IsBodyHtml`。
 - 显式配置但全部 disabled 的 `Accounts` 不会错误 fallback 到 legacy root fields。
+- 非法 `awsEmail` 配置会在启动期通过 options validator 直接失败。
 - 所有账号都在 cooldown 时，会快速失败且不新增 SMTP 尝试。
 - non-seekable attachment stream 在 failover 下仍能保留内容。
 - alternate view `BaseUri` 在 failover 下仍可保留。
 - `X-SES-CONFIGURATION-SET` 会按 attempt 切换，且目标账号未配置时会清空旧 header。
+- 应用账号路由时会清理 `Sender`。
 - 不可重试异常矩阵会立即停止 failover，覆盖 `FormatException`、`ArgumentException`、`SmtpFailedRecipientException`、`SmtpFailedRecipientsException` 以及永久性 SMTP 认证错误。
 - failover 时会切换到目标账号对应的 `From` 地址。
 - 所有账号都失败时，对外只返回通用临时不可用异常，详细尝试链路保留在日志中。
+- 新增容器级 integration test，验证 `IVerifierEmailSender` 的 DI 解析和 `QueueAsync` 投递链路，而不替换全局 ABP `IEmailSender`。
 
 实现阶段使用的验证命令：
 
 ```bash
 dotnet build CAVerifierServer.sln
 DOTNET_ROLL_FORWARD=Major dotnet test test/CAVerifierServer.Application.Tests/CAVerifierServer.Application.Tests.csproj --filter AwsEmailSenderLoadBalancingTests
+DOTNET_ROLL_FORWARD=Major dotnet test test/CAVerifierServer.Application.Tests/CAVerifierServer.Application.Tests.csproj --filter VerifierEmailSenderIntegrationTests
 ```
 
 ## 上线与回滚
