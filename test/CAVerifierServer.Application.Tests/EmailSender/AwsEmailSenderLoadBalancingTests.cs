@@ -92,16 +92,21 @@ public class AwsEmailSenderLoadBalancingTests
             .ShouldContain("tertiary");
     }
 
-    [Fact]
-    public async Task Should_Not_Retry_For_NonRetryable_Error()
+    [Theory]
+    [MemberData(nameof(GetNonRetryableExceptions))]
+    public async Task Should_Not_Retry_For_NonRetryable_Error(Exception exception)
     {
         var deliveryClient = new FakeAwsEmailDeliveryClient();
-        deliveryClient.EnqueueFailure("primary", new SmtpFailedRecipientException("bad recipient"));
+        deliveryClient.EnqueueFailure("primary", exception);
         var sender = CreateSender(CreateMultiAccountOptions(), deliveryClient);
 
-        await Should.ThrowAsync<SmtpFailedRecipientException>(() =>
+        var thrown = await Record.ExceptionAsync(() =>
             sender.SendAsync("user@example.com", "subject", "body"));
 
+        thrown.ShouldNotBeNull();
+        thrown.ShouldBeOfType<InvalidOperationException>();
+        thrown.InnerException.ShouldNotBeNull();
+        thrown.InnerException.ShouldBeOfType(exception.GetType());
         deliveryClient.Attempts.Select(attempt => attempt.AccountKey)
             .ShouldBe(new[] { "primary" });
     }
@@ -118,7 +123,10 @@ public class AwsEmailSenderLoadBalancingTests
         var exception = await Should.ThrowAsync<InvalidOperationException>(() =>
             sender.SendAsync("user@example.com", "subject", "body"));
 
-        exception.Message.ShouldContain("primary -> secondary -> tertiary");
+        exception.Message.ShouldBe("Email delivery is temporarily unavailable. Please try again later.");
+        exception.InnerException.ShouldBeOfType<SmtpException>();
+        deliveryClient.Attempts.Select(attempt => attempt.AccountKey)
+            .ShouldBe(new[] { "primary", "secondary", "tertiary" });
     }
 
     [Fact]
@@ -175,21 +183,25 @@ public class AwsEmailSenderLoadBalancingTests
     }
 
     [Fact]
-    public async Task Should_Try_Again_When_All_Accounts_Are_In_Cooldown()
+    public async Task Should_Fail_Fast_When_All_Accounts_Are_In_Cooldown()
     {
         var deliveryClient = new FakeAwsEmailDeliveryClient();
-        deliveryClient.EnqueueFailure("primary", new SmtpException("primary throttled"));
-        deliveryClient.EnqueueFailure("secondary", new SmtpException("secondary throttled"));
-        deliveryClient.EnqueueFailure("tertiary", new SmtpException("tertiary throttled"));
+        deliveryClient.EnqueueFailure("primary", new SmtpException(SmtpStatusCode.ClientNotPermitted,
+            "454 Daily message quota exceeded"));
+        deliveryClient.EnqueueFailure("secondary", new SmtpException(SmtpStatusCode.ClientNotPermitted,
+            "454 Daily message quota exceeded"));
+        deliveryClient.EnqueueFailure("tertiary", new SmtpException(SmtpStatusCode.ClientNotPermitted,
+            "454 Daily message quota exceeded"));
         var sender = CreateSender(CreateMultiAccountOptions(cooldownSeconds: 300), deliveryClient);
 
         await Should.ThrowAsync<InvalidOperationException>(() =>
             sender.SendAsync("user@example.com", "subject-1", "body"));
 
-        await sender.SendAsync("user@example.com", "subject-2", "body");
+        var exception = await Should.ThrowAsync<InvalidOperationException>(() =>
+            sender.SendAsync("user@example.com", "subject-2", "body"));
 
-        deliveryClient.Attempts.Count.ShouldBe(4);
-        deliveryClient.Attempts.Skip(3).Select(attempt => attempt.AccountKey).ShouldNotBeEmpty();
+        exception.Message.ShouldBe("Email delivery is temporarily unavailable. Please try again later.");
+        deliveryClient.Attempts.Count.ShouldBe(3);
     }
 
     [Fact]
@@ -209,6 +221,173 @@ public class AwsEmailSenderLoadBalancingTests
             Times.Once);
         emailSender.Verify(sender => sender.QueueAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(),
             It.IsAny<string>(), It.IsAny<bool>()), Times.Never);
+    }
+
+    [Fact]
+    public async Task Should_Preserve_Html_Body_Flag_During_Send()
+    {
+        var deliveryClient = new FakeAwsEmailDeliveryClient();
+        var sender = CreateSender(CreateMultiAccountOptions(), deliveryClient);
+
+        await sender.SendAsync("user@example.com", "subject", "<strong>body</strong>", true);
+
+        deliveryClient.Attempts.Count.ShouldBe(1);
+        deliveryClient.Attempts[0].IsBodyHtml.ShouldBeTrue();
+    }
+
+    [Fact]
+    public async Task Should_Failover_For_Retryable_Quota_Error()
+    {
+        var deliveryClient = new FakeAwsEmailDeliveryClient();
+        deliveryClient.EnqueueFailure("primary",
+            new SmtpException(SmtpStatusCode.ClientNotPermitted, "454 Daily message quota exceeded"));
+        var sender = CreateSender(CreateMultiAccountOptions(), deliveryClient);
+
+        await sender.SendAsync("user@example.com", "subject", "body");
+
+        deliveryClient.Attempts.Select(attempt => attempt.AccountKey)
+            .ShouldBe(new[] { "primary", "secondary" });
+    }
+
+    [Fact]
+    public async Task Should_Failover_For_Temporary_Authentication_Failure()
+    {
+        var deliveryClient = new FakeAwsEmailDeliveryClient();
+        deliveryClient.EnqueueFailure("primary",
+            new SmtpException(SmtpStatusCode.ClientNotPermitted, "454 Temporary authentication failure"));
+        var sender = CreateSender(CreateMultiAccountOptions(), deliveryClient);
+
+        await sender.SendAsync("user@example.com", "subject", "body");
+
+        deliveryClient.Attempts.Select(attempt => attempt.AccountKey)
+            .ShouldBe(new[] { "primary", "secondary" });
+    }
+
+    [Fact]
+    public async Task Should_Not_Retry_For_Permanent_Smtp_Authentication_Error()
+    {
+        var deliveryClient = new FakeAwsEmailDeliveryClient();
+        deliveryClient.EnqueueFailure("primary",
+            new SmtpException(SmtpStatusCode.TransactionFailed, "535 Authentication credentials invalid"));
+        var sender = CreateSender(CreateMultiAccountOptions(), deliveryClient);
+
+        var exception = await Should.ThrowAsync<InvalidOperationException>(() =>
+            sender.SendAsync("user@example.com", "subject", "body"));
+
+        exception.InnerException.ShouldBeOfType<SmtpException>();
+        deliveryClient.Attempts.Select(attempt => attempt.AccountKey)
+            .ShouldBe(new[] { "primary" });
+    }
+
+    [Fact]
+    public async Task Should_Use_Selected_Account_From_Address_During_Failover()
+    {
+        var deliveryClient = new FakeAwsEmailDeliveryClient();
+        deliveryClient.EnqueueFailure("primary",
+            new SmtpException(SmtpStatusCode.ClientNotPermitted, "454 Maximum sending rate exceeded"));
+        var sender = CreateSender(CreateMultiAccountOptions(), deliveryClient);
+
+        await sender.SendAsync("custom@caller.com", "user@example.com", "subject", "body");
+
+        deliveryClient.Attempts.Select(attempt => attempt.From)
+            .ShouldBe(new[] { "primary@portkey.com", "secondary@portkey.com" });
+        deliveryClient.Attempts[0].FromDisplayName.ShouldBe("Portkey primary");
+        deliveryClient.Attempts[1].FromDisplayName.ShouldBe("Portkey secondary");
+    }
+
+    [Fact]
+    public async Task Should_Use_Selected_Account_From_Address_When_MailMessage_Sets_From()
+    {
+        var deliveryClient = new FakeAwsEmailDeliveryClient();
+        deliveryClient.EnqueueFailure("primary",
+            new SmtpException(SmtpStatusCode.ClientNotPermitted, "454 Daily message quota exceeded"));
+        var sender = CreateSender(CreateMultiAccountOptions(), deliveryClient);
+        using var mail = new MailMessage
+        {
+            Subject = "subject",
+            Body = "body",
+            IsBodyHtml = true,
+            From = new MailAddress("caller@custom.com", "Caller Display")
+        };
+        mail.To.Add("user@example.com");
+
+        await sender.SendAsync(mail);
+
+        deliveryClient.Attempts.Select(attempt => attempt.From)
+            .ShouldBe(new[] { "primary@portkey.com", "secondary@portkey.com" });
+        deliveryClient.Attempts.Select(attempt => attempt.FromDisplayName)
+            .ShouldBe(new[] { "Caller Display", "Caller Display" });
+    }
+
+    [Fact]
+    public async Task Should_Switch_ConfigSet_Per_Attempt()
+    {
+        var deliveryClient = new FakeAwsEmailDeliveryClient();
+        var options = CreateMultiAccountOptions();
+        options.Accounts[0].ConfigSet = "primary-set";
+        options.Accounts[1].ConfigSet = "secondary-set";
+        deliveryClient.EnqueueFailure("primary",
+            new SmtpException(SmtpStatusCode.ClientNotPermitted, "454 Daily message quota exceeded"));
+        var sender = CreateSender(options, deliveryClient);
+
+        await sender.SendAsync("user@example.com", "subject", "body");
+
+        deliveryClient.Attempts[0].ConfigSet.ShouldBe("primary-set");
+        deliveryClient.Attempts[1].ConfigSet.ShouldBe("secondary-set");
+    }
+
+    [Fact]
+    public async Task Should_Clear_ConfigSet_When_Failover_Target_Does_Not_Configure_It()
+    {
+        var deliveryClient = new FakeAwsEmailDeliveryClient();
+        var options = CreateMultiAccountOptions();
+        options.Accounts[0].ConfigSet = "primary-set";
+        options.Accounts[1].ConfigSet = null;
+        deliveryClient.EnqueueFailure("primary",
+            new SmtpException(SmtpStatusCode.ClientNotPermitted, "454 Daily message quota exceeded"));
+        var sender = CreateSender(options, deliveryClient);
+
+        await sender.SendAsync("user@example.com", "subject", "body");
+
+        deliveryClient.Attempts[0].ConfigSet.ShouldBe("primary-set");
+        deliveryClient.Attempts[1].ConfigSet.ShouldBeNull();
+    }
+
+    [Fact]
+    public async Task Should_Preserve_AlternateView_BaseUri_During_Failover()
+    {
+        var deliveryClient = new FakeAwsEmailDeliveryClient();
+        deliveryClient.EnqueueFailure("primary",
+            new SmtpException(SmtpStatusCode.ClientNotPermitted, "454 Daily message quota exceeded"));
+        var sender = CreateSender(CreateMultiAccountOptions(), deliveryClient);
+        using var mail = new MailMessage
+        {
+            Subject = "subject",
+            Body = "body",
+            IsBodyHtml = true
+        };
+        mail.To.Add("user@example.com");
+        var view = AlternateView.CreateAlternateViewFromString("<img src=\"logo.png\">", Encoding.UTF8,
+            MediaTypeNames.Text.Html);
+        view.BaseUri = new Uri("https://assets.portkey.com/email/");
+        mail.AlternateViews.Add(view);
+
+        await sender.SendAsync(mail);
+
+        deliveryClient.Attempts.Select(attempt => attempt.AlternateViewBaseUri)
+            .ShouldBe(new[]
+            {
+                "https://assets.portkey.com/email/",
+                "https://assets.portkey.com/email/"
+            });
+    }
+
+    public static IEnumerable<object[]> GetNonRetryableExceptions()
+    {
+        yield return new object[] { new FormatException("invalid format") };
+        yield return new object[] { new ArgumentException("invalid argument") };
+        yield return new object[] { new SmtpFailedRecipientException("bad recipient") };
+        yield return new object[] { new SmtpFailedRecipientsException("bad recipients") };
     }
 
     private static AwsEmailSender CreateSender(AwsEmailOptions options, FakeAwsEmailDeliveryClient deliveryClient,
@@ -267,7 +446,9 @@ public class AwsEmailSenderLoadBalancingTests
         public Task SendAsync(AwsEmailAccountOptions account, MailMessage mail)
         {
             Attempts.Add(new EmailAttemptRecord(account.Key, mail.From?.Address,
-                mail.To.Single().Address, mail.Headers["X-SES-CONFIGURATION-SET"], GetAttachmentBytes(mail)));
+                mail.From?.DisplayName, mail.To.Single().Address, mail.IsBodyHtml,
+                mail.Headers["X-SES-CONFIGURATION-SET"], GetAttachmentBytes(mail),
+                mail.AlternateViews.Cast<AlternateView>().FirstOrDefault()?.BaseUri?.OriginalString));
 
             if (_failures.TryGetValue(account.Key, out var queue) && queue.Count > 0)
             {
@@ -300,8 +481,8 @@ public class AwsEmailSenderLoadBalancingTests
         }
     }
 
-    private sealed record EmailAttemptRecord(string AccountKey, string From, string To, string ConfigSet,
-        long AttachmentBytes);
+    private sealed record EmailAttemptRecord(string AccountKey, string From, string FromDisplayName, string To,
+        bool IsBodyHtml, string ConfigSet, long AttachmentBytes, string AlternateViewBaseUri);
 
     private sealed class StaticCorrelationIdProvider : ICorrelationIdProvider
     {

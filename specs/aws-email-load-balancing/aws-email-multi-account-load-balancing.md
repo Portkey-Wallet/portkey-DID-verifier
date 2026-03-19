@@ -13,9 +13,11 @@ The previous verifier email pipeline used a single AWS SES SMTP account. If that
 Current implementation context:
 
 - Business entry stays in `EmailVerifyCodeSender`, which builds email templates and queues messages through `IEmailSender`.
-- AWS SMTP delivery is implemented in `AwsEmailSender`.
+- This feature keeps the existing ABP email/background-job execution semantics; it does not add a durable background-job store.
+- `AwsEmailSender` handles account selection, failover, cooldown, and delivery orchestration.
+- `AwsSmtpEmailDeliveryClient` performs the actual SMTP transport.
 - Multi-account configuration is now supported through `awsEmail.Accounts[]`.
-- Legacy root-level `awsEmail.From`, `SmtpUsername`, `SmtpPassword`, `Host`, and `Port` are still accepted as fallback when `Accounts` is not configured.
+- Legacy root-level `awsEmail.From`, `FromName`, `SmtpUsername`, `SmtpPassword`, `ConfigSet`, `Host`, and `Port` are still accepted as fallback when `Accounts` is not configured.
 
 ## Goals
 
@@ -28,6 +30,8 @@ Current implementation context:
 ## Non-Goals
 
 - No cross-instance global balancing.
+- No global SES quota coordination across nodes, regions, or restarts.
+- No durable background-job persistence or execution-model change in this version.
 - No non-AWS email provider integration in this version.
 - No DTO, controller, or HTTP contract changes.
 - No new documentation site or generator.
@@ -60,8 +64,9 @@ Root section:
       "FromName": "Portkey Finance",
       "SmtpUsername": "smtp-user-2",
       "SmtpPassword": "smtp-password-2",
-      "Host": "email-smtp.ap-northeast-1.amazonaws.com",
-      "Port": 587
+      "Host": "email-smtp.us-west-2.amazonaws.com",
+      "Port": 587,
+      "ConfigSet": "portkey-failover"
     }
   ]
 }
@@ -101,7 +106,8 @@ Main components:
 
 - `EmailVerifyCodeSender`
   - Builds verification and notification HTML templates
-  - Queues HTML emails through `IEmailSender.QueueAsync(..., true)`
+  - Calls `IEmailSender.QueueAsync(..., true)` as the application entry
+  - Does not change whether the host executes that queue through durable background jobs or in-process execution
 - `AwsEmailSender`
   - Keeps `IEmailSender` as the single application-level email entry point
   - Loads enabled AWS accounts from `AwsEmailOptions`
@@ -116,8 +122,8 @@ Data flow:
 3. `AwsEmailSender` resolves the candidate AWS SMTP accounts.
 4. The sender picks the first account using local round-robin.
 5. If a retryable error happens, the failed account enters cooldown and the sender tries the next account in the same request.
-6. If all accounts are in cooldown, the sender still retries against the full configured set as a last-availability fallback.
-7. If every candidate fails, the sender throws an aggregated error with the tried account chain.
+6. If all accounts are in cooldown, the sender fails fast instead of generating a retry storm against every configured account.
+7. If every candidate fails, the sender logs the attempted account chain and throws a generic temporary-unavailable exception.
 
 ## Routing and Failure Handling
 
@@ -126,28 +132,26 @@ Selection behavior:
 - Round-robin is local to the process.
 - Only enabled accounts participate in selection.
 - Accounts in cooldown are skipped during normal candidate selection.
-- If every account is cooling down, the sender retries against the full configured set once more instead of hard failing immediately.
+- If every account is cooling down, the sender fails fast and waits for cooldown expiry.
 
 Retryable failure behavior:
 
+- Retryable errors are intentionally limited to transient SMTP failures such as SES quota/rate throttling and service-unavailable style responses.
 - Retryable errors move the current account into cooldown.
 - The same email send request continues with the next candidate account.
 - Cooldown expires automatically based on `FailureCooldownSeconds`.
 
 Non-retryable failure behavior:
 
-- The sender stops immediately for:
-  - `FormatException`
-  - `ArgumentException`
-  - `SmtpFailedRecipientException`
-  - `SmtpFailedRecipientsException`
+- The sender stops immediately for invalid addresses, permanent recipient failures, authentication/authorization failures, and local message-construction issues.
 
 Message handling:
 
 - Each failover attempt uses an attempt-local cloned `MailMessage`.
 - The sender first clones the original message into an in-memory template.
 - Every account attempt is created from that template so account-specific mutations do not leak across retries.
-- This also protects failover for attachments, alternate views, custom headers, and non-seekable attachment streams.
+- The selected account always decides the SMTP `From` address. Caller-provided `From` values do not pin later failover attempts to the wrong SES identity.
+- This also protects failover for attachments, alternate views, custom headers, alternate view `BaseUri`, and non-seekable attachment streams.
 
 Logging behavior:
 
@@ -160,15 +164,18 @@ Covered scenarios:
 
 - Legacy single-account fallback still works when `Accounts` is not configured.
 - Multi-account round-robin order works in a single instance.
-- Same-request failover succeeds when the first account fails.
+- Same-request failover succeeds when the first account hits a retryable SES quota/rate error.
 - Cooldown skips recently failed accounts.
 - Expired cooldown allows the account to re-enter selection.
-- HTML emails remain queued and sent as HTML.
+- HTML emails remain queued and preserve `IsBodyHtml` during SMTP send.
 - Explicitly configured but fully disabled `Accounts` do not fall back to legacy root fields.
-- All-accounts-in-cooldown path still retries against the full configured set.
+- All-accounts-in-cooldown path fails fast without new SMTP attempts.
 - Non-seekable attachment streams still survive failover.
-- Non-retryable recipient failures stop failover immediately.
-- All-account failure returns an aggregated error with the tried account list.
+- Alternate view `BaseUri` survives failover.
+- `X-SES-CONFIGURATION-SET` switches per attempt and is cleared when the target account has no config set.
+- Non-retryable exceptions stop failover immediately across the covered matrix (`FormatException`, `ArgumentException`, `SmtpFailedRecipientException`, `SmtpFailedRecipientsException`, and permanent SMTP auth failures).
+- Account-specific `From` addresses are applied during failover.
+- All-account failure returns a generic temporary-unavailable exception while the detailed attempt chain stays in logs.
 
 Validation commands used during implementation:
 
@@ -182,9 +189,11 @@ DOTNET_ROLL_FORWARD=Major dotnet test test/CAVerifierServer.Application.Tests/CA
 Recommended rollout:
 
 - Release the code with one enabled account first.
+- Verify whether the target host environment has durable ABP background-job storage enabled; this feature does not add it.
 - Validate email success rate, SMTP authentication, and account routing logs.
 - Enable additional accounts gradually.
 - Observe failover and cooldown behavior under real SES responses.
+- Ensure each entry in `awsEmail.Accounts[]` maps to an independently usable SES sender identity and quota pool; do not model multiple credentials from the same exhausted SES account as separate capacity.
 
 Rollback strategy:
 

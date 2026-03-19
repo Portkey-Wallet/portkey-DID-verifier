@@ -84,10 +84,11 @@ public class EmailVerifyCodeSender : IVerifyCodeSender
     public bool ValidateGuardianIdentifier(string guardianIdentifier)
     {
         var result = !string.IsNullOrWhiteSpace(guardianIdentifier) && _regex.IsMatch(guardianIdentifier);
+        var maskedGuardianIdentifier = MaskEmail(guardianIdentifier);
         try
         {
             _logger.LogDebug("ValidateGuardianIdentifier guardianIdentifier:{0} !string.IsNullOrWhiteSpace:{1} _regex.IsMatch:{2} validationResult:{3}",
-                guardianIdentifier, !string.IsNullOrWhiteSpace(guardianIdentifier), _regex.IsMatch(guardianIdentifier), result);
+                maskedGuardianIdentifier, !string.IsNullOrWhiteSpace(guardianIdentifier), _regex.IsMatch(guardianIdentifier), result);
         }
         catch (Exception e)
         {
@@ -100,5 +101,23 @@ public class EmailVerifyCodeSender : IVerifyCodeSender
     {
         await _emailSender.QueueAsync(input.To, input.Subject, input.Body, true);
     }
-    
+
+    private static string MaskEmail(string email)
+    {
+        if (string.IsNullOrWhiteSpace(email))
+        {
+            return string.Empty;
+        }
+
+        var parts = email.Split('@');
+        if (parts.Length != 2 || parts[0].Length == 0)
+        {
+            return "***";
+        }
+
+        var localName = parts[0].Length == 1
+            ? $"{parts[0][0]}***"
+            : $"{parts[0][0]}***{parts[0][^1]}";
+        return $"{localName}@{parts[1]}";
+    }
 }

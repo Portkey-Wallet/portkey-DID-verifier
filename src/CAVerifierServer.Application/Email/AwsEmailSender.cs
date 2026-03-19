@@ -20,6 +20,35 @@ namespace CAVerifierServer.Email;
 
 public class AwsEmailSender : EmailSenderBase
 {
+    private const string ConfigSetHeaderName = "X-SES-CONFIGURATION-SET";
+    private const string TemporaryUnavailableMessage = "Email delivery is temporarily unavailable. Please try again later.";
+    private static readonly string[] RetryableSmtpMessageMarkers =
+    {
+        "daily message quota exceeded",
+        "maximum sending rate exceeded",
+        "throttling",
+        "temporary authentication failure",
+        "temporarily deferred",
+        "try again later",
+        "temporary failure",
+        "connection reset"
+    };
+
+    private static readonly string[] NonRetryableSmtpMessageMarkers =
+    {
+        "authentication",
+        "credentials",
+        "not authorized",
+        "not authorised",
+        "message rejected",
+        "email address is not verified",
+        "address not verified",
+        "identity not verified",
+        "mail from domain is not verified",
+        "mailbox unavailable",
+        "invalid address"
+    };
+
     private readonly AwsEmailOptions _awsEmailOptions;
     private readonly IAwsEmailDeliveryClient _awsEmailDeliveryClient;
     private readonly IClock _clock;
@@ -28,7 +57,6 @@ public class AwsEmailSender : EmailSenderBase
     private readonly IReadOnlyList<AwsEmailAccountOptions> _accounts;
     private readonly ConcurrentDictionary<string, DateTime> _cooldownAccounts = new(StringComparer.OrdinalIgnoreCase);
     private int _roundRobinCursor = -1;
-    private const string ConfigSetHeaderName = "X-SES-CONFIGURATION-SET";
 
 
     public AwsEmailSender(IOptions<AwsEmailOptions> awsEmailOptions, IAwsEmailDeliveryClient awsEmailDeliveryClient,
@@ -58,10 +86,13 @@ public class AwsEmailSender : EmailSenderBase
 
     public override async Task SendAsync(string from, string to, string subject, string body, bool isBodyHtml = true)
     {
-        var mail = new MailMessage(from, to, subject, body)
+        var mail = new MailMessage
         {
+            Subject = subject,
+            Body = body,
             IsBodyHtml = isBodyHtml
         };
+        mail.To.Add(new MailAddress(to));
         await SendAsync(mail, normalize: true);
     }
 
@@ -78,10 +109,18 @@ public class AwsEmailSender : EmailSenderBase
     protected override async Task SendEmailAsync(MailMessage mail)
     {
         var now = _clock.Now;
-        var candidateAccounts = GetOrderedCandidateAccounts(now);
-        var attemptedAccounts = new List<string>();
-        Exception lastRetryableException = null;
+        var candidateAccounts = GetOrderedCandidateAccounts(now, out var nextAvailableAt);
         var correlationId = _correlationIdProvider.Get();
+        if (candidateAccounts.Count == 0)
+        {
+            _logger.LogWarning(
+                "All aws email accounts are cooling down. CorrelationId:{CorrelationId} NextAvailableAt:{NextAvailableAt}",
+                correlationId, nextAvailableAt);
+            throw CreateDeliveryUnavailableException();
+        }
+
+        var attemptedAccounts = new List<string>();
+        SmtpException lastRetryableException = null;
         using var templateMail = CloneMailMessage(mail);
         var requestedFrom = templateMail.From;
         var maskedRecipient = MaskRecipients(templateMail);
@@ -90,6 +129,7 @@ public class AwsEmailSender : EmailSenderBase
         {
             var attemptIndex = attemptedAccounts.Count + 1;
             attemptedAccounts.Add(account.Key);
+            var attemptStartedAt = _clock.Now;
 
             using var attemptMail = CreateAttemptMail(templateMail, account, requestedFrom);
             try
@@ -98,7 +138,7 @@ public class AwsEmailSender : EmailSenderBase
                     "Attempting to send email to {MaskedRecipient} via aws account {AccountKey}. CorrelationId:{CorrelationId} Attempt:{AttemptIndex}/{TotalAttempts}",
                     maskedRecipient, account.Key, correlationId, attemptIndex, candidateAccounts.Count);
                 await _awsEmailDeliveryClient.SendAsync(account, attemptMail);
-                _cooldownAccounts.TryRemove(account.Key, out _);
+                ClearCooldownOnSuccess(account.Key, attemptStartedAt);
                 if (attemptIndex == 1)
                 {
                     _logger.LogInformation(
@@ -113,26 +153,27 @@ public class AwsEmailSender : EmailSenderBase
                 }
                 return;
             }
-            catch (Exception ex) when (IsRetryable(ex))
+            catch (SmtpException ex) when (IsRetryable(ex))
             {
                 lastRetryableException = ex;
-                MarkCooldown(account.Key);
+                var cooldownUntil = MarkCooldown(account.Key);
                 _logger.LogWarning(ex,
                     "Retryable aws email failure for {MaskedRecipient}. Account:{AccountKey} CorrelationId:{CorrelationId} CooldownUntil:{CooldownUntil}",
-                    maskedRecipient, account.Key, correlationId, _cooldownAccounts[account.Key]);
+                    maskedRecipient, account.Key, correlationId, cooldownUntil);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex,
-                    "Non-retryable aws email failure for {MaskedRecipient}. Account:{AccountKey} CorrelationId:{CorrelationId}",
-                    maskedRecipient, account.Key, correlationId);
-                throw;
+                    "Non-retryable aws email failure for {MaskedRecipient}. Account:{AccountKey} CorrelationId:{CorrelationId} Attempts:{Attempts}",
+                    maskedRecipient, account.Key, correlationId, string.Join(" -> ", attemptedAccounts));
+                throw CreateDeliveryUnavailableException(ex);
             }
         }
 
-        throw new InvalidOperationException(
-            $"All aws email accounts failed. Accounts tried: {string.Join(" -> ", attemptedAccounts)}",
-            lastRetryableException);
+        _logger.LogError(lastRetryableException,
+            "All aws email accounts failed for {MaskedRecipient}. CorrelationId:{CorrelationId} Attempts:{Attempts}",
+            maskedRecipient, correlationId, string.Join(" -> ", attemptedAccounts));
+        throw CreateDeliveryUnavailableException(lastRetryableException);
     }
 
     private static IReadOnlyList<AwsEmailAccountOptions> BuildConfiguredAccounts(AwsEmailOptions options)
@@ -260,14 +301,16 @@ public class AwsEmailSender : EmailSenderBase
         }
     }
 
-    private List<AwsEmailAccountOptions> GetOrderedCandidateAccounts(DateTime now)
+    private List<AwsEmailAccountOptions> GetOrderedCandidateAccounts(DateTime now, out DateTime? nextAvailableAt)
     {
         var availableAccounts = _accounts.Where(account => !IsCoolingDown(account.Key, now)).ToList();
         if (availableAccounts.Count == 0)
         {
-            _logger.LogWarning("All aws email accounts are in cooldown. Falling back to all configured accounts.");
-            availableAccounts = _accounts.ToList();
+            nextAvailableAt = _cooldownAccounts.Values.DefaultIfEmpty().Cast<DateTime?>().Min();
+            return availableAccounts;
         }
+
+        nextAvailableAt = null;
 
         if (_awsEmailOptions.SelectionMode != AwsEmailSelectionMode.RoundRobin)
         {
@@ -306,30 +349,71 @@ public class AwsEmailSender : EmailSenderBase
         return false;
     }
 
-    private void MarkCooldown(string accountKey)
+    private DateTime MarkCooldown(string accountKey)
     {
-        _cooldownAccounts[accountKey] = _clock.Now.AddSeconds(Math.Max(0, _awsEmailOptions.FailureCooldownSeconds));
+        var cooldownUntil = _clock.Now.AddSeconds(Math.Max(0, _awsEmailOptions.FailureCooldownSeconds));
+        _cooldownAccounts[accountKey] = cooldownUntil;
+        return cooldownUntil;
     }
 
-    private static bool IsRetryable(Exception exception)
+    private void ClearCooldownOnSuccess(string accountKey, DateTime attemptStartedAt)
     {
-        return exception switch
+        if (!_cooldownAccounts.TryGetValue(accountKey, out var cooldownUntil))
         {
-            FormatException => false,
-            ArgumentException => false,
-            SmtpFailedRecipientsException => false,
-            SmtpFailedRecipientException => false,
-            _ => true
+            return;
+        }
+
+        if (cooldownUntil <= attemptStartedAt)
+        {
+            _cooldownAccounts.TryRemove(new KeyValuePair<string, DateTime>(accountKey, cooldownUntil));
+        }
+    }
+
+    private static bool IsRetryable(SmtpException exception)
+    {
+        if (exception == null)
+        {
+            return false;
+        }
+
+        if (exception is SmtpFailedRecipientException or SmtpFailedRecipientsException)
+        {
+            return false;
+        }
+
+        var message = exception.Message?.ToLowerInvariant() ?? string.Empty;
+        if (ContainsAny(message, RetryableSmtpMessageMarkers))
+        {
+            return true;
+        }
+
+        if (ContainsAny(message, NonRetryableSmtpMessageMarkers))
+        {
+            return false;
+        }
+
+        return exception.StatusCode switch
+        {
+            SmtpStatusCode.GeneralFailure => true,
+            SmtpStatusCode.ServiceNotAvailable => true,
+            SmtpStatusCode.LocalErrorInProcessing => true,
+            SmtpStatusCode.InsufficientStorage => true,
+            SmtpStatusCode.ClientNotPermitted => true,
+            _ => false
         };
+    }
+
+    private static bool ContainsAny(string value, IEnumerable<string> markers)
+    {
+        return markers.Any(marker => value.Contains(marker, StringComparison.OrdinalIgnoreCase));
     }
 
     private static void ApplyAccount(MailMessage mail, AwsEmailAccountOptions account, MailAddress requestedFrom)
     {
-        var fromAddress = requestedFrom?.Address;
-        var fromDisplayName = requestedFrom?.DisplayName;
-        mail.From = string.IsNullOrWhiteSpace(fromAddress)
-            ? new MailAddress(account.From, account.FromName)
-            : new MailAddress(fromAddress, string.IsNullOrWhiteSpace(fromDisplayName) ? account.FromName : fromDisplayName);
+        var fromDisplayName = string.IsNullOrWhiteSpace(requestedFrom?.DisplayName)
+            ? account.FromName
+            : requestedFrom.DisplayName;
+        mail.From = new MailAddress(account.From, fromDisplayName);
 
         if (string.IsNullOrWhiteSpace(account.ConfigSet))
         {
@@ -430,6 +514,9 @@ public class AwsEmailSender : EmailSenderBase
     {
         var clonedView = new AlternateView(CloneContentStream(source.ContentStream), CloneContentType(source.ContentType));
         clonedView.TransferEncoding = source.TransferEncoding;
+        clonedView.BaseUri = source.BaseUri == null
+            ? null
+            : new Uri(source.BaseUri.OriginalString, UriKind.RelativeOrAbsolute);
 
         foreach (LinkedResource linkedResource in source.LinkedResources)
         {
@@ -526,6 +613,13 @@ public class AwsEmailSender : EmailSenderBase
         }
 
         return clonedStream;
+    }
+
+    private static InvalidOperationException CreateDeliveryUnavailableException(Exception innerException = null)
+    {
+        return innerException == null
+            ? new InvalidOperationException(TemporaryUnavailableMessage)
+            : new InvalidOperationException(TemporaryUnavailableMessage, innerException);
     }
 
     private static string MaskRecipients(MailMessage mail)

@@ -13,9 +13,11 @@
 当前实现上下文如下：
 
 - 业务入口仍然在 `EmailVerifyCodeSender`，负责组装邮件模板并通过 `IEmailSender` 入队。
-- AWS SMTP 发送逻辑位于 `AwsEmailSender`。
+- 这次 feature 保留现有 ABP email/background-job 执行语义，不会额外引入 durable background-job store。
+- `AwsEmailSender` 负责账号选择、failover、cooldown 和发送编排。
+- `AwsSmtpEmailDeliveryClient` 负责实际 SMTP 投递。
 - 多账号配置已经通过 `awsEmail.Accounts[]` 支持。
-- 当 `Accounts` 未配置时，仍兼容 legacy root-level 的 `awsEmail.From`、`SmtpUsername`、`SmtpPassword`、`Host`、`Port`。
+- 当 `Accounts` 未配置时，仍兼容 legacy root-level 的 `awsEmail.From`、`FromName`、`SmtpUsername`、`SmtpPassword`、`ConfigSet`、`Host`、`Port`。
 
 ## 目标
 
@@ -28,6 +30,8 @@
 ## 非目标
 
 - 本版本不做跨实例全局均衡。
+- 本版本不提供跨节点、跨区域或重启后的全局 SES quota 协调。
+- 本版本不变更现有 background job 的持久化和执行模型。
 - 本版本不引入非 AWS 邮件 provider。
 - 不修改 Controller、DTO 或 HTTP 协议。
 - 不引入额外文档站点或生成器。
@@ -60,8 +64,9 @@
       "FromName": "Portkey Finance",
       "SmtpUsername": "smtp-user-2",
       "SmtpPassword": "smtp-password-2",
-      "Host": "email-smtp.ap-northeast-1.amazonaws.com",
-      "Port": 587
+      "Host": "email-smtp.us-west-2.amazonaws.com",
+      "Port": 587,
+      "ConfigSet": "portkey-failover"
     }
   ]
 }
@@ -101,7 +106,8 @@
 
 - `EmailVerifyCodeSender`
   - 负责构建验证码和通知类 HTML 模板
-  - 通过 `IEmailSender.QueueAsync(..., true)` 以 HTML 形式入队
+  - 通过 `IEmailSender.QueueAsync(..., true)` 作为应用层入口
+  - 但不会改变宿主当前是 durable background job 还是 in-process 执行
 - `AwsEmailSender`
   - 保持 `IEmailSender` 作为统一应用层入口
   - 从 `AwsEmailOptions` 中解析启用的 AWS 账号
@@ -116,8 +122,8 @@
 3. `AwsEmailSender` 解析当前可用 AWS SMTP 账号集合。
 4. 发送器按本地 round-robin 选择首个账号。
 5. 如果出现可重试错误，则将当前账号打入 cooldown，并在同一次请求内尝试下一个账号。
-6. 如果所有账号都在 cooldown，则仍会对完整账号集合再尝试一次，作为可用性兜底。
-7. 如果所有候选账号都失败，则抛出带账号尝试链路的聚合异常。
+6. 如果所有账号都在 cooldown，则快速失败，避免对全部账号形成重试风暴。
+7. 如果所有候选账号都失败，则把账号尝试链路记录到日志中，并抛出通用的临时不可用异常。
 
 ## 路由与失败处理
 
@@ -126,28 +132,26 @@
 - round-robin 为进程内本地行为。
 - 只有 `Enabled=true` 的账号参与候选集合。
 - 正常情况下，处于 cooldown 的账号会被跳过。
-- 当所有账号都在 cooldown 时，发送器不会立即硬失败，而是会对完整配置集合再尝试一次。
+- 当所有账号都在 cooldown 时，发送器会立即失败并等待 cooldown 到期。
 
 可重试错误处理：
 
+- 可重试错误被刻意限制为临时性的 SMTP 故障，例如 SES quota/rate throttling 和 service-unavailable 类响应。
 - 可重试错误会让当前账号进入 cooldown。
 - 同一次发送请求会继续尝试下一个候选账号。
 - cooldown 到期后，该账号自动重新参与选择。
 
 不可重试错误处理：
 
-- 遇到以下异常时立即停止 failover：
-  - `FormatException`
-  - `ArgumentException`
-  - `SmtpFailedRecipientException`
-  - `SmtpFailedRecipientsException`
+- 遇到非法地址、永久收件人失败、认证/授权失败以及本地消息构造错误时，会立即停止 failover。
 
 消息对象处理：
 
 - 每次 failover 都使用独立的 attempt-local `MailMessage`。
 - 发送器会先把原始消息克隆成一份内存模板。
 - 每个账号尝试都从该模板派生，避免账号级别的修改污染后续重试。
-- 这也保护了附件、alternate views、自定义 headers 和 non-seekable attachment stream 的 failover 行为。
+- 实际 SMTP `From` 地址始终由选中的账号决定，调用方传入的 `From` 不会把 failover 锁死到错误的 SES identity。
+- 这也保护了附件、alternate views、自定义 headers、alternate view `BaseUri` 和 non-seekable attachment stream 的 failover 行为。
 
 日志行为：
 
@@ -160,15 +164,18 @@
 
 - `Accounts` 未配置时，legacy 单账号 fallback 仍可工作。
 - 单实例内多账号 round-robin 顺序正确。
-- 首账号失败时，同次请求 failover 可成功发送。
+- 首账号遇到可重试的 SES quota/rate 错误时，同次请求 failover 可成功发送。
 - cooldown 能跳过刚失败的账号。
 - cooldown 到期后，账号可重新参与选择。
-- HTML 邮件仍按 HTML 形式入队和发送。
+- HTML 邮件仍按 HTML 形式入队，并在 SMTP 发送时保留 `IsBodyHtml`。
 - 显式配置但全部 disabled 的 `Accounts` 不会错误 fallback 到 legacy root fields。
-- 所有账号都在 cooldown 时，仍会执行完整账号集的兜底重试。
+- 所有账号都在 cooldown 时，会快速失败且不新增 SMTP 尝试。
 - non-seekable attachment stream 在 failover 下仍能保留内容。
-- 收件人级不可重试错误会立即停止 failover。
-- 所有账号都失败时，会返回带尝试链的聚合异常。
+- alternate view `BaseUri` 在 failover 下仍可保留。
+- `X-SES-CONFIGURATION-SET` 会按 attempt 切换，且目标账号未配置时会清空旧 header。
+- 不可重试异常矩阵会立即停止 failover，覆盖 `FormatException`、`ArgumentException`、`SmtpFailedRecipientException`、`SmtpFailedRecipientsException` 以及永久性 SMTP 认证错误。
+- failover 时会切换到目标账号对应的 `From` 地址。
+- 所有账号都失败时，对外只返回通用临时不可用异常，详细尝试链路保留在日志中。
 
 实现阶段使用的验证命令：
 
@@ -182,9 +189,11 @@ DOTNET_ROLL_FORWARD=Major dotnet test test/CAVerifierServer.Application.Tests/CA
 建议上线方式：
 
 - 先以单个启用账号发布新代码。
+- 先确认目标宿主环境是否已经启用 durable 的 ABP background-job storage；这次 feature 本身不会补上这层能力。
 - 验证邮件成功率、SMTP 认证和账号路由日志。
 - 再逐步打开其他账号。
 - 结合真实 SES 响应观察 failover 与 cooldown 行为。
+- 确保 `awsEmail.Accounts[]` 中的每个条目都对应独立可用的 SES sender identity 和 quota 池，不要把同一已耗尽 SES account 的多组 credentials 误当成新增容量。
 
 回滚策略：
 
